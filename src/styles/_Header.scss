@@ -1,0 +1,49 @@
+@import 'Colors';
+@import 'Spacing';
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: $white-1;
+
+  ul {
+    display: flex;
+    gap: $spacing-8;
+
+    a {
+      color: $dark-3;
+    }
+
+    li {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 0.175rem;
+        background-color: $red-1;
+        left: 0;
+        bottom: 0;
+        transform: scale(0, 1);
+        transform-origin: 0% 100%;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover::after {
+        transform: scale(1, 1);
+      }
+    }
+  }
+
+  .header-icons {
+    display: flex;
+    flex-direction: row;
+  }
+}

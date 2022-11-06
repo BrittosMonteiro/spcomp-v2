@@ -1,0 +1,50 @@
+@import 'Header';
+@import 'List';
+@import 'Icons';
+@import 'Font';
+@import 'Margin';
+@import 'Alignment';
+@import 'Padding';
+@import 'Gap';
+@import 'Dialog';
+@import 'Text';
+@import 'Filter';
+
+* {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  border: none;
+  outline: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  width: 100%;
+  background-color: $white-1;
+}
+
+a {
+  text-decoration: none;
+}
+
+button,
+div[role='menuitem'] {
+  cursor: pointer;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
