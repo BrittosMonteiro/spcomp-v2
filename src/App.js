@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import PrivateRoute from "./router/privateRoute";
-import PublicRoute from "./router/publicRoute";
+import Header from "./components/Common/Header";
+import MainRoutes from "./router/main";
+// import PrivateRoute from "./router/privateRoute";
+// import PublicRoute from "./router/publicRoute";
 import { setUserAction } from "./store/actions/userAction";
 
 function App() {
@@ -17,8 +19,8 @@ function App() {
   return (
     <Router>
       <div className="container px-4">
-        <PrivateRoute />
-        <PublicRoute />
+        <Header />
+        <MainRoutes />
       </div>
     </Router>
   );
