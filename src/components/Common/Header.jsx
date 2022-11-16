@@ -1,13 +1,15 @@
-import { Link, useNavigate } from "react-router-dom";
-import { User, SignOut, LockKey, Handshake, Airplane } from "phosphor-react";
+import { Link } from "react-router-dom";
+import {
+  User,
+  SignOut,
+  Handshake,
+  Airplane,
+  DotsNine,
+  Users,
+} from "phosphor-react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 export default function Header() {
-  const navigate = useNavigate();
-  function navigateTo(route) {
-    navigate(route);
-  }
-
   return (
     <header className="header py-4">
       <span className="font-medium font-md">Olá, Lucas</span>
@@ -33,35 +35,64 @@ export default function Header() {
       </ul>
       <div className="header-icons gap-3">
         <DropdownMenu.Root>
-          <DropdownMenu.Trigger>
-            <LockKey className="icon-default" />
+          <DropdownMenu.Trigger className="bg-transparent">
+            <DotsNine className="icon-md" />
           </DropdownMenu.Trigger>
 
           <DropdownMenu.Portal>
             <DropdownMenu.Content className="bg-white-1 border-default border-radius-soft pa-2 gap-4 column font-medium font-md">
-              <DropdownMenu.Item
-                className="row align-items-center gap-2"
-                onClick={() => navigateTo("/admin-route/customers")}
-              >
-                <Handshake className="icon-default" />
-                Clientes
+              <DropdownMenu.Item>
+                <Link
+                  to="/admin-route/customers"
+                  className="row align-items-center gap-2 text-dark-1"
+                >
+                  <Handshake className="icon-default" />
+                  Clientes
+                </Link>
               </DropdownMenu.Item>
-              <DropdownMenu.Item
-                className="row align-items-center gap-2"
-                onClick={() => navigateTo("/admin-route/suppliers")}
-              >
-                <Airplane className="icon-default" />
-                Fornecedores
+
+              <DropdownMenu.Item>
+                <Link
+                  to="/admin-route/suppliers"
+                  className="row align-items-center gap-2 text-dark-1"
+                >
+                  <Airplane className="icon-default" />
+                  Fornecedores
+                </Link>
+              </DropdownMenu.Item>
+
+              <DropdownMenu.Item>
+                <Link
+                  to="/admin-route/users"
+                  className="row align-items-center gap-2 text-dark-1"
+                >
+                  <Users className="icon-default" />
+                  Usuários
+                </Link>
+              </DropdownMenu.Item>
+
+              <DropdownMenu.Item>
+                <Link
+                  to="/main/profile"
+                  className="row align-items-center gap-2 text-dark-1"
+                >
+                  <User className="icon-default" />
+                  Perfil
+                </Link>
+              </DropdownMenu.Item>
+
+              <DropdownMenu.Item>
+                <Link
+                  to="/logout"
+                  className="row align-items-center gap-2 text-dark-1"
+                >
+                  <SignOut className="icon-default" />
+                  Sair
+                </Link>
               </DropdownMenu.Item>
             </DropdownMenu.Content>
           </DropdownMenu.Portal>
         </DropdownMenu.Root>
-        <Link to="/main/profile" className="text-dark-3">
-          <User className="icon-default" />
-        </Link>
-        <Link to="" className="text-dark-3">
-          <SignOut className="icon-default" />
-        </Link>
       </div>
     </header>
   );

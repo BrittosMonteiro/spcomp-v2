@@ -19,7 +19,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 450px;
+    max-width: 650px;
     margin: auto auto;
     padding: 16px;
     border-radius: 2px;
@@ -36,6 +36,11 @@
     .column {
         display: flex;
         flex-direction: column;
+        width: 100%;
+    }
+
+    input {
+        display: flex;
         width: 100%;
     }
 

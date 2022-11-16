@@ -1,13 +1,17 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import Header from "./components/Common/Header";
-import RouterView from "./router/route";
+import PrivateRoute from "./router/privateRoute";
+import PublicRoute from "./router/publicRoute";
+import { useSelector } from "react-redux";
 
 function App() {
+  const user = useSelector((state) => {
+    return state.userReducer;
+  });
+
   return (
     <Router>
       <div className="container px-4">
-        <Header />
-        <RouterView />
+        {user.token ? <PrivateRoute /> : <PublicRoute />}
       </div>
     </Router>
   );

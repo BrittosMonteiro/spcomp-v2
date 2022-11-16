@@ -20,8 +20,14 @@
   font-family: "Inter", sans-serif;
 }
 
+html,
+#root {
+  height: 100%;
+}
+
 body {
   width: 100%;
+  height: 100%;
   background-color: $white-1;
 }
 
@@ -46,5 +52,6 @@ div[role='menuitem'] {
   flex-direction: column;
   width: 100%;
   max-width: 1000px;
+  height: 100%;
   margin: 0 auto;
 }
