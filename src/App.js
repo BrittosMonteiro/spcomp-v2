@@ -1,17 +1,24 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import PrivateRoute from "./router/privateRoute";
 import PublicRoute from "./router/publicRoute";
-import { useSelector } from "react-redux";
+import { setUserAction } from "./store/actions/userAction";
 
 function App() {
-  const user = useSelector((state) => {
-    return state.userReducer;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const userState = JSON.parse(localStorage.getItem("userState"));
+    if (userState) {
+      dispatch(setUserAction(userState));
+    }
   });
 
   return (
     <Router>
       <div className="container px-4">
-        {user.token ? <PrivateRoute /> : <PublicRoute />}
+        <PrivateRoute />
+        <PublicRoute />
       </div>
     </Router>
   );

@@ -8,11 +8,16 @@ import {
   Users,
 } from "phosphor-react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { useSelector } from "react-redux";
 
 export default function Header() {
+  const user = useSelector((state) => {
+    return state.userReducer;
+  });
+
   return (
     <header className="header py-4">
-      <span className="font-medium font-md">Olá, Lucas</span>
+      <span className="font-medium font-md">Olá, {user.firstName}</span>
       <ul className="font-medium font-md">
         <li className="pb-1">
           <Link to="/main/">Início</Link>

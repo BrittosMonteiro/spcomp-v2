@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "../components/Common/Header";
 import Index from "../view/index";
@@ -9,10 +10,11 @@ import Sales from "../view/sales";
 import Profile from "../view/profile";
 import Customers from "../view/customers";
 import Suppliers from "../view/suppliers";
+import Users from "../view/users";
 
 export default function PrivateRoute() {
   return (
-    <>
+    <React.Fragment>
       <Header />
       <Routes>
         <Route path="/" element={<Index />} />
@@ -25,7 +27,8 @@ export default function PrivateRoute() {
         <Route path="/main/profile" element={<Profile />} />
         <Route path="/admin-route/customers" element={<Customers />} />
         <Route path="/admin-route/suppliers" element={<Suppliers />} />
+        <Route path="/admin-route/users" element={<Users />} />
       </Routes>
-    </>
+    </React.Fragment>
   );
 }

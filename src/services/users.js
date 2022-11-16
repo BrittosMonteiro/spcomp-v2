@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3001/brand";
+const API_URL = "http://localhost:3001/users";
 
 export async function createUser(data) {
   return await fetch(`${API_URL}`, {

@@ -1,27 +1,43 @@
 import { useState } from "react";
 import { login } from "../services/loginService";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserAction } from "../store/actions/userAction";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const dispatch = useDispatch();
+  const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
   function handleLogin(e) {
     e.preventDefault();
-    if (!username || !password) return;
+    if (!user || !password) return;
 
     const data = {
-      username: username,
+      username: user,
       password: password,
     };
 
     login(data)
       .then((res) => res.json())
-      .then((res) => {
+      .then((doc) => {
+        const user = {
+          id: doc._id,
+          token: "abc123",
+          username: doc.username,
+          viewAs: doc.viewAs,
+          firstName: doc.name,
+        };
+        dispatch(setUserAction(user));
+        persistUserState(user);
         navigate("/");
       })
       .catch((err) => console.log(err));
+  }
+
+  function persistUserState(user) {
+    localStorage.setItem("userState", JSON.stringify(user));
   }
 
   return (
@@ -42,8 +58,8 @@ export default function Login() {
             id="username"
             className="border-default border-radius-soft pa-2 font-md font-medium text-dark-5"
             style={{ width: "350px" }}
-            defaultValue={username}
-            onChange={(e) => setUsername(e.target.value)}
+            defaultValue={user}
+            onChange={(e) => setUser(e.target.value)}
           />
         </div>
 
