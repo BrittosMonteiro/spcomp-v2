@@ -8,8 +8,8 @@ export default function DialogUser(props) {
   const [surname, setSurname] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-  // const [status, setStatus] = useState(null);
-  // const [viewAs, setViewAs] = useState(null);
+  const [status, setStatus] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(null);
 
   useEffect(() => {
     if (props.userData) {
@@ -18,8 +18,8 @@ export default function DialogUser(props) {
       setSurname(props.userData.surname);
       setEmail(props.userData.email);
       setPassword(props.userData.password);
-      // setStatus(props.userData.status);
-      // setViewAs(props.userData.viewAs);
+      setStatus(props.userData.status);
+      setIsAdmin(props.userData.isAdmin);
     }
   }, [props.userData]);
 
@@ -32,6 +32,8 @@ export default function DialogUser(props) {
       surname,
       email,
       password,
+      status,
+      isAdmin,
     };
 
     if (!id) {
@@ -103,6 +105,7 @@ export default function DialogUser(props) {
                   />
                 </div>
               </div>
+
               <div className="row align-item-center gap-4 mt-4">
                 <div className="column gap-2 text-dark-3 font-medium font-sm">
                   <label htmlFor="user_email">Email</label>
@@ -134,7 +137,39 @@ export default function DialogUser(props) {
                 </div>
               </div>
 
+              <div className="row align-item-center gap-4 mt-4">
+                <div className="column gap-2 text-dark-3 font-medium font-sm">
+                  <label htmlFor="user_status">Escolher status</label>
+                  <select
+                    name="user_status"
+                    id="user_status"
+                    defaultValue={status}
+                    className="border-default pa-2 border-radius-soft font-medium font-md"
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
+                    <option selected>Escolher status</option>
+                    <option value={true}>Ativo</option>
+                    <option value={false}>Desativado</option>
+                  </select>
+                </div>
+                <div className="column gap-2 text-dark-3 font-medium font-sm">
+                  <label htmlFor="user_isAdmin">É administrador</label>
+                  <select
+                    name="user_isAdmin"
+                    id="user_isAdmin"
+                    defaultValue={isAdmin}
+                    className="border-default pa-2 border-radius-soft font-medium font-md"
+                    onChange={(e) => setIsAdmin(e.target.value)}
+                  >
+                    <option selected>Escolher</option>
+                    <option value={true}>Sim</option>
+                    <option value={false}>Não</option>
+                  </select>
+                </div>
+              </div>
+
               <hr className="my-4" />
+
               <div className="row justify-content-between align-items-center">
                 <Dialog.Close className="font-medium font-md text-red-1 bg-transparent">
                   Fechar

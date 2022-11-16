@@ -1,10 +1,10 @@
-import { PencilSimple, Trash, UserCircleGear } from "phosphor-react";
+import { PencilSimple, Trash } from "phosphor-react";
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { removeUser } from "../../services/users";
-import DialogUser from "../Dialog/DialogUser";
+import DialogSupplier from "../Dialog/DialogSupplier";
+import { removeSupplier } from "../../services/supplierService";
 
-export default function ListUser(props) {
+export default function ListSupplier(props) {
   const [open, setOpen] = useState(false);
 
   function manageRemove(id) {
@@ -14,7 +14,7 @@ export default function ListUser(props) {
       id: id,
     };
 
-    removeUser(data)
+    removeSupplier(data)
       .then((res) => res.json())
       .then(() => props.reloadList())
       .catch((err) => console.log(err));
@@ -27,35 +27,35 @@ export default function ListUser(props) {
 
   return (
     <>
-      {props.usersList.length > 0 ? (
+      {props.suppliersList.length > 0 ? (
         <ol className="gap-4 column">
-          {props.usersList.map((user, index) => (
-            <React.Fragment key={user.id}>
+          {props.suppliersList.map((supplier, index) => (
+            <React.Fragment key={supplier.id}>
               <li className="row align-items-center justify-content-between py-2">
                 <div
                   className="row align-items-center gap-2"
                   title={"Administrador"}
                 >
-                  <span className="font-md font-medium">{`${user.name} ${user.surname}`}</span>
-                  {user.isAdmin ? (
-                    <UserCircleGear className="icon-default" />
-                  ) : null}
+                  <span className="font-md font-medium">{supplier.name}</span>
                 </div>
                 <div className="row gap-2">
                   <Dialog.Root open={open} onOpenChange={setOpen}>
                     <Dialog.Trigger className="bg-transparent">
                       <PencilSimple className="icon-default" />
                     </Dialog.Trigger>
-                    <DialogUser userData={user} reloadList={reloadList} />
+                    <DialogSupplier
+                      supplierData={supplier}
+                      reloadList={reloadList}
+                    />
                   </Dialog.Root>
                   <Trash
                     className="icon-default btn-icon"
-                    onClick={() => manageRemove(user.id)}
+                    onClick={() => manageRemove(supplier.id)}
                   />
                 </div>
               </li>
 
-              {index < props.usersList.length - 1 ? <hr /> : null}
+              {index < props.suppliersList.length - 1 ? <hr /> : null}
             </React.Fragment>
           ))}
         </ol>
