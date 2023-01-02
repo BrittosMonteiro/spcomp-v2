@@ -1,9 +1,9 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
-import PageTitle from "../components/Common/PageTitle";
-import DialogCustomer from "../components/Dialog/DialogCustomer";
-import ListCustomers from "../components/List/ListCustomer";
-import { getCustomersList } from "../services/customerService";
+import PageTitle from "../../components/Common/PageTitle";
+import DialogCustomer from "../../components/Dialog/DialogCustomer";
+import ListCustomers from "../../components/List/ListCustomer";
+import { getCustomersList } from "../../services/customerService";
 
 export default function Customers() {
   const [open, setOpen] = useState(false);

@@ -1,13 +1,13 @@
-import PageTitle from "../components/Common/PageTitle";
 import { useEffect, useState } from "react";
-import List from "../components/List/List";
-import { getAllItemsFromInquiryList } from "../services/inquiryService";
+import PageTitle from "../../components/Common/PageTitle";
+import List from "../../components/List/List";
+import { getPurchaseList } from "../../services/purchaseService";
 
-export default function Inquiry() {
+export default function Imports() {
   const [items, setItems] = useState([]);
 
   function loadList() {
-    getAllItemsFromInquiryList()
+    getPurchaseList()
       .then((res) => res.json())
       .then((res) => {
         setItems(res || []);
@@ -28,7 +28,7 @@ export default function Inquiry() {
   return (
     <>
       <div className="row justify-content-between align-items-center">
-        <PageTitle title={"Cotações"} />
+        <PageTitle title={"Compras"} />
       </div>
       <List list={items} reloadList={reloadList} />
     </>

@@ -1,4 +1,5 @@
-import PageTitle from "../components/Common/PageTitle";
+import PageTitle from "../../components/Common/PageTitle";
+
 export default function Index() {
   return (
     <>

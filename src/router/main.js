@@ -1,22 +1,20 @@
 import { Routes, Route } from "react-router-dom";
-// import PrivateRoute from "./privateRoute";
-// import PublicRoute from "./publicRoute";
 
 //Private route
-import Index from "../view/index";
-import Items from "../view/items";
-import Inquiry from "../view/inquiry";
-import Purchase from "../view/purchase";
-import Stock from "../view/stock";
-import Sales from "../view/sales";
-import Profile from "../view/profile";
-import Customers from "../view/customers";
-import Suppliers from "../view/suppliers";
-import Users from "../view/users";
+import Index from "../view/main/index";
+import Items from "../view/main/items";
+import Inquiry from "../view/main/inquiry";
+import Purchase from "../view/main/purchase";
+import Stock from "../view/main/stock";
+import Sales from "../view/main/sales";
+import Profile from "../view/main/profile";
+import Customers from "../view/main/customers";
+import Suppliers from "../view/main/suppliers";
+import Users from "../view/main/users";
+import PrivateRoute from "./privateRoute";
 
 //Public route
-import Login from "../view/login";
-import PrivateRoute from "./privateRoute";
+import Login from "../view/login/login";
 import PublicRoute from "./publicRoute";
 
 export default function MainRoutes() {

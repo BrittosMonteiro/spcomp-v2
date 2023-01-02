@@ -1,6 +1,6 @@
-import PageTitle from "../components/Common/PageTitle";
+import PageTitle from "../../components/Common/PageTitle";
 import { useState, useEffect } from "react";
-import List from "../components/List/List";
+import List from "../../components/List/List";
 
 export default function Sales() {
   const [items, setItems] = useState([]);

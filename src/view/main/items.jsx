@@ -1,10 +1,10 @@
-import PageTitle from "../components/Common/PageTitle";
-import DialogItem from "../components/Dialog/DialogItem";
-import List from "../components/List/List";
+import PageTitle from "../../components/Common/PageTitle";
+import DialogItem from "../../components/Dialog/DialogItem";
+import List from "../../components/List/List";
 import * as Dialog from "@radix-ui/react-dialog";
 import { MagnifyingGlass } from "phosphor-react";
 import { useState, useEffect } from "react";
-import { getAllItems } from "../services/itemService";
+import { getAllItems } from "../../services/itemService";
 
 export default function Items() {
   const [textSearch, setTextSearch] = useState("");

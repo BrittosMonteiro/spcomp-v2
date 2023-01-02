@@ -1,9 +1,9 @@
-import PageTitle from "../components/Common/PageTitle";
+import PageTitle from "../../components/Common/PageTitle";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState, useEffect } from "react";
-import { getUsersList } from "../services/users";
-import DialogUser from "../components/Dialog/DialogUser";
-import ListUser from "../components/List/ListUser";
+import { getUsersList } from "../../services/users";
+import DialogUser from "../../components/Dialog/DialogUser";
+import ListUser from "../../components/List/ListUser";
 
 export default function Users() {
   const [open, setOpen] = useState(false);
