@@ -1,12 +1,12 @@
-export const setUserAction = (user) => {
+export const setUser = (user) => {
   return {
     type: "SET_USER",
     payload: user,
   };
 };
 
-export const removeUserAction = () => {
+export const unsetUSer = () => {
   return {
-    type: "REMOVE_USER",
+    type: "UNSET_USER",
   };
 };

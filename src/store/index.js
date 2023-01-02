@@ -3,8 +3,8 @@ import userReducer from "./reducers/userReducer.js";
 import counterReducer from "./reducers/counterReducer.js";
 
 const combinedReducers = combineReducers({
-  userReducer,
-  counterReducer,
+  login: userReducer,
+  counter: counterReducer,
 });
 
 const store = createStore(combinedReducers);

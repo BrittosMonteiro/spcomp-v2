@@ -1,49 +1,32 @@
 import { useState } from "react";
-import { login } from "../services/loginService";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUserAction } from "../store/actions/userAction";
+import { setUser } from "../store/actions/userAction";
 
 export default function Login() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [user, setUser] = useState("");
+
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleLogin(e) {
+  function manageLogin(e) {
     e.preventDefault();
-    if (!user || !password) return;
 
-    const data = {
-      username: user,
-      password: password,
+    if (!username || !password) return;
+
+    const dataToLogin = {
+      isLogged: true,
+      token: "",
+      username: username,
     };
 
-    login(data)
-      .then((res) => res.json())
-      .then((doc) => {
-        const user = {
-          id: doc._id,
-          token: "abc123",
-          username: doc.username,
-          viewAs: doc.viewAs,
-          firstName: doc.name,
-        };
-        dispatch(setUserAction(user));
-        persistUserState(user);
-        navigate("/");
-      })
-      .catch((err) => console.log(err));
-  }
-
-  function persistUserState(user) {
-    localStorage.setItem("userState", JSON.stringify(user));
+    dispatch(setUser(dataToLogin));
+    localStorage.setItem("loggedUser", JSON.stringify(dataToLogin));
   }
 
   return (
     <>
       <form
-        onSubmit={handleLogin}
+        onSubmit={manageLogin}
         className="border-radius-soft border-default pa-4 ma-auto column gap-4"
       >
         <h1 className="font-lg font-medium text-dark-3">Acessar minha conta</h1>
@@ -58,8 +41,8 @@ export default function Login() {
             id="username"
             className="border-default border-radius-soft pa-2 font-md font-medium text-dark-5"
             style={{ width: "350px" }}
-            defaultValue={user}
-            onChange={(e) => setUser(e.target.value)}
+            defaultValue={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
 

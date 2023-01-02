@@ -16,24 +16,61 @@ import Users from "../view/users";
 
 //Public route
 import Login from "../view/login";
+import PrivateRoute from "./privateRoute";
+import PublicRoute from "./publicRoute";
 
 export default function MainRoutes() {
   return (
     <Routes>
       {/* <PrivateRoute /> */}
-      <Route path="/" element={<Index />} />
-      <Route path="/main/" element={<Index />} />
-      <Route path="/main/items" element={<Items />} />
-      <Route path="/main/inquiry" element={<Inquiry />} />
-      <Route path="/main/purchase" element={<Purchase />} />
-      <Route path="/main/stock" element={<Stock />} />
-      <Route path="/main/sales" element={<Sales />} />
-      <Route path="/main/profile" element={<Profile />} />
-      <Route path="/admin-route/customers" element={<Customers />} />
-      <Route path="/admin-route/suppliers" element={<Suppliers />} />
-      <Route path="/admin-route/users" element={<Users />} />
+      <Route path="/" exact element={<PrivateRoute />}>
+        <Route path="/" element={<Index />} />
+      </Route>
+
+      <Route path="/main/" exact element={<PrivateRoute />}>
+        <Route path="/main/" element={<Index />} />
+      </Route>
+
+      <Route path="/main/items" exact element={<PrivateRoute />}>
+        <Route path="/main/items" element={<Items />} />
+      </Route>
+
+      <Route path="/main/inquiry" exact element={<PrivateRoute />}>
+        <Route path="/main/inquiry" element={<Inquiry />} />
+      </Route>
+
+      <Route path="/main/purchase" exact element={<PrivateRoute />}>
+        <Route path="/main/purchase" element={<Purchase />} />
+      </Route>
+
+      <Route path="/main/stock" exact element={<PrivateRoute />}>
+        <Route path="/main/stock" element={<Stock />} />
+      </Route>
+
+      <Route path="/main/sales" exact element={<PrivateRoute />}>
+        <Route path="/main/sales" element={<Sales />} />
+      </Route>
+
+      <Route path="/main/profile" exact element={<PrivateRoute />}>
+        <Route path="/main/profile" element={<Profile />} />
+      </Route>
+
+      <Route path="/admin-route/customers" exact element={<PrivateRoute />}>
+        <Route path="/admin-route/customers" element={<Customers />} />
+      </Route>
+
+      <Route path="/admin-route/suppliers" exact element={<PrivateRoute />}>
+        <Route path="/admin-route/suppliers" element={<Suppliers />} />
+      </Route>
+
+      <Route path="/admin-route/users" exact element={<PrivateRoute />}>
+        <Route path="/admin-route/users" element={<Users />} />
+      </Route>
+
       {/* <PublicRoute /> */}
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" exact element={<PublicRoute />}>
+        <Route path="/login" element={<Login />} />
+      </Route>
     </Routes>
   );
 }

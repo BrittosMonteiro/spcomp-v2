@@ -1,11 +1,10 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import Login from "../view/login";
+import { useSelector } from "react-redux";
+import { Navigate, Outlet } from "react-router-dom";
 
 export default function PublicRoute() {
-  return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-    </Routes>
-  );
+  const userSession = useSelector((state) => {
+    return state.login;
+  });
+
+  return userSession.isLogged ? <Navigate to={"/"} /> : <Outlet />;
 }
