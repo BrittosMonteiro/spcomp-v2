@@ -16,6 +16,7 @@ import PrivateRoute from "./privateRoute";
 //Public route
 import Login from "../view/login/login";
 import PublicRoute from "./publicRoute";
+import NotFound from "../view/notFound";
 
 export default function MainRoutes() {
   return (
@@ -69,6 +70,7 @@ export default function MainRoutes() {
       <Route path="/login" exact element={<PublicRoute />}>
         <Route path="/login" element={<Login />} />
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

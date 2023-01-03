@@ -27,7 +27,7 @@ export default function Header() {
       {userSession?.isLogged && (
         <header className="header py-4">
           <span className="font-medium font-md">
-            Olá, {userSession.firstName}
+            Olá, {userSession.username}
           </span>
           <ul className="font-medium font-md">
             <li className="pb-1">
