@@ -1,10 +1,9 @@
 import PageTitle from "../../components/Common/PageTitle";
-import DialogItem from "../../components/Dialog/DialogItem";
 import List from "../../components/List/List";
-import * as Dialog from "@radix-ui/react-dialog";
 import { MagnifyingGlass } from "phosphor-react";
 import { useState, useEffect } from "react";
 import { getAllItems } from "../../services/itemService";
+import DialogItemDefault from "../../components/Dialog/DialogItemDefault";
 
 export default function Items() {
   const [textSearch, setTextSearch] = useState("");
@@ -35,17 +34,22 @@ export default function Items() {
     setOpen(false);
   }
 
+  function closeModal() {
+    setOpen(false);
+  }
+
   return (
     <>
-      <div className="row justify-content-between">
+      <div className="row justify-content-between align-items-center">
         <PageTitle title={"Itens cadastrados"} />
-
-        <Dialog.Root open={open} onOpenChange={setOpen}>
+        <span onClick={() => setOpen(true)}>Adicionar novo item</span>
+        <DialogItemDefault open={open} onClose={closeModal} />
+        {/* <Dialog.Root open={open} onOpenChange={setOpen}>
           <Dialog.Trigger className="font-medium font-sm bg-transparent">
             Adicionar novo item
           </Dialog.Trigger>
           <DialogItem reloadList={reloadList} />
-        </Dialog.Root>
+        </Dialog.Root> */}
       </div>
       <div className="filter column mt-4">
         <div className="row gap-2 py-2">

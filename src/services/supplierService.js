@@ -1,4 +1,7 @@
-const API_URL = "http://localhost:3001/supplier";
+import { checkEnv } from "./serviceConfig";
+
+const BASE_URL = checkEnv();
+const API_URL = `${BASE_URL}/supplier`;
 
 export async function postSupplier(data) {
   return await fetch(`${API_URL}`, {

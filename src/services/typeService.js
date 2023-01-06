@@ -1,4 +1,7 @@
-const API_URL = "http://localhost:3001/type";
+import { checkEnv } from "./serviceConfig";
+
+const BASE_URL = checkEnv();
+const API_URL = `${BASE_URL}/type`;
 
 export async function postType(data) {
   return await fetch(`${API_URL}`, {

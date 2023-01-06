@@ -1,0 +1,105 @@
+{
+  "brands": [{
+    "id": 1,
+    "description": "TEXAS"
+  }],
+  "customer": [{
+    "id": 1,
+    "name": "SPCOMP",
+    "cnpj": 123456789,
+    "contact": "Fernando",
+    "email": "spcomp@spcomp.com.br",
+    "phone": "(11) 1111-1111",
+    "status": true,
+    "observation": ""
+  }],
+  "encap": [{
+    "id": 1,
+    "description": "0805"
+  }],
+  "inquiry": [{
+    "idItem": 1,
+    "description": "",
+    "brand": "",
+    "type": "",
+    "encap": "",
+    "ipi": "",
+    "weight": "",
+    "note": "",
+    "step": "",
+    "status": "",
+    "quantity": "",
+    "unitPurchasePriceInCents": "",
+    "unitSalePriceInCents": ""
+  }],
+  "item": [{
+    "description": "AHA",
+    "brand": "",
+    "type": "",
+    "encap": "",
+    "ipi": "",
+    "weight": "",
+    "note": ""
+  }, {
+    "description": "EHE",
+    "brand": "",
+    "type": "",
+    "encap": "",
+    "ipi": "",
+    "weight": "",
+    "note": ""
+  }],
+  "purchase": [{
+    "idInquiry": "String",
+    "idItem": "String",
+    "description": "String",
+    "brand": "String",
+    "type": "String",
+    "encap": "String",
+    "ipi": "Number",
+    "weight": "Number",
+    "note": "String",
+    "step": "Number",
+    "status": "String",
+    "quantity": "Number",
+    "unitPurchasePriceInCents": "Number",
+    "unitSalePriceInCents": "Number"
+  }],
+  "sale": [],
+  "stock": [{
+    "idItem": "String",
+    "idInquiry": "String",
+    "idPurchase": "String",
+    "description": "String",
+    "brand": "String",
+    "type": "String",
+    "encap": "String",
+    "ipi": "Number",
+    "weight": "Number",
+    "note": "String",
+    "step": "Number",
+    "status": "String",
+    "quantity": "Number",
+    "unitPurchasePriceInCents": "Number",
+    "unitSalePriceInCents": "Number"
+  }],
+  "supplier": [{
+    "name": "String",
+    "contact": "String",
+    "email": "String",
+    "status": "Boolean",
+    "observation": "String"
+  }],
+  "type": [{
+    "description": "String"
+  }],
+  "user": [{
+    "name": "String",
+    "surname": "String",
+    "username": "String",
+    "email": "String",
+    "password": "String",
+    "status": "Boolean",
+    "isAdmin": "Boolean"
+  }]
+}

@@ -1,4 +1,3 @@
-import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import { getBrandList } from "../../services/brandService";
 import { getEncapList } from "../../services/encapService";
@@ -6,12 +5,10 @@ import { updateItemInInquiryList } from "../../services/inquiryService";
 import { createItem, updateItem } from "../../services/itemService";
 import { getTypeList } from "../../services/typeService";
 
-export default function DialogItem(props) {
+export default function DialogItemDefault({ item, open, onClose }) {
   const [brandList, setBrandList] = useState([]);
   const [typeList, setTypeList] = useState([]);
   const [encapList, setEncapList] = useState([]);
-
-  const [id, setId] = useState("");
   const [description, setDescription] = useState("");
   const [brand, setBrand] = useState("");
   const [type, setType] = useState("");
@@ -26,22 +23,21 @@ export default function DialogItem(props) {
   const [unitPurchasePrice, setUnitPurchasePrice] = useState(0);
 
   useEffect(() => {
-    if (props.itemData) {
-      setId(props.itemData.id);
-      setDescription(props.itemData.description);
-      setBrand(props.itemData.brand);
-      setType(props.itemData.type);
-      setEncap(props.itemData.encap);
-      setIpi(props.itemData.ipi);
-      setWeight(props.itemData.weight);
-      setNote(props.itemData.note);
-      setStep(props.itemData.step);
-      setStatus(props.itemData.status);
-      setQuantity(props.itemData.quantity);
-      setUnitSalePrice(props.itemData.unitSalePrice);
-      setUnitPurchasePrice(props.itemData.unitPurchasePrice);
+    if (item) {
+      setDescription(item.description);
+      setBrand(item.brand);
+      setType(item.type);
+      setEncap(item.encap);
+      setIpi(item.ipi);
+      setWeight(item.weight);
+      setNote(item.note);
+      setStep(item.step);
+      setStatus(item.status);
+      setQuantity(item.quantity);
+      setUnitSalePrice(item.unitSalePrice);
+      setUnitPurchasePrice(item.unitPurchasePrice);
     }
-  }, [props.itemData]);
+  }, [item]);
 
   useEffect(() => {
     getBrandList()
@@ -77,11 +73,12 @@ export default function DialogItem(props) {
       weight: weight,
       note: note,
       step: step,
+      status: status,
     };
 
-    if (id) {
+    if (item?.id) {
       let additional = {
-        id: id,
+        id: item.id,
         quantity: quantity,
         unitPurchasePrice: unitPurchasePrice,
         unitSalePrice: unitSalePrice,
@@ -104,8 +101,9 @@ export default function DialogItem(props) {
       }
     } else {
       createItem(data)
-        .then(() => {
-          props.reloadList();
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
         })
         .catch((err) => {
           console.log(err);
@@ -115,8 +113,10 @@ export default function DialogItem(props) {
 
   async function updateItemOnList(data) {
     await updateItem(data)
-      .then(() => {
-        props.reloadList();
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        // props.reloadList();
       })
       .catch((err) => {
         console.log(err);
@@ -125,8 +125,10 @@ export default function DialogItem(props) {
 
   async function updateInquiryItemOnList(data) {
     await updateItemInInquiryList(data)
-      .then(() => {
-        props.reloadList();
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        // props.reloadList();
       })
       .catch((err) => {
         console.log(err);
@@ -135,23 +137,29 @@ export default function DialogItem(props) {
 
   async function updatePurchaseItemOnList(data) {
     await updateItem(data)
-      .then(() => {
-        props.reloadList();
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        // props.reloadList();
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
+  function closeModal(e) {
+    const elementId = e.target.id === "overlay";
+    if (elementId) onClose();
+  }
+
   return (
     <>
-      <Dialog.Portal>
-        <Dialog.Overlay className="overlay">
-          <Dialog.Content className="dialog">
-            <Dialog.Title className="font-medium font-lg">
-              {id ? "Informações do" : "Adicionar"} item
-            </Dialog.Title>
-            <hr className="mt-4" />
+      {open && (
+        <div className="overlay" id="overlay" onClick={(e) => closeModal(e)}>
+          <div className="dialog">
+            <h1 className="font-medium font-lg">
+              {item?.id ? "Informações do" : "Adicionar"} item
+            </h1>
             <form onSubmit={handleItem}>
               <div className="row align-item-center gap-4 mt-4">
                 <div className="column gap-2 text-dark-3 font-medium font-sm">
@@ -181,8 +189,8 @@ export default function DialogItem(props) {
                     {brandList.length > 0 ? (
                       <>
                         <option>Escolher marca do item</option>
-                        {brandList.map((brand) => (
-                          <option value={brand.description} key={brand.id}>
+                        {brandList.map((brand, index) => (
+                          <option value={brand.description} key={index}>
                             {brand.description}
                           </option>
                         ))}
@@ -206,8 +214,8 @@ export default function DialogItem(props) {
                     {typeList.length > 0 ? (
                       <>
                         <option>Escolher tipo do item</option>
-                        {typeList.map((type) => (
-                          <option value={type.description} key={type.id}>
+                        {typeList.map((type, index) => (
+                          <option value={type.description} key={index}>
                             {type.description}
                           </option>
                         ))}
@@ -229,8 +237,8 @@ export default function DialogItem(props) {
                     {encapList.length > 0 ? (
                       <>
                         <option>Escolher encapsulamento do item</option>
-                        {encapList.map((encap) => (
-                          <option value={encap.description} key={encap.id}>
+                        {encapList.map((encap, index) => (
+                          <option value={encap.description} key={index}>
                             {encap.description}
                           </option>
                         ))}
@@ -330,20 +338,20 @@ export default function DialogItem(props) {
               <hr className="my-4" />
 
               <div className="row justify-content-between align-items-center">
-                <Dialog.Close className="font-medium font-md text-red-1 bg-transparent">
+                {/* <Dialog.Close className="font-medium font-md text-red-1 bg-transparent">
                   Fechar
-                </Dialog.Close>
+                </Dialog.Close> */}
                 <button
                   type={"submit"}
                   className="font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"
                 >
-                  {id ? "Atualizar" : "Concluir"}
+                  {item?.id ? "Atualizar" : "Concluir"}
                 </button>
               </div>
             </form>
-          </Dialog.Content>
-        </Dialog.Overlay>
-      </Dialog.Portal>
+          </div>
+        </div>
+      )}
     </>
   );
 }

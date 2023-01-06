@@ -1,4 +1,7 @@
-const API_URL = "http://localhost:3001/encap";
+import { checkEnv } from "./serviceConfig";
+
+const BASE_URL = checkEnv();
+const API_URL = `${BASE_URL}/encap`;
 
 export async function postEncap(data) {
   return await fetch(`${API_URL}`, {
