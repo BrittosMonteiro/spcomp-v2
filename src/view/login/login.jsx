@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { loginApp } from "../../services/loginService";
 import { setUser } from "../../store/actions/userAction";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../store/actions/messageBoxAction";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -11,16 +16,34 @@ export default function Login() {
   function manageLogin(e) {
     e.preventDefault();
 
-    if (!username || !password) return;
+    if (!username || !password)
+      handleMessageBox("failed", true, "Revise os campos");
 
-    const dataToLogin = {
-      isLogged: true,
-      token: "",
-      username: username,
-    };
+    loginApp({ username, password })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.data) {
+          const dataToLogin = { ...res.data, isLogged: true };
+          dispatch(setUser(dataToLogin));
+          localStorage.setItem("loggedUser", JSON.stringify(dataToLogin));
+        } else {
+          handleMessageBox("failed", true, "Informações incorretas");
+        }
+      })
+      .catch(() => {
+        handleMessageBox(
+          "failed",
+          true,
+          "Estamos com problemas com a conexão :/"
+        );
+      });
+  }
 
-    dispatch(setUser(dataToLogin));
-    localStorage.setItem("loggedUser", JSON.stringify(dataToLogin));
+  function handleMessageBox(color, display, message) {
+    dispatch(displayMessageBox({ color, display, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (

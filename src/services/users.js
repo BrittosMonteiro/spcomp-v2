@@ -1,7 +1,7 @@
 import { checkEnv } from "./serviceConfig";
 
 const BASE_URL = checkEnv();
-const API_URL = `${BASE_URL}/user`;
+const API_URL = `${BASE_URL}/users`;
 
 export async function createUser(data) {
   return await fetch(`${API_URL}`, {

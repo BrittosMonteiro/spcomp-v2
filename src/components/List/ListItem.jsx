@@ -14,7 +14,7 @@ import {
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 //Components
-import DialogItemDefault from "../Dialog/DialogItemDefault";
+import DialogItem from "../Dialog/DialogItem";
 
 //Services
 import {
@@ -25,8 +25,15 @@ import { deleteItem } from "../../services/itemService";
 import { addItemToPurchaseList } from "../../services/purchaseService";
 import { deleteItemFromPurchaseList } from "../../services/purchaseService";
 import { deleteStockItem, postStockItem } from "../../services/stockService";
+import { useDispatch } from "react-redux";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../store/actions/messageBoxAction";
 
 export default function ListItem({ item }) {
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
@@ -41,11 +48,17 @@ export default function ListItem({ item }) {
     addItemToInquiryList(item)
       .then(() => {
         navigate("/main/inquiry");
+        handleMessageBox("success", true, "Item enviado para cotação");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        handleMessageBox(
+          "success",
+          true,
+          "Não foi possível mover para cotação"
+        );
       });
   }
+
   async function setPurchaseItem(item) {
     if (!item.quantity || !item.unitPurchasePrice || !item.unitSalePrice)
       return;
@@ -55,9 +68,10 @@ export default function ListItem({ item }) {
     await addItemToPurchaseList(item)
       .then(() => {
         navigate("/main/purchase");
+        handleMessageBox("success", true, "Item movido para compras");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        handleMessageBox("failed", true, "Não foi possível mover para compras");
       });
   }
 
@@ -67,9 +81,14 @@ export default function ListItem({ item }) {
     await postStockItem(item)
       .then(() => {
         navigate("/stock");
+        handleMessageBox("success", true, "Item movido para o estoque");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        handleMessageBox(
+          "failed",
+          true,
+          "Não foi possível mover para o estoque"
+        );
       });
   }
 
@@ -77,6 +96,7 @@ export default function ListItem({ item }) {
     const data = {
       id: item.id,
     };
+
     switch (item.step) {
       case 1:
         deleteFromItemInquiry(data);
@@ -95,46 +115,50 @@ export default function ListItem({ item }) {
 
   async function deleteFromItemList(data) {
     await deleteItem(data)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        handleMessageBox("success", true, "Item removido");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        handleMessageBox("failed", true, "Nao foi possível remover");
       });
   }
 
   async function deleteFromItemInquiry(data) {
     await deleteItemFromInquiryList(data)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        handleMessageBox("success", true, "Item removido");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        handleMessageBox("failed", true, "Nao foi possível remover");
       });
   }
 
   async function deleteFromItemPurchase(data) {
     await deleteItemFromPurchaseList(data)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        handleMessageBox("success", true, "Item removido");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        handleMessageBox("failed", true, "Nao foi possível remover");
       });
   }
 
   async function deleteFromItemStock(data) {
     await deleteStockItem(data)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        handleMessageBox("success", true, "Item removido");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        handleMessageBox("failed", true, "Nao foi possível remover");
       });
+  }
+
+  function handleMessageBox(color, display, message) {
+    dispatch(displayMessageBox({ color, display, message }));
+
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   function closeModal() {
@@ -187,13 +211,7 @@ export default function ListItem({ item }) {
           >
             <PencilSimple className="icon-default" />
           </button>
-          <DialogItemDefault item={item} onClose={closeModal} open={open} />
-          {/* <Dialog.Root open={open} onOpenChange={setOpen}>
-            <Dialog.Trigger className="bg-transparent">
-              <PencilSimple className="icon-default" />
-            </Dialog.Trigger>
-            <DialogItem itemData={item} reloadList={reloadList} />
-          </Dialog.Root>  */}
+          <DialogItem item={item} onClose={closeModal} open={open} />
 
           <DropdownMenu.Root>
             <DropdownMenu.Trigger className="bg-transparent">

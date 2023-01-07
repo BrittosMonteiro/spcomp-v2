@@ -1,4 +1,5 @@
 let initialState = {
+  isAdmin: false,
   isLogged: false,
   token: "",
   username: "",

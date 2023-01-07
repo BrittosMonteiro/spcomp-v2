@@ -1,9 +1,9 @@
 import { checkEnv } from "./serviceConfig";
 
 const BASE_URL = checkEnv();
-const API_URL = `${BASE_URL}/user`;
+const API_URL = `${BASE_URL}/login`;
 
-export async function login(data) {
+export async function loginApp(data) {
   return await fetch(`${API_URL}`, {
     method: "POST",
     headers: { "Content-type": "application/json" },

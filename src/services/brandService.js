@@ -1,7 +1,7 @@
 import { checkEnv } from "./serviceConfig";
 
 const BASE_URL = checkEnv();
-const API_URL = `${BASE_URL}/brands`;
+const API_URL = `${BASE_URL}/brand`;
 
 export async function postBrand(data) {
   return await fetch(`${API_URL}`, {

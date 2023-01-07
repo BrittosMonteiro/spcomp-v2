@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import Header from "./components/Common/Header";
 import MainRoutes from "./router/main";
+import MessageBox from "./components/Common/MessageBox";
 import { setUser } from "./store/actions/userAction";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <div className="container px-4">
         <Header />
         <MainRoutes />
+        <MessageBox />
       </div>
     </Router>
   );

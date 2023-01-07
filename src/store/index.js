@@ -1,10 +1,10 @@
 import { createStore, combineReducers } from "redux";
 import userReducer from "./reducers/userReducer.js";
-import counterReducer from "./reducers/counterReducer.js";
+import messageBoxReducer from "./reducers/messageBoxReducer.js";
 
 const combinedReducers = combineReducers({
   login: userReducer,
-  counter: counterReducer,
+  messageBox: messageBoxReducer,
 });
 
 const store = createStore(combinedReducers);

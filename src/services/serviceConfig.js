@@ -5,6 +5,6 @@ export function checkEnv() {
   ) {
     return "http://localhost:5050";
   } else {
-    return "";
+    return "http://localhost:5050";
   }
 }

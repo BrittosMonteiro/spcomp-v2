@@ -9,7 +9,7 @@ import {
 } from "phosphor-react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useDispatch, useSelector } from "react-redux";
-import { unsetUSer } from "../../store/actions/userAction";
+import { unsetUser } from "../../store/actions/userAction";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ export default function Header() {
 
   function logout() {
     localStorage.removeItem("loggedUser");
-    dispatch(unsetUSer());
+    dispatch(unsetUser());
   }
 
   return (
@@ -39,9 +39,11 @@ export default function Header() {
             <li className="pb-1">
               <Link to="/main/inquiry">Cotações</Link>
             </li>
-            <li className="pb-1">
-              <Link to="/main/purchase">Compras</Link>
-            </li>
+            {userSession.isAdmin && (
+              <li className="pb-1">
+                <Link to="/main/purchase">Compras</Link>
+              </li>
+            )}
             <li className="pb-1">
               <Link to="/main/stock">Estoque</Link>
             </li>
@@ -67,25 +69,29 @@ export default function Header() {
                     </Link>
                   </DropdownMenu.Item>
 
-                  <DropdownMenu.Item>
-                    <Link
-                      to="/admin-route/suppliers"
-                      className="row align-items-center gap-2 text-dark-1"
-                    >
-                      <Airplane className="icon-default" />
-                      Fornecedores
-                    </Link>
-                  </DropdownMenu.Item>
+                  {userSession.isAdmin && (
+                    <>
+                      <DropdownMenu.Item>
+                        <Link
+                          to="/admin-route/suppliers"
+                          className="row align-items-center gap-2 text-dark-1"
+                        >
+                          <Airplane className="icon-default" />
+                          Fornecedores
+                        </Link>
+                      </DropdownMenu.Item>
 
-                  <DropdownMenu.Item>
-                    <Link
-                      to="/admin-route/users"
-                      className="row align-items-center gap-2 text-dark-1"
-                    >
-                      <Users className="icon-default" />
-                      Usuários
-                    </Link>
-                  </DropdownMenu.Item>
+                      <DropdownMenu.Item>
+                        <Link
+                          to="/admin-route/users"
+                          className="row align-items-center gap-2 text-dark-1"
+                        >
+                          <Users className="icon-default" />
+                          Usuários
+                        </Link>
+                      </DropdownMenu.Item>
+                    </>
+                  )}
 
                   <DropdownMenu.Item>
                     <Link

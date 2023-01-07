@@ -1,11 +1,21 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getBrandList } from "../../services/brandService";
 import { getEncapList } from "../../services/encapService";
 import { updateItemInInquiryList } from "../../services/inquiryService";
 import { createItem, updateItem } from "../../services/itemService";
 import { getTypeList } from "../../services/typeService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../store/actions/messageBoxAction";
 
 export default function DialogItemDefault({ item, open, onClose }) {
+  const dispatch = useDispatch();
+  const userSession = useSelector((state) => {
+    return state.login;
+  });
+
   const [brandList, setBrandList] = useState([]);
   const [typeList, setTypeList] = useState([]);
   const [encapList, setEncapList] = useState([]);
@@ -43,24 +53,34 @@ export default function DialogItemDefault({ item, open, onClose }) {
     getBrandList()
       .then((res) => res.json())
       .then((res) => setBrandList(res))
-      .catch((err) => console.log(err));
+      .catch(() =>
+        handleMessageBox("failed", true, "As marcas não foram carregadas")
+      );
 
     getTypeList()
       .then((res) => res.json())
       .then((res) => setTypeList(res))
-      .catch((err) => console.log(err));
+      .catch(() =>
+        handleMessageBox("failed", true, "Os tipos não foram carregados")
+      );
 
     getEncapList()
       .then((res) => res.json())
       .then((res) => setEncapList(res))
-      .catch((err) => console.log(err));
+      .catch((err) =>
+        handleMessageBox(
+          "failed",
+          true,
+          "Os encapsulamentos não foram carregados"
+        )
+      );
   }, []);
 
   function handleItem(e) {
     e.preventDefault();
 
     if (!description || !brand || !type || !encap || !ipi || !weight || !note) {
-      console.log("Preencha o formulário");
+      handleMessageBox("failed", true, "Preencha o formulário");
       return;
     }
 
@@ -76,6 +96,10 @@ export default function DialogItemDefault({ item, open, onClose }) {
       status: status,
     };
 
+    manageItem(data);
+  }
+
+  function manageItem(data) {
     if (item?.id) {
       let additional = {
         id: item.id,
@@ -100,51 +124,61 @@ export default function DialogItemDefault({ item, open, onClose }) {
           break;
       }
     } else {
-      createItem(data)
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      create(data);
     }
+  }
+
+  async function create(data) {
+    createItem(data)
+      .then(() => {
+        onClose();
+      })
+      .catch(() => {
+        handleMessageBox("failed", true, "Erro ao tentar criar um novo item");
+      });
   }
 
   async function updateItemOnList(data) {
     await updateItem(data)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        handleMessageBox("success", true, "Item atualizado");
+        onClose();
         // props.reloadList();
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        handleMessageBox("faile", true, "Não foi possível atualizar o item");
       });
   }
 
   async function updateInquiryItemOnList(data) {
     await updateItemInInquiryList(data)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        handleMessageBox("success", true, "Item atualizado");
+        onClose();
         // props.reloadList();
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        handleMessageBox("faile", true, "Não foi possível atualizar o item");
       });
   }
 
   async function updatePurchaseItemOnList(data) {
     await updateItem(data)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        handleMessageBox("success", true, "Item atualizado");
+        onClose();
         // props.reloadList();
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        handleMessageBox("faile", true, "Não foi possível atualizar o item");
       });
+  }
+
+  function handleMessageBox(color, display, message) {
+    dispatch(displayMessageBox({ color, display, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   function closeModal(e) {
@@ -263,21 +297,22 @@ export default function DialogItemDefault({ item, open, onClose }) {
                     />
                   </div>
 
-                  <div className="column gap-2 text-dark-3 font-medium font-sm">
-                    <label htmlFor="item_unit_sale_price">
-                      Preço de compra unitário
-                    </label>
-                    <input
-                      type={"text"}
-                      name="item_unit_sale_price"
-                      id="item_unit_sale_price"
-                      defaultValue={unitSalePrice}
-                      placeholder="Preço de compra unitário"
-                      className="border-default pa-2 border-radius-soft font-medium font-md"
-                      onChange={(e) => setUnitSalePrice(e.target.value)}
-                    />
-                  </div>
-
+                  {userSession.isAdmin && (
+                    <div className="column gap-2 text-dark-3 font-medium font-sm">
+                      <label htmlFor="item_unit_sale_price">
+                        Preço de compra unitário
+                      </label>
+                      <input
+                        type={"text"}
+                        name="item_unit_sale_price"
+                        id="item_unit_sale_price"
+                        defaultValue={unitSalePrice}
+                        placeholder="Preço de compra unitário"
+                        className="border-default pa-2 border-radius-soft font-medium font-md"
+                        onChange={(e) => setUnitSalePrice(e.target.value)}
+                      />
+                    </div>
+                  )}
                   <div className="column gap-2 text-dark-3 font-medium font-sm">
                     <label htmlFor="item_unit_purchase_price">
                       Preço de venda unitário

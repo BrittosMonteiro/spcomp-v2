@@ -1,0 +1,43 @@
+.snackbar-default {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.hover-shake {
+    animation: identifier 0.5s normal;
+}
+
+@keyframes identifier {
+    0% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(15deg);
+    }
+
+    50% {
+        transform: rotate(-15deg);
+    }
+
+    75% {
+        transform: rotate(10deg);
+    }
+
+    90% {
+        transform: rotate(-10deg);
+    }
+
+    93% {
+        transform: rotate(5deg);
+    }
+
+    96% {
+        transform: rotate(-5deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}

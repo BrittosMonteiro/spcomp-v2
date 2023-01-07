@@ -5,7 +5,7 @@ export const setUser = (user) => {
   };
 };
 
-export const unsetUSer = () => {
+export const unsetUser = () => {
   return {
     type: "UNSET_USER",
   };

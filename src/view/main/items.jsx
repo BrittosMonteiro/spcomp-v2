@@ -3,9 +3,16 @@ import List from "../../components/List/List";
 import { MagnifyingGlass } from "phosphor-react";
 import { useState, useEffect } from "react";
 import { getAllItems } from "../../services/itemService";
-import DialogItemDefault from "../../components/Dialog/DialogItemDefault";
+import DialogItem from "../../components/Dialog/DialogItem";
+import { useDispatch } from "react-redux";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../store/actions/messageBoxAction";
 
 export default function Items() {
+  const dispatch = useDispatch();
+
   const [textSearch, setTextSearch] = useState("");
   const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
@@ -16,8 +23,8 @@ export default function Items() {
       .then((res) => {
         setItems(res || []);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        handleMessageBox("Faile", true, "Não foi possível carregar os itens");
       });
   }
 
@@ -38,18 +45,19 @@ export default function Items() {
     setOpen(false);
   }
 
+  function handleMessageBox(color, display, message) {
+    dispatch(displayMessageBox({ color, display, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
+  }
+
   return (
     <>
       <div className="row justify-content-between align-items-center">
         <PageTitle title={"Itens cadastrados"} />
         <span onClick={() => setOpen(true)}>Adicionar novo item</span>
-        <DialogItemDefault open={open} onClose={closeModal} />
-        {/* <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger className="font-medium font-sm bg-transparent">
-            Adicionar novo item
-          </Dialog.Trigger>
-          <DialogItem reloadList={reloadList} />
-        </Dialog.Root> */}
+        <DialogItem open={open} onClose={closeModal} />
       </div>
       <div className="filter column mt-4">
         <div className="row gap-2 py-2">
