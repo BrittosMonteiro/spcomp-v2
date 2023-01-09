@@ -373,9 +373,6 @@ export default function DialogItemDefault({ item, open, onClose }) {
               <hr className="my-4" />
 
               <div className="row justify-content-between align-items-center">
-                {/* <Dialog.Close className="font-medium font-md text-red-1 bg-transparent">
-                  Fechar
-                </Dialog.Close> */}
                 <button
                   type={"submit"}
                   className="font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"

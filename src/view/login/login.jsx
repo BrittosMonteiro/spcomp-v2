@@ -6,6 +6,8 @@ import {
   displayMessageBox,
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
+import { Link } from "react-router-dom";
+import { ArrowCircleRight } from "phosphor-react";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -90,6 +92,13 @@ export default function Login() {
         >
           Acessar
         </button>
+        <Link
+          to={"/supplier/login"}
+          className="row justify-content-between font-medium font-md text-dark-3"
+        >
+          Login as supplier
+          <ArrowCircleRight className="icon-default" />
+        </Link>
       </form>
     </>
   );

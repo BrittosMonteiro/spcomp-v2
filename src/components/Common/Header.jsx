@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   User,
   SignOut,
@@ -13,6 +13,7 @@ import { unsetUser } from "../../store/actions/userAction";
 
 export default function Header() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userSession = useSelector((state) => {
     return state.login;
   });
@@ -20,6 +21,7 @@ export default function Header() {
   function logout() {
     localStorage.removeItem("loggedUser");
     dispatch(unsetUser());
+    navigate("/login");
   }
 
   return (
@@ -29,28 +31,30 @@ export default function Header() {
           <span className="font-medium font-md">
             Olá, {userSession.username}
           </span>
-          <ul className="font-medium font-md">
-            <li className="pb-1">
-              <Link to="/main/">Início</Link>
-            </li>
-            <li className="pb-1">
-              <Link to="/main/items">Itens</Link>
-            </li>
-            <li className="pb-1">
-              <Link to="/main/inquiry">Cotações</Link>
-            </li>
-            {userSession.isAdmin && (
+          {userSession.role !== 4 ? (
+            <ul className="font-medium font-md">
               <li className="pb-1">
-                <Link to="/main/purchase">Compras</Link>
+                <Link to="/main/">Início</Link>
               </li>
-            )}
-            <li className="pb-1">
-              <Link to="/main/stock">Estoque</Link>
-            </li>
-            <li className="pb-1">
-              <Link to="/main/sales">Vendas</Link>
-            </li>
-          </ul>
+              <li className="pb-1">
+                <Link to="/main/items">Itens</Link>
+              </li>
+              <li className="pb-1">
+                <Link to="/main/inquiry">Cotações</Link>
+              </li>
+              {userSession.isAdmin && (
+                <li className="pb-1">
+                  <Link to="/main/purchase">Compras</Link>
+                </li>
+              )}
+              <li className="pb-1">
+                <Link to="/main/stock">Estoque</Link>
+              </li>
+              <li className="pb-1">
+                <Link to="/main/sales">Vendas</Link>
+              </li>
+            </ul>
+          ) : null}
           <div className="header-icons gap-3">
             <DropdownMenu.Root>
               <DropdownMenu.Trigger className="bg-transparent">
@@ -59,17 +63,19 @@ export default function Header() {
 
               <DropdownMenu.Portal>
                 <DropdownMenu.Content className="bg-white-1 border-default border-radius-soft pa-2 gap-4 column font-medium font-md">
-                  <DropdownMenu.Item>
-                    <Link
-                      to="/admin-route/customers"
-                      className="row align-items-center gap-2 text-dark-1"
-                    >
-                      <Handshake className="icon-default" />
-                      Clientes
-                    </Link>
-                  </DropdownMenu.Item>
+                  {userSession.role !== 4 ? (
+                    <DropdownMenu.Item>
+                      <Link
+                        to="/admin-route/customers"
+                        className="row align-items-center gap-2 text-dark-1"
+                      >
+                        <Handshake className="icon-default" />
+                        Clientes
+                      </Link>
+                    </DropdownMenu.Item>
+                  ) : null}
 
-                  {userSession.isAdmin && (
+                  {userSession.isAdmin && userSession.role !== 4 && (
                     <>
                       <DropdownMenu.Item>
                         <Link
@@ -93,15 +99,17 @@ export default function Header() {
                     </>
                   )}
 
-                  <DropdownMenu.Item>
-                    <Link
-                      to="/main/profile"
-                      className="row align-items-center gap-2 text-dark-1"
-                    >
-                      <User className="icon-default" />
-                      Perfil
-                    </Link>
-                  </DropdownMenu.Item>
+                  {userSession.role !== 4 ? (
+                    <DropdownMenu.Item>
+                      <Link
+                        to="/main/profile"
+                        className="row align-items-center gap-2 text-dark-1"
+                      >
+                        <User className="icon-default" />
+                        Perfil
+                      </Link>
+                    </DropdownMenu.Item>
+                  ) : null}
 
                   <DropdownMenu.Item
                     className="row align-items-center gap-2 text-dark-1"

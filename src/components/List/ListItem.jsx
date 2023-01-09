@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 //Icons
 import {
   ArchiveBox,
+  CheckCircle,
   DotsThreeVertical,
   PencilSimple,
   Question,
   ShoppingCart,
   Tag,
   TrashSimple,
+  WarningCircle,
 } from "phosphor-react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
@@ -167,43 +169,30 @@ export default function ListItem({ item }) {
 
   return (
     <li>
-      <div className="row justify-content-between align-items-center pa-2 border-radius-soft border-default">
+      <div className="row justify-content-between align-items-center py-2">
         <div className="row gap-4">
           <div className="column gap-2">
             <div className="row gap-2">
               <span className="font-medium font-md">{item.description}</span>-
-              <span className="font-medium font-md">{item.brand}</span>
-            </div>
-            <div className="row gap-4">
-              {item.quantity ? (
-                <>
-                  <span className="font-medium font-md">
-                    Quantidade: {item.quantity}
-                  </span>{" "}
-                  -{" "}
-                </>
-              ) : null}
-              <span className="font-medium font-md">Tipo: {item.type}</span>-
-              <span className="font-medium font-md">Enc.: {item.encap}</span>-
-              <span className="font-medium font-md">
-                IPI: {item.ipi ? item.ipi : "-"}
-              </span>
-              -
-              <span className="font-medium font-md">
-                Peso: {item.weight ? item.weight : "-"}
-              </span>
-              {item.status ? (
-                <>
-                  -
-                  <span className="font-medium font-md">
-                    Status: {item.status}
-                  </span>
-                </>
-              ) : null}
+              <span className="font-medium font-md">{item.brand}</span>-
+              <span className="font-medium font-md">{item.type}</span>-
+              <span className="font-medium font-md">{item.encap}</span>
             </div>
           </div>
         </div>
         <div className="row gap-2">
+          {item.unitPurchasePrice && item.unitSalePrice ? (
+            <CheckCircle
+              alt="Item cotado"
+              className="icon-default text-green-1"
+            />
+          ) : null}
+          {item.quantity <= 0 && (
+            <WarningCircle
+              alt="Informar a quantidade"
+              className="icon-default text-orange-1"
+            />
+          )}
           <button
             type="button"
             className="bg-transparent"
@@ -220,15 +209,19 @@ export default function ListItem({ item }) {
 
             <DropdownMenu.Portal>
               <DropdownMenu.Content className="bg-white-1 border-default border-radius-soft pa-2 gap-4 column font-medium font-md">
-                {item.step !== 1 ? (
+                {item.step !== 1 && (
                   <DropdownMenu.Item
                     className="row align-items-center gap-2"
                     onClick={() => setInquiryItem(item)}
                   >
                     <Question className="icon-default" /> Cotar
                   </DropdownMenu.Item>
-                ) : null}
-                {item.step >= 1 ? (
+                )}
+
+                {item.step >= 1 &&
+                item.quantity > 0 &&
+                item.unitPurchasePrice &&
+                item.unitSalePrice ? (
                   <DropdownMenu.Item
                     className="row align-items-center gap-2"
                     onClick={() => setPurchaseItem(item)}
@@ -237,20 +230,21 @@ export default function ListItem({ item }) {
                   </DropdownMenu.Item>
                 ) : null}
 
-                {item.step === 2 && item.status === "Concluído" ? (
+                {item.step === 2 && item.status === "Concluído" && (
                   <DropdownMenu.Item
                     className="row align-items-center gap-2"
                     onClick={() => moveToStock(item)}
                   >
                     <ArchiveBox className="icon-default" /> Mover para estoque
                   </DropdownMenu.Item>
-                ) : null}
+                )}
 
-                {item.step === 3 ? (
+                {item.step === 3 && (
                   <DropdownMenu.Item className="row align-items-center gap-2">
                     <Tag className="icon-default" /> Criar pedido
                   </DropdownMenu.Item>
-                ) : null}
+                )}
+
                 <DropdownMenu.Item
                   className="row align-items-center gap-2"
                   onClick={() => removeItem(item)}

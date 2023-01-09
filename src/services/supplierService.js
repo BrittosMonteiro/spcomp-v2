@@ -33,3 +33,11 @@ export async function removeSupplier(data) {
     body: JSON.stringify(data),
   });
 }
+
+export async function loginSupplier(data) {
+  return await fetch(`${API_URL}/login`, {
+    method: "POST",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
