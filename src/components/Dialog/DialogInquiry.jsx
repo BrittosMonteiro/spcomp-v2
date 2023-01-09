@@ -1,4 +1,12 @@
+import { setInquiryList } from "../../services/inquiryService";
+import { useDispatch } from "react-redux";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../store/actions/messageBoxAction";
+
 export default function DialogInquiry({ open, onClose, pending }) {
+  const dispatch = useDispatch();
   function closeModal(e) {
     const elementId = e.target.id === "overlay";
     if (elementId) onClose();
@@ -6,10 +14,34 @@ export default function DialogInquiry({ open, onClose, pending }) {
 
   function sendInquiry(e) {
     e.preventDefault();
-    
-    const title = new Date().toISOString().split("T")[0]
 
-    onClose();
+    const title = new Date().toISOString().split("T")[0];
+
+    const inquiry = { title, items: pending() };
+
+    setInquiryList(inquiry)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          handleMessageBox("success", "Cotação criada com sucesso!");
+        } else {
+          handleMessageBox("Failed", "Nao foi possível criar a cotação!");
+        }
+        onClose();
+      })
+      .catch(() => {
+        handleMessageBox("Failed", "Nao foi possível criar a cotação!");
+      })
+      .finally(() => {
+        onClose();
+      });
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (

@@ -38,3 +38,27 @@ export async function deleteItemFromInquiryList(data) {
 export async function deleteAllItemsFromInquiryList(data) {
   console.log(data);
 }
+
+export async function setInquiryList(data) {
+  return await fetch(`${API_URL}/setInquiryList`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
+export async function getInquiryListByCompany(token) {
+  return await fetch(`${API_URL}/getInquiryListByCompany`, {
+    method: "POST",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify({ idCompany: token }),
+  });
+}
+
+export async function updateInquiryList(data) {
+  return await fetch(`${API_URL}/updateInquiryList`, {
+    method: "PUT",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}

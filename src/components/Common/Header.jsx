@@ -29,7 +29,7 @@ export default function Header() {
       {userSession?.isLogged && (
         <header className="header py-4">
           <span className="font-medium font-md">
-            Olá, {userSession.username}
+            {userSession.role !== 4 ? "Olá" : "Hi"}, {userSession.username}
           </span>
           {userSession.role !== 4 ? (
             <ul className="font-medium font-md">
