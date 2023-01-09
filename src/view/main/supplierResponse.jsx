@@ -10,19 +10,18 @@ export default function SupplierResponse() {
   });
   const [inquiries, setInquiries] = useState([]);
 
-  async function loadList() {
-    await getInquiryListByCompany(userSession.token)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        setInquiries(res);
-      })
-      .catch((err) => console.log(err));
-  }
-
   useEffect(() => {
+    async function loadList() {
+      await getInquiryListByCompany(userSession.token)
+        .then((res) => res.json())
+        .then((res) => {
+          setInquiries(res);
+        })
+        .catch((err) => console.log(err));
+    }
+
     loadList();
-  }, []);
+  }, [userSession]);
 
   return (
     <>
