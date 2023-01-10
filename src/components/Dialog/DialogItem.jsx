@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrandList } from "../../services/brandService";
 import { getEncapList } from "../../services/encapService";
-import { updateItemInInquiryList } from "../../services/inquiryService";
+import { updateInquiryItem } from "../../services/inquiryItemService";
 import { createItem, updateItem } from "../../services/itemService";
 import { getTypeList } from "../../services/typeService";
 import {
@@ -151,7 +151,7 @@ export default function DialogItemDefault({ item, open, onClose }) {
   }
 
   async function updateInquiryItemOnList(data) {
-    await updateItemInInquiryList(data)
+    await updateInquiryItem(data)
       .then(() => {
         handleMessageBox("success", true, "Item atualizado");
         onClose();

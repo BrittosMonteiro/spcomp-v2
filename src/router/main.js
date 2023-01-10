@@ -20,6 +20,7 @@ import NotFound from "../view/notFound";
 import LoginSupplier from "../view/login/loginSupplier";
 import SupplierResponse from "../view/main/supplierResponse";
 import { useSelector } from "react-redux";
+import InquiryAvailable from "../view/main/inquiry/inquiryAvailable";
 
 export default function MainRoutes() {
   const userSession = useSelector((state) => {
@@ -33,6 +34,16 @@ export default function MainRoutes() {
         <>
           <Route path="/supplier/response" exact element={<PrivateRoute />}>
             <Route path="/supplier/response" element={<SupplierResponse />} />
+          </Route>
+          <Route
+            path="/inquiry/available/:idInquiryHistory/:title"
+            exact
+            element={<PrivateRoute />}
+          >
+            <Route
+              path="/inquiry/available/:idInquiryHistory/:title"
+              element={<InquiryAvailable />}
+            />
           </Route>
         </>
       ) : (

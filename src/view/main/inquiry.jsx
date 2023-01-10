@@ -1,7 +1,7 @@
 import PageTitle from "../../components/Common/PageTitle";
 import { useEffect, useState } from "react";
 import List from "../../components/List/List";
-import { getAllItemsFromInquiryList } from "../../services/inquiryService";
+import { readInquiryItems } from "../../services/inquiryItemService";
 import DialogInquiry from "../../components/Dialog/DialogInquiry";
 
 export default function Inquiry() {
@@ -9,7 +9,7 @@ export default function Inquiry() {
   const [open, setOpen] = useState(false);
 
   function loadList() {
-    getAllItemsFromInquiryList()
+    readInquiryItems()
       .then((res) => res.json())
       .then((res) => {
         setItems(res || []);

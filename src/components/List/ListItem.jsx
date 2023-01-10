@@ -20,9 +20,9 @@ import DialogItem from "../Dialog/DialogItem";
 
 //Services
 import {
-  addItemToInquiryList,
-  deleteItemFromInquiryList,
-} from "../../services/inquiryService";
+  createInquiryItem,
+  deleteInquiryItem,
+} from "../../services/inquiryItemService";
 import { deleteItem } from "../../services/itemService";
 import { addItemToPurchaseList } from "../../services/purchaseService";
 import { deleteItemFromPurchaseList } from "../../services/purchaseService";
@@ -47,7 +47,7 @@ export default function ListItem({ item }) {
     item.unitSalePrice = 0;
     item.unitPurchasePrice = 0;
 
-    addItemToInquiryList(item)
+    createInquiryItem(item)
       .then(() => {
         navigate("/main/inquiry");
         handleMessageBox("success", true, "Item enviado para cotação");
@@ -126,7 +126,7 @@ export default function ListItem({ item }) {
   }
 
   async function deleteFromItemInquiry(data) {
-    await deleteItemFromInquiryList(data)
+    await deleteInquiryItem(data)
       .then(() => {
         handleMessageBox("success", true, "Item removido");
       })

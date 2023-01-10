@@ -1,9 +1,10 @@
-import { setInquiryList } from "../../services/inquiryService";
 import { useDispatch } from "react-redux";
 import {
   displayMessageBox,
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
+import { createInquiryHistory } from "../../services/inquiryHistoryService";
+import { createInquiryList } from "../../services/inquiryListService";
 
 export default function DialogInquiry({ open, onClose, pending }) {
   const dispatch = useDispatch();
@@ -12,24 +13,31 @@ export default function DialogInquiry({ open, onClose, pending }) {
     if (elementId) onClose();
   }
 
-  function sendInquiry(e) {
+  async function sendInquiry(e) {
     e.preventDefault();
 
     const title = new Date().toISOString().split("T")[0];
 
-    const inquiry = { title, items: pending() };
-
-    setInquiryList(inquiry)
+    await createInquiryHistory({ title })
       .then((res) => res.json())
       .then((res) => {
-        if (res.status === 200) {
-          handleMessageBox("success", "Cotação criada com sucesso!");
-        } else {
-          handleMessageBox("Failed", "Nao foi possível criar a cotação!");
-        }
-        onClose();
+        const data = {
+          idInquiryHistory: res.idInquiryHistory,
+          items: pending(),
+        };
+        createInquiryList(data)
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
+            handleMessageBox("success", "Cotação criada com sucesso!");
+          })
+          .catch((err) => {
+            console.log(err);
+            handleMessageBox("Failed", "Nao foi possível criar a cotação!");
+          });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         handleMessageBox("Failed", "Nao foi possível criar a cotação!");
       })
       .finally(() => {

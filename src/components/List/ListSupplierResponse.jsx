@@ -6,13 +6,12 @@ import {
   displayMessageBox,
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
-import { updateInquiryList } from "../../services/inquiryService.js";
+import { updateInquiryList } from "../../services/inquiryListService.js";
 
 export default function ListSupplierResponse({
-  inquiryId,
-  supplierId,
-  supplierInquiryId,
+  idInquiryList,
   item,
+  reloadInquiryListByCompany,
 }) {
   const dispatch = useDispatch();
   const [unitPrice, setUnitPrice] = useState("");
@@ -25,9 +24,7 @@ export default function ListSupplierResponse({
     e.preventDefault();
 
     const updatePrice = {
-      inquiryId,
-      supplierId,
-      supplierInquiryId,
+      idInquiryList,
       idItem: item.idItem,
       unitPrice,
     };
@@ -37,6 +34,7 @@ export default function ListSupplierResponse({
       .then((res) => {
         if (res.status === 200) {
           handleMessageBox("success", "Price updated");
+          reloadInquiryListByCompany();
         } else {
           handleMessageBox("failed", "Could not update the price");
         }
@@ -58,6 +56,7 @@ export default function ListSupplierResponse({
       dispatch(hideMessageBox());
     }, 2500);
   }
+
   return (
     <li className="row justify-content-between align-items-end py-4 gap-2">
       <div className="row gap-4">
