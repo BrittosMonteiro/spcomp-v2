@@ -29,7 +29,13 @@ export default function MainRoutes() {
   return (
     <Routes>
       {/* <PrivateRoute /> */}
-      {userSession.role !== 4 ? (
+      {userSession && userSession.role === 4 ? (
+        <>
+          <Route path="/supplier/response" exact element={<PrivateRoute />}>
+            <Route path="/supplier/response" element={<SupplierResponse />} />
+          </Route>
+        </>
+      ) : (
         <>
           <Route path="/" exact element={<PrivateRoute />}>
             <Route path="/" element={<Index />} />
@@ -75,13 +81,7 @@ export default function MainRoutes() {
             <Route path="/admin-route/users" element={<Users />} />
           </Route>
         </>
-      ) : null}
-
-      {userSession.role === 4 ? (
-        <Route path="/supplier/response" exact element={<PrivateRoute />}>
-          <Route path="/supplier/response" element={<SupplierResponse />} />
-        </Route>
-      ) : null}
+      )}
 
       {/* <PublicRoute /> */}
       <Route path="/supplier/login" exact element={<PublicRoute />}>

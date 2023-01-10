@@ -8,12 +8,17 @@ import {
 } from "../../store/actions/messageBoxAction";
 import { updateInquiryList } from "../../services/inquiryService.js";
 
-export default function ListSupplierResponse({ inquiryId, supplierId, item }) {
+export default function ListSupplierResponse({
+  inquiryId,
+  supplierId,
+  supplierInquiryId,
+  item,
+}) {
   const dispatch = useDispatch();
   const [unitPrice, setUnitPrice] = useState("");
 
   useEffect(() => {
-    setUnitPrice(item.unitPrice);
+    setUnitPrice(item.unitSalePrice);
   }, [item]);
 
   function updateItemPrice(e) {
@@ -22,13 +27,19 @@ export default function ListSupplierResponse({ inquiryId, supplierId, item }) {
     const updatePrice = {
       inquiryId,
       supplierId,
+      supplierInquiryId,
       idItem: item.idItem,
       unitPrice,
     };
 
     updateInquiryList(updatePrice)
-      .then(() => {
-        handleMessageBox("success", "Price updated");
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          handleMessageBox("success", "Price updated");
+        } else {
+          handleMessageBox("failed", "Could not update the price");
+        }
       })
       .catch((err) => {
         console.log(err);

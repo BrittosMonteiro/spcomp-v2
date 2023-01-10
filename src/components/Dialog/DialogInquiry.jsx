@@ -8,7 +8,7 @@ import {
 export default function DialogInquiry({ open, onClose, pending }) {
   const dispatch = useDispatch();
   function closeModal(e) {
-    const elementId = e.target.id === "overlay";
+    const elementId = e.target.id === "overlay" || e.target.id === "btn_close";
     if (elementId) onClose();
   }
 
@@ -60,6 +60,7 @@ export default function DialogInquiry({ open, onClose, pending }) {
                 <button
                   className="font-medium font-md bg-red-1 text-white-1 pa-2 border-radius-soft"
                   type="button"
+                  id="btn_close"
                   onClick={(e) => closeModal(e)}
                 >
                   Cancelar

@@ -37,6 +37,7 @@ export default function SupplierResponse() {
                 <React.Fragment key={index}>
                   <ListSupplierResponse
                     inquiryId={inquiry.id}
+                    supplierInquiryId={inquiry.idSupplierInquiry}
                     supplierId={userSession.token}
                     item={item}
                   />
