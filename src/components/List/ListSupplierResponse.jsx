@@ -1,7 +1,7 @@
 import { Copy } from "phosphor-react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   displayMessageBox,
   hideMessageBox,
@@ -14,6 +14,9 @@ export default function ListSupplierResponse({
   reloadInquiryListByCompany,
 }) {
   const dispatch = useDispatch();
+  const userSession = useSelector((state) => {
+    return state.login;
+  });
   const [unitPrice, setUnitPrice] = useState("");
 
   useEffect(() => {
@@ -39,8 +42,7 @@ export default function ListSupplierResponse({
           handleMessageBox("failed", "Could not update the price");
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         handleMessageBox("failed", "Could not update the price");
       });
   }
@@ -101,18 +103,23 @@ export default function ListSupplierResponse({
           id="unitPrice"
           type={"text"}
           placeholder="Unit price"
-          className="font-medium font-md"
+          className={`font-medium font-md bg-transparent ${
+            userSession.role !== 4 ? "text-grey-1" : "text-dark-3"
+          }`}
           style={{ maxWidth: "100px" }}
           defaultValue={unitPrice}
           onChange={(e) => setUnitPrice(e.target.value)}
+          disabled={userSession.role !== 4}
         />
-        <button
-          type="submit"
-          className="bg-green-1 text-white-1 pa-2"
-          style={{ overflow: "hidden" }}
-        >
-          Set price
-        </button>
+        {userSession.role === 4 ? (
+          <button
+            type="submit"
+            className="bg-green-1 text-white-1 pa-2"
+            style={{ overflow: "hidden" }}
+          >
+            Set price
+          </button>
+        ) : null}
       </form>
     </li>
   );

@@ -30,23 +30,27 @@ export default function MainRoutes() {
   return (
     <Routes>
       {/* <PrivateRoute /> */}
-      {userSession && userSession.role === 4 ? (
+      {userSession.isLogged &&
+      (userSession.role === 4 || userSession.isAdmin) ? (
         <>
-          <Route path="/supplier/response" exact element={<PrivateRoute />}>
-            <Route path="/supplier/response" element={<SupplierResponse />} />
+          <Route path="/inquiry/list" exact element={<PrivateRoute />}>
+            <Route path="/inquiry/list" element={<SupplierResponse />} />
           </Route>
           <Route
-            path="/inquiry/available/:idInquiryHistory/:title"
+            path="/inquiry/list/available/:idInquiryHistory/:title"
             exact
             element={<PrivateRoute />}
           >
             <Route
-              path="/inquiry/available/:idInquiryHistory/:title"
+              path="/inquiry/list/available/:idInquiryHistory/:title"
               element={<InquiryAvailable />}
             />
           </Route>
         </>
-      ) : (
+      ) : null}
+      {userSession.isLogged &&
+      ((userSession.role >= 1 && userSession.role <= 3) ||
+        userSession.isAdmin) ? (
         <>
           <Route path="/" exact element={<PrivateRoute />}>
             <Route path="/" element={<Index />} />
@@ -79,20 +83,31 @@ export default function MainRoutes() {
           <Route path="/main/profile" exact element={<PrivateRoute />}>
             <Route path="/main/profile" element={<Profile />} />
           </Route>
+          {userSession.isAdmin ? (
+            <>
+              <Route
+                path="/admin-route/customers"
+                exact
+                element={<PrivateRoute />}
+              >
+                <Route path="/admin-route/customers" element={<Customers />} />
+              </Route>
 
-          <Route path="/admin-route/customers" exact element={<PrivateRoute />}>
-            <Route path="/admin-route/customers" element={<Customers />} />
-          </Route>
+              <Route
+                path="/admin-route/suppliers"
+                exact
+                element={<PrivateRoute />}
+              >
+                <Route path="/admin-route/suppliers" element={<Suppliers />} />
+              </Route>
 
-          <Route path="/admin-route/suppliers" exact element={<PrivateRoute />}>
-            <Route path="/admin-route/suppliers" element={<Suppliers />} />
-          </Route>
-
-          <Route path="/admin-route/users" exact element={<PrivateRoute />}>
-            <Route path="/admin-route/users" element={<Users />} />
-          </Route>
+              <Route path="/admin-route/users" exact element={<PrivateRoute />}>
+                <Route path="/admin-route/users" element={<Users />} />
+              </Route>
+            </>
+          ) : null}
         </>
-      )}
+      ) : null}
 
       {/* <PublicRoute /> */}
       <Route path="/supplier/login" exact element={<PublicRoute />}>

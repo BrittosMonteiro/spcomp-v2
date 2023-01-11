@@ -27,17 +27,14 @@ export default function DialogInquiry({ open, onClose, pending }) {
         };
         createInquiryList(data)
           .then((res) => res.json())
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             handleMessageBox("success", "Cotação criada com sucesso!");
           })
-          .catch((err) => {
-            console.log(err);
+          .catch(() => {
             handleMessageBox("Failed", "Nao foi possível criar a cotação!");
           });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         handleMessageBox("Failed", "Nao foi possível criar a cotação!");
       })
       .finally(() => {

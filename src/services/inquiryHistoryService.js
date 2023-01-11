@@ -15,6 +15,10 @@ export async function readInquiryHistory() {
   return await fetch(`${API_URL}`);
 }
 
+export async function readActiveInquiryHistory() {
+  return await fetch(`${API_URL}/active`);
+}
+
 export async function updateInquiryHistory(data) {
   return await fetch(`${API_URL}`, {
     method: "PUT",

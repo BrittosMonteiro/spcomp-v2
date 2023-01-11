@@ -31,30 +31,36 @@ export default function Header() {
           <span className="font-medium font-md">
             {userSession.role !== 4 ? "Olá" : "Hi"}, {userSession.username}
           </span>
-          {userSession.role !== 4 ? (
-            <ul className="font-medium font-md">
-              <li className="pb-1">
-                <Link to="/main/">Início</Link>
-              </li>
-              <li className="pb-1">
-                <Link to="/main/items">Itens</Link>
-              </li>
-              <li className="pb-1">
-                <Link to="/main/inquiry">Cotações</Link>
-              </li>
-              {userSession.isAdmin && (
+          <ul className="font-medium font-md">
+            {userSession.role >= 1 && userSession.role <= 3 ? (
+              <>
                 <li className="pb-1">
-                  <Link to="/main/purchase">Compras</Link>
+                  <Link to="/main/">Início</Link>
                 </li>
-              )}
+                <li className="pb-1">
+                  <Link to="/main/items">Itens</Link>
+                </li>
+                <li className="pb-1">
+                  <Link to="/main/inquiry">Cotações</Link>
+                </li>
+                {userSession.isAdmin && (
+                  <li className="pb-1">
+                    <Link to="/main/purchase">Compras</Link>
+                  </li>
+                )}
+                <li className="pb-1">
+                  <Link to="/main/stock">Estoque</Link>
+                </li>
+                <li className="pb-1">
+                  <Link to="/main/sales">Vendas</Link>
+                </li>
+              </>
+            ) : (
               <li className="pb-1">
-                <Link to="/main/stock">Estoque</Link>
+                <Link to="/inquiry/list">Inquiries</Link>
               </li>
-              <li className="pb-1">
-                <Link to="/main/sales">Vendas</Link>
-              </li>
-            </ul>
-          ) : null}
+            )}
+          </ul>
           <div className="header-icons gap-3">
             <DropdownMenu.Root>
               <DropdownMenu.Trigger className="bg-transparent">
