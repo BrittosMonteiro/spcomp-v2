@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //Icons
 import {
@@ -173,8 +173,13 @@ export default function ListItem({ item }) {
         <div className="row gap-4">
           <div className="column gap-2">
             <div className="row gap-2">
-              <span className="font-medium font-md">{item.description}</span>-
-              <span className="font-medium font-md">{item.brand}</span>-
+              <Link
+                to={`/admin-route/inquiry/item/${item.id}`}
+                className="font-medium font-md text-dark-3"
+              >
+                {item.description}
+              </Link>
+              -<span className="font-medium font-md">{item.brand}</span>-
               <span className="font-medium font-md">{item.type}</span>-
               <span className="font-medium font-md">{item.encap}</span>
             </div>

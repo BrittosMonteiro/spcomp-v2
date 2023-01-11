@@ -12,17 +12,27 @@ export async function createInquiryList(data) {
 }
 
 export async function readInquiryList(data) {
-  return await fetch(`${API_URL}/${data.idInquiryHistory}`);
+  const { idInquiryHistory } = data;
+  return await fetch(`${API_URL}/${idInquiryHistory}`);
 }
 
 export async function readInquiryListByCompany(data) {
+  const { idInquiryHistory, idSupplier } = data;
   return await fetch(
-    `${API_URL}/listByCompany/${data.idInquiryHistory}/${data.idSupplier}`,
+    `${API_URL}/listByCompany/${idInquiryHistory}/${idSupplier}`,
     {
       method: "GET",
       headers: { "Content-type": "application/json" },
     }
   );
+}
+
+export async function readSingleItemFromInquiryList(data) {
+  const { idInquiryItem } = data;
+  return await fetch(`${API_URL}/single/${idInquiryItem}`, {
+    method: "GET",
+    headers: { "Content-type": "application/json" },
+  });
 }
 
 export async function updateInquiryList(data) {
