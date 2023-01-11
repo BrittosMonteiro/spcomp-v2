@@ -34,7 +34,7 @@ import {
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
 
-export default function ListItem({ item, hasLink }) {
+export default function ListItem({ item, hasLink, reloadList }) {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -120,6 +120,7 @@ export default function ListItem({ item, hasLink }) {
     await deleteItem(data)
       .then(() => {
         handleMessageBox("success", true, "Item removido");
+        reloadList();
       })
       .catch(() => {
         handleMessageBox("failed", true, "Nao foi possível remover");
@@ -130,6 +131,7 @@ export default function ListItem({ item, hasLink }) {
     await deleteInquiryItem(data)
       .then(() => {
         handleMessageBox("success", true, "Item removido");
+        reloadList();
       })
       .catch(() => {
         handleMessageBox("failed", true, "Nao foi possível remover");

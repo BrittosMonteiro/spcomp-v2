@@ -45,9 +45,11 @@ export default function Inquiry() {
     <>
       <div className="row justify-content-between align-items-center">
         <PageTitle title={"Cotações"} />
-        <span className="font-light font-md" onClick={() => setOpen(true)}>
-          Cotar itens pendentes ({pendingItems().length})
-        </span>
+        {pendingItems().length > 0 ? (
+          <span className="font-light font-md" onClick={() => setOpen(true)}>
+            Cotar itens pendentes ({pendingItems().length})
+          </span>
+        ) : null}
         <DialogInquiry
           open={open}
           onClose={closeModal}

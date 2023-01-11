@@ -11,7 +11,7 @@ export default function List(props) {
         >
           {props.list.map((item, index) => (
             <React.Fragment key={index}>
-              <ListItem item={item} hasLink={props.hasLink} />
+              <ListItem item={item} hasLink={props.hasLink} reloadList={props.reloadList} />
 
               {index === 0 || index < props.list.length - 1 ? <hr /> : null}
             </React.Fragment>
