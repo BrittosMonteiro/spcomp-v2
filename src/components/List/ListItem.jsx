@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   ArchiveBox,
   CheckCircle,
+  Copy,
   DotsThreeVertical,
   PencilSimple,
   Question,
@@ -33,7 +34,7 @@ import {
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
 
-export default function ListItem({ item }) {
+export default function ListItem({ item, hasLink }) {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -167,24 +168,56 @@ export default function ListItem({ item }) {
     setOpen(false);
   }
 
+  function copyText(text) {
+    navigator.clipboard.writeText(text);
+    handleMessageBox("success", "Texto copiado");
+  }
+
   return (
-    <li>
-      <div className="row justify-content-between align-items-center py-2">
-        <div className="row gap-4">
-          <div className="column gap-2">
-            <div className="row gap-2">
+    <li className="row justify-content-between align-items-end py-4 gap-2">
+      <div className="row gap-4">
+        {item.quantity ? (
+          <div className="column gap-1">
+            <span className="font-light font-sm">Quantity</span>
+            <span className="font-medium font-md">{item.quantity}</span>
+          </div>
+        ) : null}
+        <div className="column gap-1">
+          <span className="font-light font-sm">Description</span>
+          <div className="row gap-2">
+            {hasLink ? (
               <Link
                 to={`/admin-route/inquiry/item/${item.id}`}
                 className="font-medium font-md text-dark-3"
               >
                 {item.description}
               </Link>
-              -<span className="font-medium font-md">{item.brand}</span>-
-              <span className="font-medium font-md">{item.type}</span>-
-              <span className="font-medium font-md">{item.encap}</span>
-            </div>
+            ) : (
+              <span className="font-medium font-md">{item.description}</span>
+            )}
+            <button type="button" className="bg-transparent">
+              <Copy
+                alt="Copar texto"
+                className="icon-default"
+                onClick={() => copyText(item.description)}
+              />
+            </button>
           </div>
         </div>
+        <div className="column gap-1">
+          <span className="font-light font-sm">Type</span>
+          <span className="font-medium font-md">{item.type}</span>
+        </div>
+        <div className="column gap-1">
+          <span className="font-light font-sm">Encap</span>
+          <span className="font-medium font-md">{item.encap}</span>
+        </div>
+        <div className="column gap-1">
+          <span className="font-light font-sm">Brand</span>
+          <span className="font-medium font-md">{item.brand}</span>
+        </div>
+      </div>
+      <div className="row gap-4">
         <div className="row gap-2">
           {item.unitPurchasePrice && item.unitSalePrice ? (
             <CheckCircle

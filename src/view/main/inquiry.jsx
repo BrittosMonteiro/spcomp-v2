@@ -54,7 +54,7 @@ export default function Inquiry() {
           pending={pendingItems}
         />
       </div>
-      <List list={items} reloadList={reloadList} />
+      <List list={items} reloadList={reloadList} hasLink={true} />
     </>
   );
 }

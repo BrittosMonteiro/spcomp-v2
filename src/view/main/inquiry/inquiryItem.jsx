@@ -58,7 +58,6 @@ export default function InquiryItem() {
                     supplierId={userSession.token}
                     item={item}
                     btnChoosePrice={true}
-                    // reloadInquiryListByCompany={reloadInquiryListByCompany}
                   />
                   <hr />
                 </React.Fragment>
