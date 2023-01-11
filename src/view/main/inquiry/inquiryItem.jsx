@@ -57,6 +57,7 @@ export default function InquiryItem() {
                     idInquiryList={company.idInquiryList}
                     supplierId={userSession.token}
                     item={item}
+                    btnChoosePrice={true}
                     // reloadInquiryListByCompany={reloadInquiryListByCompany}
                   />
                   <hr />

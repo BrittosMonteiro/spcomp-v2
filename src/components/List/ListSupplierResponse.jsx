@@ -7,10 +7,12 @@ import {
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
 import { updateInquiryList } from "../../services/inquiryListService.js";
+import { updateInquiryItemPrice } from "../../services/inquiryItemService";
 
 export default function ListSupplierResponse({
   idInquiryList,
   item,
+  btnChoosePrice,
   reloadInquiryListByCompany,
 }) {
   const dispatch = useDispatch();
@@ -57,6 +59,22 @@ export default function ListSupplierResponse({
     setTimeout(() => {
       dispatch(hideMessageBox());
     }, 2500);
+  }
+
+  async function setInquiryItemPrice(item) {
+    const { id, unitSalePrice } = item;
+    await updateInquiryItemPrice({ idInquiryItem: id, unitSalePrice })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          handleMessageBox("success", "Preço definido");
+        } else {
+          handleMessageBox("failed", "Não foi possível definir o preço");
+        }
+      })
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível definir o preço");
+      });
   }
 
   return (
@@ -118,6 +136,16 @@ export default function ListSupplierResponse({
             style={{ overflow: "hidden" }}
           >
             Set price
+          </button>
+        ) : null}
+        {userSession.isAdmin && btnChoosePrice ? (
+          <button
+            type="button"
+            className="bg-green-1 text-white-1 pa-2"
+            style={{ overflow: "hidden" }}
+            onClick={() => setInquiryItemPrice(item)}
+          >
+            Escolher
           </button>
         ) : null}
       </form>

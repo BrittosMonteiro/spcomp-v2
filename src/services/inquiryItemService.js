@@ -23,6 +23,14 @@ export async function updateInquiryItem(data) {
   });
 }
 
+export async function updateInquiryItemPrice(data) {
+  return await fetch(`${API_URL}/updateInquiryItemPrice`, {
+    method: "PUT",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
 export async function deleteInquiryItem(data) {
   return fetch(`${API_URL}`, {
     method: "DELETE",
