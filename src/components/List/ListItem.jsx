@@ -178,12 +178,14 @@ export default function ListItem({ item, hasLink, reloadList }) {
   return (
     <li className="row justify-content-between align-items-end py-4 gap-2">
       <div className="row gap-4">
-        {item.quantity ? (
-          <div className="column gap-1">
-            <span className="font-light font-sm">Quantity</span>
+        <div className="column gap-1">
+          <span className="font-light font-sm">Quantity</span>
+          {item.quantity ? (
             <span className="font-medium font-md">{item.quantity}</span>
-          </div>
-        ) : null}
+          ) : (
+            "-"
+          )}
+        </div>
         <div className="column gap-1">
           <span className="font-light font-sm">Description</span>
           <div className="row gap-2">
@@ -240,7 +242,12 @@ export default function ListItem({ item, hasLink, reloadList }) {
           >
             <PencilSimple className="icon-default" />
           </button>
-          <DialogItem item={item} onClose={closeModal} open={open} />
+          <DialogItem
+            item={item}
+            onClose={closeModal}
+            reloadList={reloadList}
+            open={open}
+          />
 
           <DropdownMenu.Root>
             <DropdownMenu.Trigger className="bg-transparent">

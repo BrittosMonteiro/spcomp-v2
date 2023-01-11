@@ -23,7 +23,7 @@ export default function DialogInquiry({ open, onClose, pending }) {
       .then((res) => {
         const data = {
           idInquiryHistory: res.idInquiryHistory,
-          items: pending(),
+          items: pending,
         };
         createInquiryList(data)
           .then((res) => res.json())

@@ -10,7 +10,7 @@ import {
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
 
-export default function DialogItemDefault({ item, open, onClose }) {
+export default function DialogItemDefault({ item, open, onClose, reloadList }) {
   const dispatch = useDispatch();
   const userSession = useSelector((state) => {
     return state.login;
@@ -132,6 +132,7 @@ export default function DialogItemDefault({ item, open, onClose }) {
     createItem(data)
       .then(() => {
         onClose();
+        reloadList();
       })
       .catch(() => {
         handleMessageBox("failed", true, "Erro ao tentar criar um novo item");
@@ -143,7 +144,7 @@ export default function DialogItemDefault({ item, open, onClose }) {
       .then(() => {
         handleMessageBox("success", true, "Item atualizado");
         onClose();
-        // props.reloadList();
+        reloadList();
       })
       .catch(() => {
         handleMessageBox("faile", true, "Não foi possível atualizar o item");
@@ -155,7 +156,7 @@ export default function DialogItemDefault({ item, open, onClose }) {
       .then(() => {
         handleMessageBox("success", true, "Item atualizado");
         onClose();
-        // props.reloadList();
+        reloadList();
       })
       .catch(() => {
         handleMessageBox("faile", true, "Não foi possível atualizar o item");
@@ -167,7 +168,7 @@ export default function DialogItemDefault({ item, open, onClose }) {
       .then(() => {
         handleMessageBox("success", true, "Item atualizado");
         onClose();
-        // props.reloadList();
+        reloadList();
       })
       .catch(() => {
         handleMessageBox("faile", true, "Não foi possível atualizar o item");

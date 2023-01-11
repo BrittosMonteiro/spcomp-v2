@@ -52,7 +52,7 @@ export default function InquiryItem() {
                 </h1>
               </div>
               {company.item.map((item) => (
-                <React.Fragment key={item.id}>
+                <React.Fragment key={item.idInquiryItem}>
                   <ListSupplierResponse
                     idInquiryList={company.idInquiryList}
                     supplierId={userSession.token}

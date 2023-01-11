@@ -57,25 +57,33 @@ export default function Items() {
       <div className="row justify-content-between align-items-center">
         <PageTitle title={"Itens cadastrados"} />
         <span onClick={() => setOpen(true)}>Adicionar novo item</span>
-        <DialogItem open={open} onClose={closeModal} />
+        <DialogItem open={open} onClose={closeModal} reloadList={reloadList} />
       </div>
-      <div className="filter column mt-4">
-        <div className="row gap-2 py-2">
-          <MagnifyingGlass className="icon-default" />
-          <input
-            type={"text"}
-            name="item_description"
-            id="item_description"
-            placeholder="Pesquisar"
-            className="font-medium font-md"
-            defaultValue={textSearch}
-            onChange={(e) => search(e.target.value)}
-          />
+      {1 + 1 === 3 && (
+        <div className="filter column mt-4">
+          <div className="row gap-2 py-2">
+            <MagnifyingGlass className="icon-default" />
+            <input
+              type={"text"}
+              name="item_description"
+              id="item_description"
+              placeholder="Pesquisar"
+              className="font-medium font-md"
+              defaultValue={textSearch}
+              onChange={(e) => search(e.target.value)}
+            />
+          </div>
+          <span className="font-medium font-md mt-4">Filtrar</span>
+          <div className="row gap-8 mt-4"></div>
         </div>
-        <span className="font-medium font-md mt-4">Filtrar</span>
-        <div className="row gap-8 mt-4"></div>
-      </div>
-      <List list={items} reloadList={reloadList} />
+      )}
+      {items.length > 0 ? (
+        <List list={items} reloadList={reloadList} />
+      ) : (
+        <div className="mx-auto">
+          <p className="font-lg font-light">Não há itens cadastrados</p>
+        </div>
+      )}
     </>
   );
 }

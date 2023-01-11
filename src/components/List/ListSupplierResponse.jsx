@@ -8,6 +8,7 @@ import {
 } from "../../store/actions/messageBoxAction";
 import { updateInquiryList } from "../../services/inquiryListService.js";
 import { updateInquiryItemPrice } from "../../services/inquiryItemService";
+import { getCurrencyValue } from "../../utils/currencyApi";
 
 export default function ListSupplierResponse({
   idInquiryList,
@@ -19,10 +20,10 @@ export default function ListSupplierResponse({
   const userSession = useSelector((state) => {
     return state.login;
   });
-  const [unitPrice, setUnitPrice] = useState("");
+  const [unitPurchasePrice, setUnitPurchasePrice] = useState("");
 
   useEffect(() => {
-    setUnitPrice(item.unitSalePrice);
+    setUnitPurchasePrice(item.unitPurchasePrice);
   }, [item]);
 
   function updateItemPrice(e) {
@@ -31,7 +32,7 @@ export default function ListSupplierResponse({
     const updatePrice = {
       idInquiryList,
       idItem: item.idItem,
-      unitPrice,
+      unitPurchasePrice,
     };
 
     updateInquiryList(updatePrice)
@@ -62,8 +63,16 @@ export default function ListSupplierResponse({
   }
 
   async function setInquiryItemPrice(item) {
-    const { id, unitSalePrice } = item;
-    await updateInquiryItemPrice({ idInquiryItem: id, unitSalePrice })
+    const { idInquiryItem, unitPurchasePrice } = item;
+    const { dolar } = await getCurrencyValue();
+
+    const unitSalePrice = unitPurchasePrice * dolar;
+
+    await updateInquiryItemPrice({
+      idInquiryItem,
+      unitPurchasePrice,
+      unitSalePrice,
+    })
       .then((res) => res.json())
       .then((res) => {
         if (res.status === 200) {
@@ -125,8 +134,8 @@ export default function ListSupplierResponse({
             userSession.role !== 4 ? "text-grey-1" : "text-dark-3"
           }`}
           style={{ maxWidth: "100px" }}
-          defaultValue={unitPrice}
-          onChange={(e) => setUnitPrice(e.target.value)}
+          defaultValue={unitPurchasePrice}
+          onChange={(e) => setUnitPurchasePrice(e.target.value)}
           disabled={userSession.role !== 4}
         />
         {userSession.role === 4 ? (

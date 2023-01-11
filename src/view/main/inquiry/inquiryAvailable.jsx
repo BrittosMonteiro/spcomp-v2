@@ -90,8 +90,8 @@ export default function InquiryAvailable() {
                   </h1>
                 </div>
               ) : null}
-              {company.items.map((item) => (
-                <>
+              {company.items.map((item, index) => (
+                <React.Fragment key={index}>
                   <ListSupplierResponse
                     idInquiryList={company.idInquiryList}
                     supplierId={userSession.token}
@@ -99,7 +99,7 @@ export default function InquiryAvailable() {
                     reloadInquiryListByCompany={reloadInquiryListByCompany}
                   />
                   <hr />
-                </>
+                </React.Fragment>
               ))}
             </ol>
           ))}

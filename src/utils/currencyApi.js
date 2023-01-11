@@ -6,5 +6,10 @@ export async function getCurrencyValue() {
 
   const api_dolar_url = `https://economia.awesomeapi.com.br/json/daily/${currency_ori}-${currency_des}/?start_date=${formatedDate}&end_date=${formatedDate}`;
 
-  return await fetch(`${api_dolar_url}`);
+  return await fetch(`${api_dolar_url}`)
+    .then((res) => res.json())
+    .then((res) => {
+      return { dolar: res[0].ask };
+    })
+    .catch(() => {});
 }
