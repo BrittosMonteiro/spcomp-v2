@@ -13,15 +13,20 @@ import {
 export default function Items() {
   const dispatch = useDispatch();
 
-  const [textSearch, setTextSearch] = useState("");
   const [items, setItems] = useState([]);
+  const [originalItems, setOriginalItems] = useState([]);
   const [open, setOpen] = useState(false);
+  const [descriptionSearch, setDescriptionSearch] = useState("");
+  const [typeSearch, setTypeSearch] = useState("");
+  const [encapSearch, setEncapSearch] = useState("");
+  const [brandSearch, setBrandSearch] = useState("");
 
   function loadList() {
     getAllItems()
       .then((res) => res.json())
       .then((res) => {
         setItems(res || []);
+        setOriginalItems(res || []);
       })
       .catch(() => {
         handleMessageBox("Faile", true, "Não foi possível carregar os itens");
@@ -32,8 +37,19 @@ export default function Items() {
     loadList();
   }, []);
 
-  function search(txt) {
-    setTextSearch(txt);
+  function filter(description = "", type = "", encap = "", brand = "") {
+    let newItems = [];
+    if (description || type || encap || brand) {
+      newItems = originalItems.filter(
+        (item) =>
+          item.description.toLowerCase().indexOf(description.toLowerCase()) >=
+            0 ||
+          item.type.toLowerCase() === type.toLowerCase() ||
+          item.encap.toLowerCase() === encap.toLowerCase() ||
+          item.brand.toLowerCase() === brand.toLowerCase()
+      );
+      setItems(newItems);
+    }
   }
 
   function reloadList() {
@@ -59,22 +75,88 @@ export default function Items() {
         <span onClick={() => setOpen(true)}>Adicionar novo item</span>
         <DialogItem open={open} onClose={closeModal} reloadList={reloadList} />
       </div>
-      {1 + 1 === 3 && (
-        <div className="filter column mt-4">
-          <div className="row gap-2 py-2">
-            <MagnifyingGlass className="icon-default" />
-            <input
-              type={"text"}
-              name="item_description"
-              id="item_description"
-              placeholder="Pesquisar"
-              className="font-medium font-md"
-              defaultValue={textSearch}
-              onChange={(e) => search(e.target.value)}
-            />
+      {1 + 1 === 2 && (
+        <div className="column mt-4 gap-2">
+          <div className="row gap-2">
+            <div className="column gap-2">
+              <label htmlFor="txt_description" className="font-sm font-light">
+                Descrição
+              </label>
+              <input
+                type={"text"}
+                name="txt_description"
+                id="txt_description"
+                placeholder="Descrição"
+                className="font-medium font-md border-default border-radius-soft pa-2"
+                defaultValue={descriptionSearch}
+                onChange={(e) => {
+                  setDescriptionSearch(e.target.value);
+                }}
+              />
+            </div>
+
+            <div className="column gap-2">
+              <label htmlFor="txt_type" className="font-sm font-light">
+                Tipo
+              </label>
+              <input
+                type={"text"}
+                name="txt_type"
+                id="txt_type"
+                placeholder="Tipo"
+                className="font-medium font-md border-default border-radius-soft pa-2"
+                defaultValue={typeSearch}
+                onChange={(e) => {
+                  setTypeSearch(e.target.value);
+                }}
+              />
+            </div>
+
+            <div className="column gap-2">
+              <label htmlFor="txt_encap" className="font-sm font-light">
+                Encapsulamento
+              </label>
+              <input
+                type={"text"}
+                name="txt_encap"
+                id="txt_encap"
+                placeholder="Encapsulamento"
+                className="font-medium font-md border-default border-radius-soft pa-2"
+                defaultValue={encapSearch}
+                onChange={(e) => {
+                  setEncapSearch(e.target.value);
+                }}
+              />
+            </div>
+
+            <div className="column gap-2">
+              <label htmlFor="txt_brand" className="font-sm font-light">
+                Marca
+              </label>
+              <input
+                type={"text"}
+                name="txt_brand"
+                id="txt_brand"
+                placeholder="Marca"
+                className="font-medium font-md border-default border-radius-soft pa-2"
+                defaultValue={brandSearch}
+                onChange={(e) => {
+                  setBrandSearch(e.target.value);
+                }}
+              />
+            </div>
           </div>
-          <span className="font-medium font-md mt-4">Filtrar</span>
-          <div className="row gap-8 mt-4"></div>
+          <div className="row">
+            <button
+              type="button"
+              className="row align-items-center gap-2 font-md font-light pa-2 bg-green-1 text-white-1 border-radius-soft"
+              onClick={() =>
+                filter(descriptionSearch, typeSearch, encapSearch, brandSearch)
+              }
+            >
+              <MagnifyingGlass /> Filtrar
+            </button>
+          </div>
         </div>
       )}
       {items.length > 0 ? (
