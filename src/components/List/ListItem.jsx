@@ -180,6 +180,28 @@ export default function ListItem({ item, hasLink, reloadList }) {
     handleMessageBox("success", "Texto copiado");
   }
 
+  async function createInquiryItemCopy() {
+    const data = {
+      ...item,
+      idUser: userSession.token,
+      nameUser: userSession.username,
+      unitSalePrice: 0,
+      unitPurchasePrice: 0,
+    };
+    await createInquiryItem(data)
+      .then(() => {
+        handleMessageBox("success", true, "Item copiado");
+        reloadList();
+      })
+      .catch(() => {
+        handleMessageBox(
+          "success",
+          true,
+          "Não foi possível copiar o item"
+        );
+      });
+  }
+
   return (
     <li className="column py-4 gap-2">
       <div className="row justify-content-between">
@@ -308,6 +330,14 @@ export default function ListItem({ item, hasLink, reloadList }) {
                       <TrashSimple className="icon-default" /> Remover
                     </DropdownMenu.Item>
                   ) : null}
+                  {item.idItem && (
+                    <DropdownMenu.Item
+                      className="row align-items-center gap-2"
+                      onClick={() => createInquiryItemCopy()}
+                    >
+                      <Copy className="icon-default" /> Criar cópia
+                    </DropdownMenu.Item>
+                  )}
                 </DropdownMenu.Content>
               </DropdownMenu.Portal>
             </DropdownMenu.Root>

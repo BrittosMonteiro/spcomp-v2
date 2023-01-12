@@ -63,7 +63,6 @@ export default function Items() {
           reloadList={reloadList}
           idUser={userSession.token}
         />
-        {userSession.token}
       </div>
       {originalItems.length > 0 ? (
         <FilterItems setItems={setItems} originalItems={originalItems} />
