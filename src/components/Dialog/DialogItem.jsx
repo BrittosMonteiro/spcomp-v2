@@ -303,30 +303,37 @@ export default function DialogItemDefault({ item, open, onClose, reloadList }) {
                       <label htmlFor="item_unit_sale_price">
                         Preço de compra unitário
                       </label>
-                      <input
-                        type={"text"}
-                        name="item_unit_sale_price"
-                        id="item_unit_sale_price"
-                        defaultValue={unitSalePrice}
-                        placeholder="Preço de compra unitário"
-                        className="border-default pa-2 border-radius-soft font-medium font-md"
-                        onChange={(e) => setUnitSalePrice(e.target.value)}
-                      />
+                      <div className="row border-default pa-2 gap-2 border-radius-soft">
+                        <span className="font-medium font-md">USD</span>
+                        <input
+                          type={"text"}
+                          name="item_unit_sale_price"
+                          id="item_unit_sale_price"
+                          defaultValue={unitPurchasePrice}
+                          className="font-medium font-md"
+                          placeholder="Preço de compra unitário"
+                          onChange={(e) => setUnitSalePrice(e.target.value)}
+                          disabled={true}
+                        />
+                      </div>
                     </div>
                   )}
                   <div className="column gap-2 text-dark-3 font-medium font-sm">
                     <label htmlFor="item_unit_purchase_price">
                       Preço de venda unitário
                     </label>
-                    <input
-                      type={"text"}
-                      name="item_unit_purchase_price"
-                      id="item_unit_purchase_price"
-                      defaultValue={unitPurchasePrice}
-                      placeholder="Preço de venda unitário"
-                      className="border-default pa-2 border-radius-soft font-medium font-md"
-                      onChange={(e) => setUnitPurchasePrice(e.target.value)}
-                    />
+                    <div className="row border-default pa-2 gap-2 border-radius-soft">
+                      <span className="font-medium font-md">R$</span>
+                      <input
+                        type={"text"}
+                        name="item_unit_purchase_price"
+                        id="item_unit_purchase_price"
+                        defaultValue={unitSalePrice}
+                        className="font-medium font-md"
+                        placeholder="Preço de venda unitário"
+                        onChange={(e) => setUnitPurchasePrice(e.target.value)}
+                      />
+                    </div>
                   </div>
                 </div>
               ) : null}
