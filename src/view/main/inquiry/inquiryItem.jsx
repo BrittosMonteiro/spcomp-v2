@@ -55,6 +55,8 @@ export default function InquiryItem() {
                 <React.Fragment key={item.idInquiryItem}>
                   <ListSupplierResponse
                     idInquiryList={company.idInquiryList}
+                    idSupplier={company.idSupplier}
+                    nameSupplier={company.nameSupplier}
                     supplierId={userSession.token}
                     item={item}
                     btnChoosePrice={true}

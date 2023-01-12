@@ -12,6 +12,8 @@ import { getCurrencyValue } from "../../utils/currencyApi";
 
 export default function ListSupplierResponse({
   idInquiryList,
+  idSupplier,
+  nameSupplier,
   item,
   btnChoosePrice,
   reloadInquiryListByCompany,
@@ -72,6 +74,8 @@ export default function ListSupplierResponse({
       idInquiryItem,
       unitPurchasePrice,
       unitSalePrice,
+      idSupplier,
+      nameSupplier,
     })
       .then((res) => res.json())
       .then((res) => {
