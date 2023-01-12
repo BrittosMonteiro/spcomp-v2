@@ -300,12 +300,14 @@ export default function ListItem({ item, hasLink, reloadList }) {
                     </DropdownMenu.Item>
                   )}
 
-                  <DropdownMenu.Item
-                    className="row align-items-center gap-2"
-                    onClick={() => removeItem(item)}
-                  >
-                    <TrashSimple className="icon-default" /> Remover
-                  </DropdownMenu.Item>
+                  {item.idUser === userSession.token || userSession.isAdmin ? (
+                    <DropdownMenu.Item
+                      className="row align-items-center gap-2"
+                      onClick={() => removeItem(item)}
+                    >
+                      <TrashSimple className="icon-default" /> Remover
+                    </DropdownMenu.Item>
+                  ) : null}
                 </DropdownMenu.Content>
               </DropdownMenu.Portal>
             </DropdownMenu.Root>

@@ -33,7 +33,7 @@ export default function ListSupplierResponse({
 
     const updatePrice = {
       idInquiryList,
-      idItem: item.idItem,
+      idInquiryItem: item.idInquiryItem,
       unitPurchasePrice,
     };
 
