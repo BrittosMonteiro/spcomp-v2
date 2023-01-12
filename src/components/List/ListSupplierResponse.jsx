@@ -70,13 +70,15 @@ export default function ListSupplierResponse({
 
     const unitSalePrice = unitPurchasePrice * dolar;
 
-    await updateInquiryItemPrice({
+    const data = {
       idInquiryItem,
       unitPurchasePrice,
       unitSalePrice,
       idSupplier,
       nameSupplier,
-    })
+    };
+
+    await updateInquiryItemPrice(data)
       .then((res) => res.json())
       .then((res) => {
         if (res.status === 200) {
