@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import List from "../../components/List/List";
 import { readInquiryItems } from "../../services/inquiryItemService";
 import DialogInquiry from "../../components/Dialog/DialogInquiry";
+import FilterItems from "../../components/Common/filterItems";
 
 export default function Inquiry() {
   const [items, setItems] = useState([]);
+  const [originalItems, setOriginalItems] = useState([]);
   const [pending, setPending] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -14,6 +16,7 @@ export default function Inquiry() {
       .then((res) => res.json())
       .then((res) => {
         setItems(res || []);
+        setOriginalItems(res || []);
       })
       .catch((err) => {
         console.log(err);
@@ -72,6 +75,10 @@ export default function Inquiry() {
         ) : null}
         <DialogInquiry open={open} onClose={closeModal} pending={pending} />
       </div>
+
+      {originalItems.length > 0 ? (
+        <FilterItems setItems={setItems} originalItems={originalItems} />
+      ) : null}
       {items.length > 0 ? (
         <List list={items} reloadList={reloadList} hasLink={true} />
       ) : (
