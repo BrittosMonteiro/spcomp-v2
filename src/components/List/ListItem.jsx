@@ -28,7 +28,7 @@ import { deleteItem } from "../../services/itemService";
 import { addItemToPurchaseList } from "../../services/purchaseService";
 import { deleteItemFromPurchaseList } from "../../services/purchaseService";
 import { deleteStockItem, postStockItem } from "../../services/stockService";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   displayMessageBox,
   hideMessageBox,
@@ -36,6 +36,9 @@ import {
 
 export default function ListItem({ item, hasLink, reloadList }) {
   const dispatch = useDispatch();
+  const userSession = useSelector((state) => {
+    return state.login;
+  });
 
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -47,6 +50,8 @@ export default function ListItem({ item, hasLink, reloadList }) {
     item.unitPrice = 0;
     item.unitSalePrice = 0;
     item.unitPurchasePrice = 0;
+    item.idUser = userSession.token;
+    item.nameUser = userSession.username;
 
     createInquiryItem(item)
       .then(() => {
@@ -176,133 +181,142 @@ export default function ListItem({ item, hasLink, reloadList }) {
   }
 
   return (
-    <li className="row justify-content-between align-items-end py-4 gap-2">
-      <div className="row gap-4">
-        <div className="column gap-1">
-          <span className="font-light font-sm">Quantity</span>
-          {item.quantity ? (
-            <span className="font-medium font-md">{item.quantity}</span>
-          ) : (
-            "-"
-          )}
-        </div>
-        <div className="column gap-1">
-          <span className="font-light font-sm">Description</span>
-          <div className="row gap-2">
-            {hasLink ? (
-              <Link
-                to={`/admin-route/inquiry/item/${item.id}`}
-                className="font-medium font-md text-dark-3"
-              >
-                {item.description}
-              </Link>
+    <li className="column py-4 gap-2">
+      <div className="row justify-content-between">
+        <div className="row gap-4">
+          <div className="column gap-1">
+            <span className="font-light font-sm">Quantity</span>
+            {item.quantity ? (
+              <span className="font-medium font-md">{item.quantity}</span>
             ) : (
-              <span className="font-medium font-md">{item.description}</span>
+              "-"
             )}
-            <button type="button" className="bg-transparent">
-              <Copy
-                alt="Copar texto"
-                className="icon-default"
-                onClick={() => copyText(item.description)}
-              />
-            </button>
+          </div>
+          <div className="column gap-1">
+            <span className="font-light font-sm">Description</span>
+            <div className="row gap-2">
+              {hasLink ? (
+                <Link
+                  to={`/admin-route/inquiry/item/${item.id}`}
+                  className="font-medium font-md text-dark-3"
+                >
+                  {item.description}
+                </Link>
+              ) : (
+                <span className="font-medium font-md">{item.description}</span>
+              )}
+              <button type="button" className="bg-transparent">
+                <Copy
+                  alt="Copar texto"
+                  className="icon-default"
+                  onClick={() => copyText(item.description)}
+                />
+              </button>
+            </div>
+          </div>
+          <div className="column gap-1">
+            <span className="font-light font-sm">Type</span>
+            <span className="font-medium font-md">{item.type}</span>
+          </div>
+          <div className="column gap-1">
+            <span className="font-light font-sm">Encap</span>
+            <span className="font-medium font-md">{item.encap}</span>
+          </div>
+          <div className="column gap-1">
+            <span className="font-light font-sm">Brand</span>
+            <span className="font-medium font-md">{item.brand}</span>
           </div>
         </div>
-        <div className="column gap-1">
-          <span className="font-light font-sm">Type</span>
-          <span className="font-medium font-md">{item.type}</span>
-        </div>
-        <div className="column gap-1">
-          <span className="font-light font-sm">Encap</span>
-          <span className="font-medium font-md">{item.encap}</span>
-        </div>
-        <div className="column gap-1">
-          <span className="font-light font-sm">Brand</span>
-          <span className="font-medium font-md">{item.brand}</span>
+        <div className="row align-items-center gap-4">
+          <div className="row gap-2">
+            {item.unitPurchasePrice && item.unitSalePrice ? (
+              <CheckCircle
+                alt="Item cotado"
+                className="icon-default text-green-1"
+              />
+            ) : null}
+            {item.quantity <= 0 && (
+              <WarningCircle
+                alt="Informar a quantidade"
+                className="icon-default text-orange-1"
+              />
+            )}
+            <button
+              type="button"
+              className="bg-transparent"
+              onClick={() => setOpen(true)}
+            >
+              <PencilSimple className="icon-default" />
+            </button>
+            <DialogItem
+              item={item}
+              onClose={closeModal}
+              reloadList={reloadList}
+              open={open}
+            />
+
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger className="bg-transparent">
+                <DotsThreeVertical className="icon-default" />
+              </DropdownMenu.Trigger>
+
+              <DropdownMenu.Portal>
+                <DropdownMenu.Content className="bg-white-1 border-default border-radius-soft pa-2 gap-4 column font-medium font-md">
+                  {item.step !== 1 && (
+                    <DropdownMenu.Item
+                      className="row align-items-center gap-2"
+                      onClick={() => setInquiryItem(item)}
+                    >
+                      <Question className="icon-default" /> Cotar
+                    </DropdownMenu.Item>
+                  )}
+
+                  {item.step >= 1 &&
+                  item.quantity > 0 &&
+                  item.unitPurchasePrice &&
+                  item.unitSalePrice ? (
+                    <DropdownMenu.Item
+                      className="row align-items-center gap-2"
+                      onClick={() => setPurchaseItem(item)}
+                    >
+                      <ShoppingCart className="icon-default" /> Solicitar compra
+                    </DropdownMenu.Item>
+                  ) : null}
+
+                  {item.step === 2 && item.status === "Concluído" && (
+                    <DropdownMenu.Item
+                      className="row align-items-center gap-2"
+                      onClick={() => moveToStock(item)}
+                    >
+                      <ArchiveBox className="icon-default" /> Mover para estoque
+                    </DropdownMenu.Item>
+                  )}
+
+                  {item.step === 3 && (
+                    <DropdownMenu.Item className="row align-items-center gap-2">
+                      <Tag className="icon-default" /> Criar pedido
+                    </DropdownMenu.Item>
+                  )}
+
+                  <DropdownMenu.Item
+                    className="row align-items-center gap-2"
+                    onClick={() => removeItem(item)}
+                  >
+                    <TrashSimple className="icon-default" /> Remover
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Portal>
+            </DropdownMenu.Root>
+          </div>
         </div>
       </div>
-      <div className="row gap-4">
-        <div className="row gap-2">
-          {item.unitPurchasePrice && item.unitSalePrice ? (
-            <CheckCircle
-              alt="Item cotado"
-              className="icon-default text-green-1"
-            />
-          ) : null}
-          {item.quantity <= 0 && (
-            <WarningCircle
-              alt="Informar a quantidade"
-              className="icon-default text-orange-1"
-            />
-          )}
-          <button
-            type="button"
-            className="bg-transparent"
-            onClick={() => setOpen(true)}
-          >
-            <PencilSimple className="icon-default" />
-          </button>
-          <DialogItem
-            item={item}
-            onClose={closeModal}
-            reloadList={reloadList}
-            open={open}
-          />
-
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger className="bg-transparent">
-              <DotsThreeVertical className="icon-default" />
-            </DropdownMenu.Trigger>
-
-            <DropdownMenu.Portal>
-              <DropdownMenu.Content className="bg-white-1 border-default border-radius-soft pa-2 gap-4 column font-medium font-md">
-                {item.step !== 1 && (
-                  <DropdownMenu.Item
-                    className="row align-items-center gap-2"
-                    onClick={() => setInquiryItem(item)}
-                  >
-                    <Question className="icon-default" /> Cotar
-                  </DropdownMenu.Item>
-                )}
-
-                {item.step >= 1 &&
-                item.quantity > 0 &&
-                item.unitPurchasePrice &&
-                item.unitSalePrice ? (
-                  <DropdownMenu.Item
-                    className="row align-items-center gap-2"
-                    onClick={() => setPurchaseItem(item)}
-                  >
-                    <ShoppingCart className="icon-default" /> Solicitar compra
-                  </DropdownMenu.Item>
-                ) : null}
-
-                {item.step === 2 && item.status === "Concluído" && (
-                  <DropdownMenu.Item
-                    className="row align-items-center gap-2"
-                    onClick={() => moveToStock(item)}
-                  >
-                    <ArchiveBox className="icon-default" /> Mover para estoque
-                  </DropdownMenu.Item>
-                )}
-
-                {item.step === 3 && (
-                  <DropdownMenu.Item className="row align-items-center gap-2">
-                    <Tag className="icon-default" /> Criar pedido
-                  </DropdownMenu.Item>
-                )}
-
-                <DropdownMenu.Item
-                  className="row align-items-center gap-2"
-                  onClick={() => removeItem(item)}
-                >
-                  <TrashSimple className="icon-default" /> Remover
-                </DropdownMenu.Item>
-              </DropdownMenu.Content>
-            </DropdownMenu.Portal>
-          </DropdownMenu.Root>
+      {item.idUser !== userSession.token ? (
+        <div className="row">
+          <span className="font-sm font-light">
+            Vendedor: <span className="font-bold">{item.nameUser}</span>
+          </span>
         </div>
-      </div>
+      ) : null}
     </li>
   );
 }

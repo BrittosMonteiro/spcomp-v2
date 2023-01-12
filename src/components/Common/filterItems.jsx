@@ -1,15 +1,20 @@
 import { useState } from "react";
 import { MagnifyingGlass } from "phosphor-react";
+import { useSelector } from "react-redux";
 
 export default function FilterItems({
   setItems,
   originalItems,
   reloadPendingItems,
 }) {
+  const userSession = useSelector((state) => {
+    return state.login;
+  });
   const [descriptionSearch, setDescriptionSearch] = useState("");
   const [typeSearch, setTypeSearch] = useState("");
   const [encapSearch, setEncapSearch] = useState("");
   const [brandSearch, setBrandSearch] = useState("");
+  const [salesPerson, setSalesPerson] = useState(userSession.username);
 
   function filter(description = "", type = "", encap = "", brand = "") {
     let newItems = [];
@@ -95,6 +100,23 @@ export default function FilterItems({
             defaultValue={brandSearch}
             onChange={(e) => {
               setBrandSearch(e.target.value);
+            }}
+          />
+        </div>
+
+        <div className="column gap-2">
+          <label htmlFor="txt_salesPerson" className="font-sm font-light">
+            Vendedor
+          </label>
+          <input
+            type={"text"}
+            name="txt_salesPerson"
+            id="txt_salesPerson"
+            placeholder="Vendedor(a)"
+            className="font-medium font-md border-default border-radius-soft pa-2"
+            defaultValue={salesPerson}
+            onChange={(e) => {
+              setSalesPerson(e.target.value);
             }}
           />
         </div>
