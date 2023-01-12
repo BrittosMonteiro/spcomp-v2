@@ -10,7 +10,13 @@ import {
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
 
-export default function DialogItemDefault({ item, open, onClose, reloadList }) {
+export default function DialogItemDefault({
+  item,
+  open,
+  onClose,
+  reloadList,
+  idUser,
+}) {
   const dispatch = useDispatch();
   const userSession = useSelector((state) => {
     return state.login;
@@ -295,6 +301,7 @@ export default function DialogItemDefault({ item, open, onClose, reloadList }) {
                       placeholder="Quantidade"
                       className="border-default pa-2 border-radius-soft font-medium font-md"
                       onChange={(e) => setQuantity(e.target.value)}
+                      disabled={idUser !== item.idUser && !userSession.isAdmin}
                     />
                   </div>
 
@@ -332,6 +339,9 @@ export default function DialogItemDefault({ item, open, onClose, reloadList }) {
                         className="font-medium font-md"
                         placeholder="Preço de venda unitário"
                         onChange={(e) => setUnitPurchasePrice(e.target.value)}
+                        disabled={
+                          idUser !== item.idUser && !userSession.isAdmin
+                        }
                       />
                     </div>
                   </div>
@@ -349,6 +359,7 @@ export default function DialogItemDefault({ item, open, onClose, reloadList }) {
                     placeholder="IPI do item"
                     className="border-default pa-2 border-radius-soft font-medium font-md"
                     onChange={(e) => setIpi(e.target.value)}
+                    disabled={idUser !== item.idUser && !userSession.isAdmin}
                   />
                 </div>
 
@@ -362,6 +373,7 @@ export default function DialogItemDefault({ item, open, onClose, reloadList }) {
                     placeholder="Peso do item"
                     className="border-default pa-2 border-radius-soft font-medium font-md"
                     onChange={(e) => setWeight(e.target.value)}
+                    disabled={idUser !== item.idUser && !userSession.isAdmin}
                   />
                 </div>
               </div>
@@ -375,6 +387,7 @@ export default function DialogItemDefault({ item, open, onClose, reloadList }) {
                   placeholder="Informações importantes sobre o item"
                   className="border-default pa-2 border-radius-soft font-medium font-md"
                   onChange={(e) => setNote(e.target.value)}
+                  disabled={idUser !== item.idUser && !userSession.isAdmin}
                 ></textarea>
               </div>
 

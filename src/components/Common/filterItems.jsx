@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MagnifyingGlass } from "phosphor-react";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export default function FilterItems({
   setItems,
@@ -14,17 +15,24 @@ export default function FilterItems({
   const [typeSearch, setTypeSearch] = useState("");
   const [encapSearch, setEncapSearch] = useState("");
   const [brandSearch, setBrandSearch] = useState("");
-  const [salesPerson, setSalesPerson] = useState(userSession.username);
+  const [salesPersonSearch, setSalesPersonSearch] = useState("");
 
-  function filter(description = "", type = "", encap = "", brand = "") {
+  function filter(
+    description = "",
+    type = "",
+    encap = "",
+    brand = "",
+    salesPerson = ""
+  ) {
     let newItems = [];
-    if (description || type || encap || brand) {
+    if (description || type || encap || brand || salesPerson) {
       newItems = originalItems.filter(
         (item) =>
           item.description.toLowerCase() === description.toLowerCase() ||
           item.type.toLowerCase() === type.toLowerCase() ||
           item.encap.toLowerCase() === encap.toLowerCase() ||
-          item.brand.toLowerCase() === brand.toLowerCase()
+          item.brand.toLowerCase() === brand.toLowerCase() ||
+          item.nameUser.toLowerCase() === salesPerson.toLowerCase()
       );
       setItems(newItems);
     } else {
@@ -32,6 +40,12 @@ export default function FilterItems({
     }
     reloadPendingItems();
   }
+
+  useEffect(() => {
+    if (userSession) {
+      setSalesPersonSearch(userSession.username);
+    }
+  }, [userSession]);
 
   return (
     <div className="column mt-4 gap-2">
@@ -112,11 +126,11 @@ export default function FilterItems({
             type={"text"}
             name="txt_salesPerson"
             id="txt_salesPerson"
-            placeholder="Vendedor(a)"
+            placeholder="Vendedor"
             className="font-medium font-md border-default border-radius-soft pa-2"
-            defaultValue={salesPerson}
+            defaultValue={salesPersonSearch}
             onChange={(e) => {
-              setSalesPerson(e.target.value);
+              setSalesPersonSearch(e.target.value);
             }}
           />
         </div>
@@ -126,7 +140,13 @@ export default function FilterItems({
           type="button"
           className="row align-items-center gap-2 font-md font-light pa-2 bg-green-1 text-white-1 border-radius-soft"
           onClick={() =>
-            filter(descriptionSearch, typeSearch, encapSearch, brandSearch)
+            filter(
+              descriptionSearch,
+              typeSearch,
+              encapSearch,
+              brandSearch,
+              salesPersonSearch
+            )
           }
         >
           <MagnifyingGlass /> Filtrar

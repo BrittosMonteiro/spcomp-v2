@@ -195,7 +195,7 @@ export default function ListItem({ item, hasLink, reloadList }) {
           <div className="column gap-1">
             <span className="font-light font-sm">Description</span>
             <div className="row gap-2">
-              {hasLink ? (
+              {hasLink && userSession.isAdmin ? (
                 <Link
                   to={`/admin-route/inquiry/item/${item.id}`}
                   className="font-medium font-md text-dark-3"
@@ -253,6 +253,7 @@ export default function ListItem({ item, hasLink, reloadList }) {
               onClose={closeModal}
               reloadList={reloadList}
               open={open}
+              idUser={userSession.token}
             />
 
             <DropdownMenu.Root>
@@ -274,7 +275,8 @@ export default function ListItem({ item, hasLink, reloadList }) {
                   {item.step >= 1 &&
                   item.quantity > 0 &&
                   item.unitPurchasePrice &&
-                  item.unitSalePrice ? (
+                  item.unitSalePrice &&
+                  (item.idUser === userSession.token || userSession.isAdmin) ? (
                     <DropdownMenu.Item
                       className="row align-items-center gap-2"
                       onClick={() => setPurchaseItem(item)}
@@ -310,7 +312,7 @@ export default function ListItem({ item, hasLink, reloadList }) {
           </div>
         </div>
       </div>
-      {item.idUser !== userSession.token ? (
+      {item.idUser && item.idUser !== userSession.token ? (
         <div className="row">
           <span className="font-sm font-light">
             Vendedor: <span className="font-bold">{item.nameUser}</span>
