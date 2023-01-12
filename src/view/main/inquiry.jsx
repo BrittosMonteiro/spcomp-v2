@@ -77,7 +77,11 @@ export default function Inquiry() {
       </div>
 
       {originalItems.length > 0 ? (
-        <FilterItems setItems={setItems} originalItems={originalItems} />
+        <FilterItems
+          setItems={setItems}
+          originalItems={originalItems}
+          reloadPendingItems={pendingItems}
+        />
       ) : null}
       {items.length > 0 ? (
         <List list={items} reloadList={reloadList} hasLink={true} />

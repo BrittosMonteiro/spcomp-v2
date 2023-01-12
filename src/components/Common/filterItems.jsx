@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { MagnifyingGlass } from "phosphor-react";
 
-export default function FilterItems({ setItems, originalItems }) {
+export default function FilterItems({
+  setItems,
+  originalItems,
+  reloadPendingItems,
+}) {
   const [descriptionSearch, setDescriptionSearch] = useState("");
   const [typeSearch, setTypeSearch] = useState("");
   const [encapSearch, setEncapSearch] = useState("");
@@ -21,6 +25,7 @@ export default function FilterItems({ setItems, originalItems }) {
     } else {
       setItems(originalItems);
     }
+    reloadPendingItems();
   }
 
   return (
