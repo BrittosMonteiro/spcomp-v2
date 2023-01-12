@@ -3,7 +3,7 @@ import List from "../../components/List/List";
 import { useState, useEffect } from "react";
 import { getAllItems } from "../../services/itemService";
 import DialogItem from "../../components/Dialog/DialogItem";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   displayMessageBox,
   hideMessageBox,
@@ -12,6 +12,9 @@ import FilterItems from "../../components/Common/filterItems";
 
 export default function Items() {
   const dispatch = useDispatch();
+  const userSession = useSelector((state) => {
+    return state.login;
+  });
 
   const [items, setItems] = useState([]);
   const [originalItems, setOriginalItems] = useState([]);
@@ -54,7 +57,13 @@ export default function Items() {
       <div className="row justify-content-between align-items-center">
         <PageTitle title={"Itens cadastrados"} />
         <span onClick={() => setOpen(true)}>Adicionar novo item</span>
-        <DialogItem open={open} onClose={closeModal} reloadList={reloadList} />
+        <DialogItem
+          open={open}
+          onClose={closeModal}
+          reloadList={reloadList}
+          idUser={userSession.token}
+        />
+        {userSession.token}
       </div>
       {originalItems.length > 0 ? (
         <FilterItems setItems={setItems} originalItems={originalItems} />

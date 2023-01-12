@@ -4,8 +4,12 @@ import List from "../../components/List/List";
 import { readInquiryItems } from "../../services/inquiryItemService";
 import DialogInquiry from "../../components/Dialog/DialogInquiry";
 import FilterItems from "../../components/Common/filterItems";
+import { useSelector } from "react-redux";
 
 export default function Inquiry() {
+  const userSession = useSelector((state) => {
+    return state.login;
+  });
   const [items, setItems] = useState([]);
   const [originalItems, setOriginalItems] = useState([]);
   const [pending, setPending] = useState([]);
@@ -68,7 +72,7 @@ export default function Inquiry() {
     <>
       <div className="row justify-content-between align-items-center">
         <PageTitle title={"Cotações"} />
-        {pending.length > 0 ? (
+        {userSession.isAdmin && pending.length > 0 ? (
           <span className="font-light font-md" onClick={() => setOpen(true)}>
             Cotar itens pendentes ({pending.length})
           </span>

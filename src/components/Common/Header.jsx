@@ -55,11 +55,14 @@ export default function Header() {
                   <Link to="/main/sales">Vendas</Link>
                 </li>
               </>
-            ) : (
+            ) : null}
+            {userSession.role === 4 || userSession.isAdmin ? (
               <li className="pb-1">
-                <Link to="/inquiry/list">Inquiries</Link>
+                <Link to="/inquiry/list">
+                  {userSession.role === 4 ? "Inquiries" : "Cotações enviadas"}
+                </Link>
               </li>
-            )}
+            ) : null}
           </ul>
           <div className="header-icons gap-3">
             <DropdownMenu.Root>

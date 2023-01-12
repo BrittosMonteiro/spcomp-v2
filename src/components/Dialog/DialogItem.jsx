@@ -340,7 +340,7 @@ export default function DialogItemDefault({
                         placeholder="Preço de venda unitário"
                         onChange={(e) => setUnitPurchasePrice(e.target.value)}
                         disabled={
-                          idUser !== item.idUser && !userSession.isAdmin
+                          idUser !== item?.idUser && !userSession.isAdmin
                         }
                       />
                     </div>
@@ -359,7 +359,11 @@ export default function DialogItemDefault({
                     placeholder="IPI do item"
                     className="border-default pa-2 border-radius-soft font-medium font-md"
                     onChange={(e) => setIpi(e.target.value)}
-                    disabled={idUser !== item.idUser && !userSession.isAdmin}
+                    disabled={
+                      item?.idUser &&
+                      item?.idUser !== idUser &&
+                      !userSession.isAdmin
+                    }
                   />
                 </div>
 
@@ -373,7 +377,11 @@ export default function DialogItemDefault({
                     placeholder="Peso do item"
                     className="border-default pa-2 border-radius-soft font-medium font-md"
                     onChange={(e) => setWeight(e.target.value)}
-                    disabled={idUser !== item.idUser && !userSession.isAdmin}
+                    disabled={
+                      item?.idUser &&
+                      item?.idUser !== idUser &&
+                      !userSession.isAdmin
+                    }
                   />
                 </div>
               </div>
@@ -387,13 +395,24 @@ export default function DialogItemDefault({
                   placeholder="Informações importantes sobre o item"
                   className="border-default pa-2 border-radius-soft font-medium font-md"
                   onChange={(e) => setNote(e.target.value)}
-                  disabled={idUser !== item.idUser && !userSession.isAdmin}
+                  disabled={
+                    item?.idUser &&
+                    item?.idUser !== idUser &&
+                    !userSession.isAdmin
+                  }
                 ></textarea>
               </div>
 
               <hr className="my-4" />
 
               <div className="row justify-content-between align-items-center">
+                <button
+                  type="button"
+                  className="font-medium font-md bg-red-1 pa-2 text-white-1 border-radius-soft"
+                  onClick={() => onClose()}
+                >
+                  Fechar
+                </button>
                 <button
                   type={"submit"}
                   className="font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"

@@ -48,7 +48,7 @@ export default function FilterItems({
   }, [userSession]);
 
   return (
-    <div className="column mt-4 gap-2">
+    <div className="filter column mt-4 gap-2">
       <div className="row gap-2">
         <div className="column gap-2">
           <label htmlFor="txt_description" className="font-sm font-light">

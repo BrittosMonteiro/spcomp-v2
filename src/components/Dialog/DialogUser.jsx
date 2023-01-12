@@ -6,47 +6,38 @@ export default function DialogUser(props) {
   const [id, setId] = useState(null);
   const [name, setName] = useState(null);
   const [surname, setSurname] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
   const [status, setStatus] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(null);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     if (props.userData) {
       setId(props.userData.id);
       setName(props.userData.name);
       setSurname(props.userData.surname);
-      setEmail(props.userData.email);
-      setPassword(props.userData.password);
       setStatus(props.userData.status);
-      setIsAdmin(props.userData.isAdmin);
+      setRole(props.userData.role);
     }
   }, [props.userData]);
 
   function handleUser(e) {
     e.preventDefault();
-    if (!name || !surname || !email) return;
+    if (!name || !surname) return;
 
     const user = {
       name,
       surname,
-      email,
-      password,
       status,
-      isAdmin,
+      role,
     };
 
     if (!id) {
       createUser(user)
         .then((res) => res.json())
         .then(() => {
-          props.reloadList();
-
           setId(null);
           setName(null);
           setSurname(null);
-          setEmail(null);
-          setPassword(null);
+          props.reloadList();
         })
         .catch((err) => {
           console.log(err);
@@ -56,13 +47,10 @@ export default function DialogUser(props) {
       updateUser(user)
         .then((res) => res.json())
         .then(() => {
-          props.reloadList();
-
           setId(null);
           setName(null);
           setSurname(null);
-          setEmail(null);
-          setPassword(null);
+          props.reloadList();
         })
         .catch((err) => {
           console.log(err);
@@ -108,37 +96,6 @@ export default function DialogUser(props) {
 
               <div className="row align-item-center gap-4 mt-4">
                 <div className="column gap-2 text-dark-3 font-medium font-sm">
-                  <label htmlFor="user_email">Email</label>
-                  <input
-                    type={"email"}
-                    name="user_email"
-                    id="user_email"
-                    defaultValue={email}
-                    placeholder="Email"
-                    className="border-default pa-2 border-radius-soft font-medium font-md"
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="column gap-2 text-dark-3 font-medium font-sm">
-                  {!id ? (
-                    <>
-                      <label htmlFor="user_password">Senha</label>
-                      <input
-                        type={"password"}
-                        name="user_password"
-                        id="user_password"
-                        defaultValue={password}
-                        placeholder="Senha"
-                        className="border-default pa-2 border-radius-soft font-medium font-md"
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                    </>
-                  ) : null}
-                </div>
-              </div>
-
-              <div className="row align-item-center gap-4 mt-4">
-                <div className="column gap-2 text-dark-3 font-medium font-sm">
                   <label htmlFor="user_status">Escolher status</label>
                   <select
                     name="user_status"
@@ -147,23 +104,25 @@ export default function DialogUser(props) {
                     className="border-default pa-2 border-radius-soft font-medium font-md"
                     onChange={(e) => setStatus(e.target.value)}
                   >
-                    <option selected>Escolher status</option>
+                    <option>Escolher status</option>
                     <option value={true}>Ativo</option>
                     <option value={false}>Desativado</option>
                   </select>
                 </div>
                 <div className="column gap-2 text-dark-3 font-medium font-sm">
-                  <label htmlFor="user_isAdmin">É administrador</label>
+                  <label htmlFor="user_role">Função</label>
                   <select
-                    name="user_isAdmin"
-                    id="user_isAdmin"
-                    defaultValue={isAdmin}
+                    name="user_role"
+                    id="user_role"
+                    defaultValue={role}
                     className="border-default pa-2 border-radius-soft font-medium font-md"
-                    onChange={(e) => setIsAdmin(e.target.value)}
+                    onChange={(e) => setRole(e.target.value)}
                   >
-                    <option selected>Escolher</option>
-                    <option value={true}>Sim</option>
-                    <option value={false}>Não</option>
+                    <option>Escolher</option>
+                    <option value={1}>Administrador</option>
+                    <option value={2}>Vendedor</option>
+                    <option value={3}>Comprador</option>
+                    <option value={4}>Fornecedor</option>
                   </select>
                 </div>
               </div>

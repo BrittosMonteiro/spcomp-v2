@@ -32,13 +32,13 @@ export default function ListUser(props) {
           {props.usersList.map((user, index) => (
             <React.Fragment key={user.id}>
               <li className="row align-items-center justify-content-between py-2">
-                <div
-                  className="row align-items-center gap-2"
-                  title={"Administrador"}
-                >
+                <div className="row align-items-center gap-2">
                   <span className="font-md font-medium">{`${user.name} ${user.surname}`}</span>
                   {user.isAdmin ? (
-                    <UserCircleGear className="icon-default" />
+                    <UserCircleGear
+                      alt={user.isAdmin && "Administrador"}
+                      className="icon-default"
+                    />
                   ) : null}
                 </div>
                 <div className="row gap-2">
