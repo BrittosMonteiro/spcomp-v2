@@ -3,17 +3,21 @@ import { useEffect, useState } from "react";
 import PageTitle from "../../components/Common/PageTitle";
 import DialogCustomer from "../../components/Dialog/DialogCustomer";
 import ListCustomers from "../../components/List/ListCustomer";
-import { getCustomersList } from "../../services/customerService";
+import { readCustomers } from "../../services/customerService";
 
 export default function Customers() {
   const [open, setOpen] = useState(false);
   const [customersList, setCustomersList] = useState([]);
 
-  function getCustomers() {
-    getCustomersList()
-      .then((res) => res.json())
+  async function getCustomers() {
+    await readCustomers()
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
       .then((res) => {
-        setCustomersList(res);
+        setCustomersList(res.data);
       })
       .catch((err) => {
         console.log(err);

@@ -11,17 +11,24 @@ export async function createCustomer(data) {
   });
 }
 
-export async function getCustomersList(data) {
+export async function readCustomers() {
   return await fetch(`${API_URL}`, {
     method: "GET",
   });
 }
 
-export async function getCustomerById(data) {
-  return await fetch(`${API_URL}`, {
+export async function readCustomerById(data) {
+  const { idCustomer } = data;
+  return await fetch(`${API_URL}/single/${idCustomer}`, {
     method: "GET",
     headers: { "Content-type": "application/json" },
-    body: JSON.stringify(data),
+  });
+}
+
+export async function readCustomerToItem() {
+  return await fetch(`${API_URL}/readCustomerToItem`, {
+    method: "GET",
+    headers: { "Content-type": "application/json" },
   });
 }
 
@@ -33,7 +40,7 @@ export async function updateCustomer(data) {
   });
 }
 
-export async function removeCustomer(data) {
+export async function deleteCustomer(data) {
   return await fetch(`${API_URL}`, {
     method: "DELETE",
     headers: { "Content-type": "application/json" },

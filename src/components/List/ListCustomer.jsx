@@ -1,38 +1,56 @@
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { PencilSimple, Trash } from "phosphor-react";
-import { removeCustomer } from "../../services/customerService";
+import { deleteCustomer } from "../../services/customerService";
 import DialogCustomer from "../Dialog/DialogCustomer";
+import { useDispatch } from "react-redux";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../store/actions/messageBoxAction";
 
-export default function ListCustomers(props) {
+export default function ListCustomers({ reloadList, customersList }) {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
-  function manageRemove(id) {
+  async function manageRemove(id) {
     if (id) {
       const data = {
-        id: id,
+        idCustomer: id,
       };
 
-      removeCustomer(data)
-        .then(() => {
-          props.reloadList();
+      await deleteCustomer(data)
+        .then((response) => {
+          if (response.status === 200) {
+            handleMessageBox("success", "Cliente removido");
+            reloadList();
+          } else {
+            handleMessageBox("failed", "Não foi possível remover o cliente");
+          }
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          handleMessageBox("failed", "Não foi possível remover o cliente");
         });
     }
   }
 
-  function reloadList() {
+  function reload() {
     setOpen(false);
-    props.reloadList();
+    reloadList();
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (
     <>
-      {props.customersList.length > 0 ? (
+      {customersList.length > 0 ? (
         <ol className="column gap-4">
-          {props.customersList.map((customer, index) => (
+          {customersList.map((customer, index) => (
             <React.Fragment key={customer.id}>
               <li className="row align-items-center justify-content-between py-2">
                 <div className="row align-items-center gap-2">
@@ -45,7 +63,7 @@ export default function ListCustomers(props) {
                     </Dialog.Trigger>
                     <DialogCustomer
                       customerData={customer}
-                      reloadList={reloadList}
+                      reloadList={reload}
                     />
                   </Dialog.Root>
                   <Trash
@@ -54,11 +72,15 @@ export default function ListCustomers(props) {
                   />
                 </div>
               </li>
-              {index < props.customersList.length - 1 ? <hr /> : null}
+              {index < customersList.length - 1 ? <hr /> : null}
             </React.Fragment>
           ))}
         </ol>
-      ) : null}
+      ) : (
+        <div className="mx-auto">
+          <p className="font-lg font-light">Não há clientes cadastrados</p>
+        </div>
+      )}
     </>
   );
 }

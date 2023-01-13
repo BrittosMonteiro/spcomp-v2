@@ -1,8 +1,14 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { createCustomer, updateCustomer } from "../../services/customerService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../store/actions/messageBoxAction";
 
-export default function DialogCustomer(props) {
+export default function DialogCustomer({ customerData, reloadList }) {
+  const dispatch = useDispatch();
   const [id, setId] = useState(null);
   const [name, setName] = useState(null);
   const [cnpj, setCnpj] = useState(null);
@@ -13,23 +19,22 @@ export default function DialogCustomer(props) {
   const [observation, setObservation] = useState(null);
 
   useEffect(() => {
-    if (props.customerData) {
-      setId(props.customerData.id);
-      setName(props.customerData.name);
-      setCnpj(props.customerData.cnpj);
-      setContact(props.customerData.contact);
-      setEmail(props.customerData.email);
-      setPhone(props.customerData.phone);
-      setStatus(props.customerData.status);
-      setObservation(props.customerData.observation);
+    if (customerData) {
+      setId(customerData.id);
+      setName(customerData.name);
+      setCnpj(customerData.cnpj);
+      setContact(customerData.contact);
+      setEmail(customerData.email);
+      setPhone(customerData.phone);
+      setStatus(customerData.status);
+      setObservation(customerData.observation);
     }
-  }, [props.customerData]);
+  }, [customerData]);
 
   function handleCustomer(e) {
     e.preventDefault();
 
     if (!name || !cnpj || !email) return;
-
     const customer = {
       name,
       cnpj,
@@ -41,23 +46,49 @@ export default function DialogCustomer(props) {
     };
 
     if (!id) {
-      createCustomer(customer)
-        .then(() => {
-          props.reloadList();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      create(customer);
     } else {
-      customer.id = id;
-      updateCustomer(customer)
-        .then(() => {
-          props.reloadList();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      update(id, customer);
     }
+  }
+
+  async function create(customer) {
+    await createCustomer(customer)
+      .then((response) => {
+        if (response.status !== 200) {
+          handleMessageBox("failed", "Não foi possível adicionar o cliente");
+        }
+      })
+      .then(() => {
+        handleMessageBox("success", "Cliente criado com sucesso");
+        reloadList();
+      })
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível adicionar o cliente");
+      });
+  }
+
+  async function update(id, customer) {
+    updateCustomer({ idCustomer: id, data: customer })
+      .then((response) => {
+        if (response.status !== 200) {
+          handleMessageBox("failed", "Não foi possível atualizar o cliente");
+        }
+      })
+      .then(() => {
+        handleMessageBox("success", "Cliente atualizado com sucesso");
+        reloadList();
+      })
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível atualizar o cliente");
+      });
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (
