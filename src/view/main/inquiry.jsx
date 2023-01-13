@@ -5,6 +5,7 @@ import { readInquiryItems } from "../../services/inquiryItemService";
 import DialogInquiry from "../../components/Dialog/DialogInquiry";
 import FilterItems from "../../components/Common/filterItems";
 import { useSelector } from "react-redux";
+import { readCustomerToItem } from "../../services/customerService";
 
 export default function Inquiry() {
   const userSession = useSelector((state) => {
@@ -12,6 +13,7 @@ export default function Inquiry() {
   });
   const [items, setItems] = useState([]);
   const [originalItems, setOriginalItems] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [pending, setPending] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -27,12 +29,32 @@ export default function Inquiry() {
       });
   }
 
+  async function loadCustomers() {
+    await readCustomerToItem()
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log("Não pôde carregar");
+        } else {
+          return response.json();
+        }
+      })
+      .then((res) => {
+        setCustomers(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   function pendingItems() {
     if (items) {
       let pendingInquiryItems = [];
-
       const pending = items.filter(
-        (item) => item.quantity > 0 && item.unitPurchasePrice === 0
+        (item) =>
+          item.quantity > 0 &&
+          item.unitPurchasePrice === 0 &&
+          item.idCustomer &&
+          item.nameCustomer
       );
 
       for (let item of pending) {
@@ -54,6 +76,7 @@ export default function Inquiry() {
 
   useEffect(() => {
     loadList();
+    loadCustomers();
   }, []);
 
   useEffect(() => {
@@ -88,7 +111,12 @@ export default function Inquiry() {
         />
       ) : null}
       {items.length > 0 ? (
-        <List list={items} reloadList={reloadList} hasLink={true} />
+        <List
+          list={items}
+          reloadList={reloadList}
+          hasLink={true}
+          customers={customers}
+        />
       ) : (
         <div className="mx-auto">
           <p className="font-lg font-light">Não há itens em cotação</p>

@@ -34,7 +34,7 @@ import {
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
 
-export default function ListItem({ item, hasLink, reloadList }) {
+export default function ListItem({ item, hasLink, reloadList, customers }) {
   const dispatch = useDispatch();
   const userSession = useSelector((state) => {
     return state.login;
@@ -187,6 +187,8 @@ export default function ListItem({ item, hasLink, reloadList }) {
       nameUser: userSession.username,
       unitSalePrice: 0,
       unitPurchasePrice: 0,
+      idCustomer: "",
+      nameCustomer: "",
     };
     await createInquiryItem(data)
       .then(() => {
@@ -194,11 +196,7 @@ export default function ListItem({ item, hasLink, reloadList }) {
         reloadList();
       })
       .catch(() => {
-        handleMessageBox(
-          "success",
-          true,
-          "Não foi possível copiar o item"
-        );
+        handleMessageBox("success", true, "Não foi possível copiar o item");
       });
   }
 
@@ -276,6 +274,7 @@ export default function ListItem({ item, hasLink, reloadList }) {
               reloadList={reloadList}
               open={open}
               idUser={userSession.token}
+              customers={customers}
             />
 
             <DropdownMenu.Root>

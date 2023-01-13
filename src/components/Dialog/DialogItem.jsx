@@ -16,6 +16,7 @@ export default function DialogItemDefault({
   onClose,
   reloadList,
   idUser,
+  customers,
 }) {
   const dispatch = useDispatch();
   const userSession = useSelector((state) => {
@@ -37,6 +38,8 @@ export default function DialogItemDefault({
   const [quantity, setQuantity] = useState(0);
   const [unitSalePrice, setUnitSalePrice] = useState(0);
   const [unitPurchasePrice, setUnitPurchasePrice] = useState(0);
+  const [idCustomer, setIdCustomer] = useState("");
+  const [nameCustomer, setNameCustomer] = useState("");
 
   useEffect(() => {
     if (item) {
@@ -52,6 +55,8 @@ export default function DialogItemDefault({
       setQuantity(item.quantity);
       setUnitSalePrice(item.unitSalePrice);
       setUnitPurchasePrice(item.unitPurchasePrice);
+      setIdCustomer(item.idCustomer);
+      setNameCustomer(item.nameCustomer);
     }
   }, [item]);
 
@@ -112,6 +117,8 @@ export default function DialogItemDefault({
         quantity: quantity,
         unitPurchasePrice: unitPurchasePrice,
         unitSalePrice: unitSalePrice,
+        idCustomer: idCustomer,
+        nameCustomer: nameCustomer,
       };
 
       data = { ...data, ...additional };
@@ -290,62 +297,100 @@ export default function DialogItemDefault({
               </div>
 
               {step >= 1 ? (
-                <div className="row align-items-center gap-4 mt-8">
-                  <div className="column gap-2 text-dark-3 font-medium font-sm">
-                    <label htmlFor="item_quantity">Quantidade</label>
-                    <input
-                      type={"text"}
-                      name="item_quantity"
-                      id="item_quantity"
-                      defaultValue={quantity}
-                      placeholder="Quantidade"
-                      className="border-default pa-2 border-radius-soft font-medium font-md"
-                      onChange={(e) => setQuantity(e.target.value)}
-                      disabled={idUser !== item.idUser && !userSession.isAdmin}
-                    />
-                  </div>
-
-                  {userSession.isAdmin && (
+                <>
+                  <div className="row align-items-center mt-8">
                     <div className="column gap-2 text-dark-3 font-medium font-sm">
-                      <label htmlFor="item_unit_sale_price">
-                        Preço de compra unitário
-                      </label>
-                      <div className="row border-default pa-2 gap-2 border-radius-soft">
-                        <span className="font-medium font-md">USD</span>
-                        <input
-                          type={"text"}
-                          name="item_unit_sale_price"
-                          id="item_unit_sale_price"
-                          defaultValue={unitPurchasePrice}
-                          className="font-medium font-md"
-                          placeholder="Preço de compra unitário"
-                          onChange={(e) => setUnitSalePrice(e.target.value)}
-                          disabled={true}
-                        />
-                      </div>
+                      <label htmlFor="item_customer">Atrelar cliente</label>
+                      <select
+                        name="item_customer"
+                        id="item_customer"
+                        defaultValue={`${idCustomer}-${nameCustomer}`}
+                        className="border-default pa-2 border-radius-soft font-medium font-md"
+                        onChange={(e) => {
+                          setIdCustomer(e.target.value.split("-")[0]);
+                          setNameCustomer(e.target.value.split("-")[1]);
+                        }}
+                        disabled={
+                          idUser !== item.idUser && !userSession.isAdmin
+                        }
+                      >
+                        {customers.length > 0 ? (
+                          <>
+                            {!idCustomer || !nameCustomer ? (
+                              <option>Escolher cliente</option>
+                            ) : null}
+                            {customers.map((customer) => (
+                              <option
+                                value={`${customer.id}-${customer.name}`}
+                                key={customer.id}
+                              >
+                                {customer.name}
+                              </option>
+                            ))}
+                          </>
+                        ) : null}
+                      </select>
                     </div>
-                  )}
-                  <div className="column gap-2 text-dark-3 font-medium font-sm">
-                    <label htmlFor="item_unit_purchase_price">
-                      Preço de venda unitário
-                    </label>
-                    <div className="row border-default pa-2 gap-2 border-radius-soft">
-                      <span className="font-medium font-md">R$</span>
+                  </div>
+                  <div className="row align-items-center gap-4 mt-8">
+                    <div className="column gap-2 text-dark-3 font-medium font-sm">
+                      <label htmlFor="item_quantity">Quantidade</label>
                       <input
                         type={"text"}
-                        name="item_unit_purchase_price"
-                        id="item_unit_purchase_price"
-                        defaultValue={unitSalePrice}
-                        className="font-medium font-md"
-                        placeholder="Preço de venda unitário"
-                        onChange={(e) => setUnitPurchasePrice(e.target.value)}
+                        name="item_quantity"
+                        id="item_quantity"
+                        defaultValue={quantity}
+                        placeholder="Quantidade"
+                        className="border-default pa-2 border-radius-soft font-medium font-md"
+                        onChange={(e) => setQuantity(e.target.value)}
                         disabled={
-                          idUser !== item?.idUser && !userSession.isAdmin
+                          idUser !== item.idUser && !userSession.isAdmin
                         }
                       />
                     </div>
+
+                    {userSession.isAdmin && (
+                      <div className="column gap-2 text-dark-3 font-medium font-sm">
+                        <label htmlFor="item_unit_sale_price">
+                          Preço de compra unitário
+                        </label>
+                        <div className="row border-default pa-2 gap-2 border-radius-soft">
+                          <span className="font-medium font-md">USD</span>
+                          <input
+                            type={"text"}
+                            name="item_unit_sale_price"
+                            id="item_unit_sale_price"
+                            defaultValue={unitPurchasePrice}
+                            className="font-medium font-md"
+                            placeholder="Preço de compra unitário"
+                            onChange={(e) => setUnitSalePrice(e.target.value)}
+                            disabled={true}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    <div className="column gap-2 text-dark-3 font-medium font-sm">
+                      <label htmlFor="item_unit_purchase_price">
+                        Preço de venda unitário
+                      </label>
+                      <div className="row border-default pa-2 gap-2 border-radius-soft">
+                        <span className="font-medium font-md">R$</span>
+                        <input
+                          type={"text"}
+                          name="item_unit_purchase_price"
+                          id="item_unit_purchase_price"
+                          defaultValue={unitSalePrice}
+                          className="font-medium font-md"
+                          placeholder="Preço de venda unitário"
+                          onChange={(e) => setUnitPurchasePrice(e.target.value)}
+                          disabled={
+                            idUser !== item?.idUser && !userSession.isAdmin
+                          }
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </>
               ) : null}
 
               <div className="row align-items-center gap-4 mt-8">
