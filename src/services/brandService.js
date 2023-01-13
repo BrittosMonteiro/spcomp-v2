@@ -3,7 +3,7 @@ import { checkEnv } from "./serviceConfig";
 const BASE_URL = checkEnv();
 const API_URL = `${BASE_URL}/brand`;
 
-export async function postBrand(data) {
+export async function createBrand(data) {
   return await fetch(`${API_URL}`, {
     method: "POST",
     headers: { "Content-type": "application/json" },
@@ -11,14 +11,14 @@ export async function postBrand(data) {
   });
 }
 
-export async function getBrandList() {
+export async function readBrands() {
   return await fetch(`${API_URL}`, {
     method: "GET",
     headers: { "Content-type": "application/json" },
   });
 }
 
-export async function putBrand(data) {
+export async function updateBrand(data) {
   return await fetch(`${API_URL}`, {
     method: "PUT",
     headers: { "Content-type": "application/json" },

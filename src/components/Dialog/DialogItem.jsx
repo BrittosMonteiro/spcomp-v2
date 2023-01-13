@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getBrandList } from "../../services/brandService";
-import { getEncapList } from "../../services/encapService";
+import { readBrands } from "../../services/brandService";
+import { readEncap } from "../../services/encapService";
+import { readType } from "../../services/typeService";
 import { updateInquiryItem } from "../../services/inquiryItemService";
 import { createItem, updateItem } from "../../services/itemService";
-import { getTypeList } from "../../services/typeService";
 import {
   displayMessageBox,
   hideMessageBox,
@@ -61,24 +61,47 @@ export default function DialogItemDefault({
   }, [item]);
 
   useEffect(() => {
-    getBrandList()
-      .then((res) => res.json())
-      .then((res) => setBrandList(res))
-      .catch(() =>
-        handleMessageBox("failed", true, "As marcas não foram carregadas")
-      );
+    readBrands()
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else {
+          handleMessageBox("failed", true, "As marcas não foram carregadas 1");
+        }
+      })
+      .then((res) => setBrandList(res.data))
+      .catch((err) => {
+        console.log(err);
+        handleMessageBox("failed", true, "As marcas não foram carregadas 2");
+      });
 
-    getTypeList()
-      .then((res) => res.json())
-      .then((res) => setTypeList(res))
+    readType()
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else {
+          handleMessageBox("failed", true, "Os tipos não foram carregados");
+        }
+      })
+      .then((res) => setTypeList(res.data))
       .catch(() =>
         handleMessageBox("failed", true, "Os tipos não foram carregados")
       );
 
-    getEncapList()
-      .then((res) => res.json())
-      .then((res) => setEncapList(res))
-      .catch((err) =>
+    readEncap()
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else {
+          handleMessageBox(
+            "failed",
+            true,
+            "Os encapsulamentos não foram carregados 2"
+          );
+        }
+      })
+      .then((res) => setEncapList(res.data))
+      .catch(() =>
         handleMessageBox(
           "failed",
           true,
