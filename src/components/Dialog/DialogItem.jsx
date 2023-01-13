@@ -167,8 +167,10 @@ export default function DialogItemDefault({
   async function create(data) {
     createItem(data)
       .then(() => {
+        handleMessageBox("success", true, "Item cadastrado");
         onClose();
         reloadList();
+        clearFields();
       })
       .catch(() => {
         handleMessageBox("failed", true, "Erro ao tentar criar um novo item");
@@ -221,6 +223,16 @@ export default function DialogItemDefault({
   function closeModal(e) {
     const elementId = e.target.id === "overlay";
     if (elementId) onClose();
+  }
+
+  function clearFields() {
+    setDescription("");
+    setBrand("");
+    setType("");
+    setEncap("");
+    setIpi("");
+    setWeight("");
+    setNote("");
   }
 
   return (
