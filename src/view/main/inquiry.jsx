@@ -19,10 +19,14 @@ export default function Inquiry() {
 
   async function loadList() {
     await readInquiryItems()
-      .then((res) => res.json())
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
       .then((res) => {
-        setItems(res || []);
-        setOriginalItems(res || []);
+        setItems(res.data);
+        setOriginalItems(res.data);
       })
       .catch((err) => {
         console.log(err);
