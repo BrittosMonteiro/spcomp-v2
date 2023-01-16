@@ -22,10 +22,14 @@ export default function DialogInquiry({ open, onClose, pending }) {
     const title = new Date().toISOString().split("T")[0];
 
     await createInquiryHistory({ title })
-      .then((res) => res.json())
+      .then((response) => {
+        if (response.status === 201) {
+          return response.json();
+        }
+      })
       .then((res) => {
         const data = {
-          idInquiryHistory: res.idInquiryHistory,
+          idInquiryHistory: res.data,
           items: pending,
         };
         createInquiryList(data)
