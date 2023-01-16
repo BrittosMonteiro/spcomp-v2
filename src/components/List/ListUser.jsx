@@ -1,35 +1,38 @@
 import { PencilSimple, Trash, UserCircleGear } from "phosphor-react";
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { removeUser } from "../../services/users";
+import { deleteUser } from "../../services/usersService";
 import DialogUser from "../Dialog/DialogUser";
 
-export default function ListUser(props) {
+export default function ListUser({ reloadList, usersList }) {
   const [open, setOpen] = useState(false);
 
   function manageRemove(id) {
     if (!id) return;
 
     const data = {
-      id: id,
+      idUser: id,
     };
 
-    removeUser(data)
-      .then((res) => res.json())
-      .then(() => props.reloadList())
+    deleteUser(data)
+      .then((response) => {
+        if (response.status === 200) {
+          reloadList();
+        }
+      })
       .catch((err) => console.log(err));
   }
 
-  function reloadList() {
+  function reloadUsersList() {
     setOpen(false);
-    props.reloadList();
+    reloadList();
   }
 
   return (
     <>
-      {props.usersList.length > 0 ? (
+      {usersList.length > 0 ? (
         <ol className="gap-4 column">
-          {props.usersList.map((user, index) => (
+          {usersList.map((user, index) => (
             <React.Fragment key={user.id}>
               <li className="row align-items-center justify-content-between py-2">
                 <div className="row align-items-center gap-2">
@@ -46,7 +49,7 @@ export default function ListUser(props) {
                     <Dialog.Trigger className="bg-transparent">
                       <PencilSimple className="icon-default" />
                     </Dialog.Trigger>
-                    <DialogUser userData={user} reloadList={reloadList} />
+                    <DialogUser userData={user} reloadList={reloadUsersList} />
                   </Dialog.Root>
                   <Trash
                     className="icon-default btn-icon"
@@ -55,7 +58,7 @@ export default function ListUser(props) {
                 </div>
               </li>
 
-              {index < props.usersList.length - 1 ? <hr /> : null}
+              {index < usersList.length - 1 ? <hr /> : null}
             </React.Fragment>
           ))}
         </ol>

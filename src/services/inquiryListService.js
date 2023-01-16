@@ -35,6 +35,14 @@ export async function readSingleItemFromInquiryList(data) {
   });
 }
 
+export async function inquiryListDownload(data) {
+  return await fetch(`${API_URL}/inquiryListDownload`, {
+    method: "POST",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
 export async function updateInquiryList(data) {
   return await fetch(`${API_URL}`, {
     method: "PUT",

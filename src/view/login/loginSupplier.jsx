@@ -2,14 +2,15 @@ import { ArrowCircleRight } from "phosphor-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, redirect } from "react-router-dom";
-import { loginSupplier } from "../../services/supplierService";
+import { loginSupplier } from "../../services/loginService";
+
 import {
   displayMessageBox,
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
 import { setUser } from "../../store/actions/userAction";
 
-export default function LoginSupplier() {
+export default function LoginSupplierView() {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

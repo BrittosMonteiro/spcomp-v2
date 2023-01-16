@@ -22,27 +22,33 @@ export default function InquiryAvailable() {
 
   async function loadInquiryListByCompany(data) {
     await readInquiryListByCompany(data)
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.status === 200) {
-          setCompanies(res.inquiryList);
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
         } else {
-          handleMessageBox("failed", "Item could not be loaded");
+          handleMessageBox("failed", "Item could not be loaded oh, here");
         }
       })
-      .catch((err) => {
-        handleMessageBox("failed", "Item could not be loaded");
+      .then((res) => {
+        setCompanies(res.data);
+      })
+      .catch(() => {
+        handleMessageBox("failed", "Item could not be loaded actually here");
       });
   }
 
   async function loadInquiryList(data) {
     await readInquiryList(data)
-      .then((res) => res.json())
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
       .then((res) => {
-        setCompanies(res.inquiryList);
+        setCompanies(res.data);
       })
       .catch(() => {
-        handleMessageBox("failed", "Item could not be loaded");
+        handleMessageBox("failed", "Item could not be loaded here");
       });
   }
 

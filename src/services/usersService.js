@@ -11,13 +11,13 @@ export async function createUser(data) {
   });
 }
 
-export async function getUsersList() {
+export async function readUsers() {
   return await fetch(`${API_URL}`, {
     method: "GET",
   });
 }
 
-export async function getUserById(data) {
+export async function readUserById(data) {
   return await fetch(`${API_URL}`, {
     method: "GET",
     headers: { "Content-type": "application/json" },
@@ -33,7 +33,7 @@ export async function updateUser(data) {
   });
 }
 
-export async function removeUser(data) {
+export async function deleteUser(data) {
   return await fetch(`${API_URL}`, {
     method: "DELETE",
     headers: { "Content-type": "application/json" },

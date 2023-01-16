@@ -1,0 +1,15 @@
+@import 'Colors';
+
+.box {
+    width: 100%;
+    max-width: 200px;
+    transition: 0.5s;
+
+    &:hover {
+        transform: translateY(-15px);
+        transform: translateX(-15px);
+        box-shadow: 0.5em 0.5em 0em $red-1;
+        background-color: $white-1;
+        color: $dark-3
+    }
+}

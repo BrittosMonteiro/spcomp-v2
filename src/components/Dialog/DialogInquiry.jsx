@@ -5,9 +5,12 @@ import {
 } from "../../store/actions/messageBoxAction";
 import { createInquiryHistory } from "../../services/inquiryHistoryService";
 import { createInquiryList } from "../../services/inquiryListService";
+import { useNavigate } from "react-router-dom";
 
 export default function DialogInquiry({ open, onClose, pending }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   function closeModal(e) {
     const elementId = e.target.id === "overlay" || e.target.id === "btn_close";
     if (elementId) onClose();
@@ -26,9 +29,14 @@ export default function DialogInquiry({ open, onClose, pending }) {
           items: pending,
         };
         createInquiryList(data)
-          .then((res) => res.json())
+          .then((response) => {
+            if (response.status === 201) {
+              return response.json();
+            }
+          })
           .then(() => {
             handleMessageBox("success", "Cotação criada com sucesso!");
+            navigate("/inquiry/list");
           })
           .catch(() => {
             handleMessageBox("Failed", "Nao foi possível criar a cotação!");

@@ -1,7 +1,7 @@
 import PageTitle from "../../components/Common/PageTitle";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState, useEffect } from "react";
-import { getUsersList } from "../../services/users";
+import { readUsers } from "../../services/usersService";
 import DialogUser from "../../components/Dialog/DialogUser";
 import ListUser from "../../components/List/ListUser";
 
@@ -9,11 +9,15 @@ export default function Users() {
   const [open, setOpen] = useState(false);
   const [usersList, setUsersList] = useState([]);
 
-  function loadList() {
-    getUsersList()
-      .then((res) => res.json())
-      .then((res) => {
-        setUsersList(res || []);
+  async function loadList() {
+    await readUsers()
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then((response) => {
+        setUsersList(response.data || []);
       })
       .catch((err) => {
         console.log(err);

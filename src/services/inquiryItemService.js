@@ -15,6 +15,11 @@ export async function readInquiryItems() {
   return await fetch(`${API_URL}`);
 }
 
+export async function readInquiryItemQtyByUser(data) {
+  const { idUser } = data;
+  return await fetch(`${API_URL}/qtyByUser/${idUser}`);
+}
+
 export async function updateInquiryItem(data) {
   return await fetch(`${API_URL}`, {
     method: "PUT",

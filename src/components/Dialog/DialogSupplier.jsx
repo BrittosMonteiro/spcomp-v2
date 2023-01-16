@@ -1,8 +1,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
-import { postSupplier, putSupplier } from "../../services/supplierService";
+import { createSupplier, updateSupplier } from "../../services/supplierService";
 
-export default function DialogSupplier(props) {
+export default function DialogSupplier({ supplierData, reloadList }) {
   const [id, setId] = useState(null);
   const [supplierName, setSupplierName] = useState(null);
   const [contactName, setContactName] = useState(null);
@@ -11,33 +11,33 @@ export default function DialogSupplier(props) {
   const [observation, setObservation] = useState(null);
 
   useEffect(() => {
-    if (props.supplierData) {
-      setId(props.supplierData.id);
-      setSupplierName(props.supplierData.name);
-      setContactName(props.supplierData.contact);
-      setEmail(props.supplierData.email);
-      setStatus(props.supplierData.status);
-      setObservation(props.supplierData.observation);
+    if (supplierData) {
+      setId(supplierData.id);
+      setSupplierName(supplierData.name);
+      setContactName(supplierData.contact);
+      setEmail(supplierData.email);
+      setStatus(supplierData.status);
+      setObservation(supplierData.observation);
     }
-  }, [props.supplierData]);
+  }, [supplierData]);
 
   function handleUser(e) {
     e.preventDefault();
     if (!supplierName || !contactName || !email) return;
 
     const supplier = {
-      supplierName,
-      contactName,
+      name: supplierName,
+      contact: contactName,
       email,
       status,
       observation,
     };
 
     if (!id) {
-      postSupplier(supplier)
+      createSupplier(supplier)
         .then((res) => res.json())
         .then(() => {
-          props.reloadList();
+          reloadList();
 
           setId(null);
           setSupplierName(null);
@@ -50,18 +50,19 @@ export default function DialogSupplier(props) {
           console.log(err);
         });
     } else {
-      supplier.id = id;
-      putSupplier(supplier)
-        .then((res) => res.json())
-        .then(() => {
-          props.reloadList();
+      const data = { idSupplier: id, supplier };
+      updateSupplier(data)
+        .then((response) => {
+          if (response.status === 200) {
+            reloadList();
 
-          setId(null);
-          setSupplierName(null);
-          setContactName(null);
-          setEmail(null);
-          setStatus(null);
-          setObservation(null);
+            setId(null);
+            setSupplierName(null);
+            setContactName(null);
+            setEmail(null);
+            setStatus(null);
+            setObservation(null);
+          }
         })
         .catch((err) => {
           console.log(err);

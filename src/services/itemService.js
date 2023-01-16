@@ -11,7 +11,7 @@ export async function createItem(data) {
   });
 }
 
-export async function getAllItems() {
+export async function readItems() {
   return await fetch(`${API_URL}`, {
     method: "GET",
   });

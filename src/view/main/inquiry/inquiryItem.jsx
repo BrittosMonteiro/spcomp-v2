@@ -22,7 +22,7 @@ export default function InquiryItem() {
       readSingleItemFromInquiryList({ idInquiryItem })
         .then((res) => res.json())
         .then((res) => {
-          setCompanies(res.inquiryList);
+          setCompanies(res.data);
         })
         .catch(() => {
           handleMessageBox("failed", "Não foi possível encontrar o item");

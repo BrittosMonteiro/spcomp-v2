@@ -70,8 +70,7 @@ export default function DialogItemDefault({
         }
       })
       .then((res) => setBrandList(res.data))
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         handleMessageBox("failed", true, "As marcas não foram carregadas 2");
       });
 

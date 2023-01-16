@@ -3,17 +3,21 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useState, useEffect } from "react";
 import DialogSupplier from "../../components/Dialog/DialogSupplier";
 import ListSupplier from "../../components/List/ListSupplier";
-import { getSupplierList } from "../../services/supplierService";
+import { readSuppliers } from "../../services/supplierService";
 
 export default function Suppliers() {
   const [open, setOpen] = useState(false);
   const [suppliersList, setSuppliersList] = useState([]);
 
   function loadList() {
-    getSupplierList()
-      .then((res) => res.json())
-      .then((res) => {
-        setSuppliersList(res || []);
+    readSuppliers()
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then((response) => {
+        setSuppliersList(response.data || []);
       })
       .catch((err) => {
         console.log(err);

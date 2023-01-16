@@ -1,7 +1,7 @@
 import PageTitle from "../../components/Common/PageTitle";
 import List from "../../components/List/List";
 import { useState, useEffect } from "react";
-import { getAllItems } from "../../services/itemService";
+import { readItems } from "../../services/itemService";
 import DialogItem from "../../components/Dialog/DialogItem";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,12 +20,16 @@ export default function Items() {
   const [originalItems, setOriginalItems] = useState([]);
   const [open, setOpen] = useState(false);
 
-  function loadList() {
-    getAllItems()
-      .then((res) => res.json())
-      .then((res) => {
-        setItems(res || []);
-        setOriginalItems(res || []);
+  async function loadList() {
+    await readItems()
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then((response) => {
+        setItems(response.data || []);
+        setOriginalItems(response.data || []);
       })
       .catch(() => {
         handleMessageBox("Faile", true, "Não foi possível carregar os itens");

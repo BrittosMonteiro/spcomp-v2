@@ -2,34 +2,37 @@ import { PencilSimple, Trash } from "phosphor-react";
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import DialogSupplier from "../Dialog/DialogSupplier";
-import { removeSupplier } from "../../services/supplierService";
+import { deleteSupplier } from "../../services/supplierService";
 
-export default function ListSupplier(props) {
+export default function ListSupplier({ reloadList, suppliersList }) {
   const [open, setOpen] = useState(false);
 
   function manageRemove(id) {
     if (!id) return;
 
     const data = {
-      id: id,
+      idSupplier: id,
     };
 
-    removeSupplier(data)
-      .then((res) => res.json())
-      .then(() => props.reloadList())
+    deleteSupplier(data)
+      .then((response) => {
+        if (response.status === 200) {
+          reloadList();
+        }
+      })
       .catch((err) => console.log(err));
   }
 
-  function reloadList() {
+  function reloadSupplierList() {
     setOpen(false);
-    props.reloadList();
+    reloadList();
   }
 
   return (
     <>
-      {props.suppliersList.length > 0 ? (
+      {suppliersList.length > 0 ? (
         <ol className="gap-4 column">
-          {props.suppliersList.map((supplier, index) => (
+          {suppliersList.map((supplier, index) => (
             <React.Fragment key={supplier.id}>
               <li className="row align-items-center justify-content-between py-2">
                 <div
@@ -45,7 +48,7 @@ export default function ListSupplier(props) {
                     </Dialog.Trigger>
                     <DialogSupplier
                       supplierData={supplier}
-                      reloadList={reloadList}
+                      reloadList={reloadSupplierList}
                     />
                   </Dialog.Root>
                   <Trash
@@ -55,7 +58,7 @@ export default function ListSupplier(props) {
                 </div>
               </li>
 
-              {index < props.suppliersList.length - 1 ? <hr /> : null}
+              {index < suppliersList.length - 1 ? <hr /> : null}
             </React.Fragment>
           ))}
         </ol>

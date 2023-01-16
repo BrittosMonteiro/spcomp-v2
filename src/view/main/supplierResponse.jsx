@@ -1,5 +1,6 @@
 import {
   ArrowCircleRight,
+  DownloadSimple,
   ToggleLeft,
   ToggleRight,
   Trash,
@@ -14,6 +15,7 @@ import {
   updateInquiryHistory,
   deleteInquiryHistory,
 } from "../../services/inquiryHistoryService";
+import { inquiryListDownload } from "../../services/inquiryListService";
 import {
   displayMessageBox,
   hideMessageBox,
@@ -35,26 +37,30 @@ export default function SupplierResponse() {
 
   async function loadInquiryHistoryByCompany() {
     await readActiveInquiryHistory()
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.status === 200) {
-          setInquiryHistory(res.data);
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
         } else {
           handleMessageBox("failed", "Items could not be loaded.");
         }
+      })
+      .then((res) => {
+        setInquiryHistory(res.data);
       })
       .catch(() => {});
   }
 
   async function loadInquiryHistory() {
     await readInquiryHistory()
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.status === 200) {
-          setInquiryHistory(res.data);
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
         } else {
           handleMessageBox("failed", "Items could not be loaded.");
         }
+      })
+      .then((res) => {
+        setInquiryHistory(res.data);
       })
       .catch(() => {});
   }
@@ -70,18 +76,15 @@ export default function SupplierResponse() {
   async function changeInquiryHistoryStatus(idInquiryHistory, currentStatus) {
     const data = {
       idInquiryHistory,
-      status: !currentStatus,
+      data: {
+        status: !currentStatus,
+      },
     };
 
     await updateInquiryHistory(data)
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.status === 200) {
-          if (res.data.status === true) {
-            handleMessageBox("failed", "Cotação não visível aos fornecedores");
-          } else {
-            handleMessageBox("success", "Cotação visível aos fornecedores");
-          }
+      .then((response) => {
+        if (response.status === 200) {
+          handleMessageBox("failed", "Visibilidade alterada");
           loadInquiryHistory();
         } else {
           handleMessageBox("failed", "Não foi possível alterar a visibilidade");
@@ -112,9 +115,8 @@ export default function SupplierResponse() {
     };
 
     await deleteInquiryHistory(data)
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.status === 200) {
+      .then((response) => {
+        if (response.status === 200) {
           handleMessageBox("success", "Cotação excluída!");
           loadInquiryHistory();
         } else {
@@ -123,6 +125,21 @@ export default function SupplierResponse() {
       })
       .catch(() => {
         handleMessageBox("failed", "Não foi possível excluir!");
+      });
+  }
+
+  async function downloadInquiryList(idInquiryHistory, title) {
+    await inquiryListDownload({ idInquiryHistory, title })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
@@ -160,6 +177,17 @@ export default function SupplierResponse() {
                   </>
                 ) : null}
                 <span className="font-black font-md">{inquiry.title}</span>
+                {userSession.isAdmin ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      downloadInquiryList(inquiry.id, inquiry.title)
+                    }
+                    className="bg-transparent"
+                  >
+                    <DownloadSimple className="icon-default" />
+                  </button>
+                ) : null}
               </div>
               <div className="row align-items-center gap-2">
                 <Link

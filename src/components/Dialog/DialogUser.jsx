@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
-import { createUser, updateUser } from "../../services/users";
+import { createUser, updateUser } from "../../services/usersService";
 
 export default function DialogUser(props) {
   const [id, setId] = useState(null);

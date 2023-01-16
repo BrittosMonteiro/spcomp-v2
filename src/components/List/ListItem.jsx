@@ -177,7 +177,7 @@ export default function ListItem({ item, hasLink, reloadList, customers }) {
 
   function copyText(text) {
     navigator.clipboard.writeText(text);
-    handleMessageBox("success", "Texto copiado");
+    handleMessageBox("success", true, "Texto copiado");
   }
 
   async function createInquiryItemCopy() {

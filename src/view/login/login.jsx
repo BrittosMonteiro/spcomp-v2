@@ -22,7 +22,13 @@ export default function Login() {
       handleMessageBox("failed", true, "Revise os campos");
 
     loginApp({ username, password })
-      .then((res) => res.json())
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else {
+          console.log(response);
+        }
+      })
       .then((res) => {
         if (res.data) {
           const dataToLogin = { ...res.data, isLogged: true };
