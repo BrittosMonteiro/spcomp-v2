@@ -285,19 +285,21 @@ export default function DialogInquiry({
                   />
                 </div>
 
-                <div className="column gap-2 text-dark-3 font-medium font-sm">
-                  <label htmlFor="item_purchase_price">Preço de compra</label>
-                  <input
-                    type={"text"}
-                    name="item_purchase_price"
-                    id="item_purchase_price"
-                    defaultValue={purchasePrice}
-                    placeholder="Preço de compra"
-                    className="border-default pa-2 border-radius-soft font-medium font-md"
-                    onChange={(e) => setPurchasePrice(e.target.value)}
-                    disabled={userSession.token !== item.user.id}
-                  />
-                </div>
+                {userSession.isAdmin && (
+                  <div className="column gap-2 text-dark-3 font-medium font-sm">
+                    <label htmlFor="item_purchase_price">Preço de compra</label>
+                    <input
+                      type={"text"}
+                      name="item_purchase_price"
+                      id="item_purchase_price"
+                      defaultValue={purchasePrice}
+                      placeholder="Preço de compra"
+                      className="border-default pa-2 border-radius-soft font-medium font-md"
+                      onChange={(e) => setPurchasePrice(e.target.value)}
+                      disabled
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="row align-items-center gap-4 mt-8">

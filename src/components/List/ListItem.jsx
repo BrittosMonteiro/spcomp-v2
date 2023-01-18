@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { Copy, PencilSimple, Question, TrashSimple } from "phosphor-react";
+import { Copy, PencilSimple, Share, TrashSimple } from "phosphor-react";
 
 import DialogItem from "../Dialog/DialogItem";
 
@@ -138,7 +138,7 @@ export default function ListItem({ item, reloadList }) {
               className="bg-transparent"
               onClick={() => createInquiry(item)}
             >
-              <Question alt="Cotar item" className="icon-default" />
+              <Share alt="Cotar item" className="icon-default" />
             </button>
 
             {userSession.isAdmin && (
