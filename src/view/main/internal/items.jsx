@@ -3,15 +3,10 @@ import List from "../../../components/List/List";
 import { useState, useEffect } from "react";
 import { readItems } from "../../../services/itemService";
 import DialogItem from "../../../components/Dialog/DialogItem";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  displayMessageBox,
-  hideMessageBox,
-} from "../../../store/actions/messageBoxAction";
+import { useSelector } from "react-redux";
 import FilterItems from "../../../components/Common/filterItems";
 
 export default function Items() {
-  const dispatch = useDispatch();
   const userSession = useSelector((state) => {
     return state.login;
   });
@@ -33,9 +28,7 @@ export default function Items() {
         setOriginalItems(response.data.itemsList);
         setLevel(response.data.level);
       })
-      .catch(() => {
-        handleMessageBox("Faile", true, "Não foi possível carregar os itens");
-      });
+      .catch(() => {});
   }
 
   useEffect(() => {
@@ -51,24 +44,29 @@ export default function Items() {
     setOpen(false);
   }
 
-  function handleMessageBox(color, display, message) {
-    dispatch(displayMessageBox({ color, display, message }));
-    setTimeout(() => {
-      dispatch(hideMessageBox());
-    }, 5000);
-  }
-
   return (
     <>
       <div className="row justify-content-between align-items-center">
         <PageTitle title={"Itens cadastrados"} />
-        <span onClick={() => setOpen(true)}>Adicionar novo item</span>
-        <DialogItem
-          open={open}
-          onClose={closeModal}
-          reloadList={reloadList}
-          idUser={userSession.token}
-        />
+        {userSession.isAdmin && (
+          <>
+            <button
+              type="button"
+              className="bg-green-1 pa-2 border-radius-soft"
+              onClick={() => setOpen(true)}
+            >
+              <span className="font-sm font-medium text-white-1">
+                Adicionar novo item
+              </span>
+            </button>
+            <DialogItem
+              open={open}
+              onClose={closeModal}
+              reloadList={reloadList}
+              idUser={userSession.token}
+            />
+          </>
+        )}
       </div>
       {originalItems.length > 0 ? (
         <FilterItems setItems={setItems} originalItems={originalItems} />
@@ -76,7 +74,7 @@ export default function Items() {
       {items.length > 0 ? (
         <List list={items} level={level} reloadList={reloadList} />
       ) : (
-        <div className="mx-auto">
+        <div className="ma-auto">
           <p className="font-lg font-light">Não há itens cadastrados</p>
         </div>
       )}

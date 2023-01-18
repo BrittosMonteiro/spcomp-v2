@@ -1,7 +1,8 @@
 import React from "react";
+import ListInquiry from "./ListInquiry";
 import ListItem from "./ListItem";
 
-export default function List({ list, hasLink, reloadList, customers }) {
+export default function List({ list, reloadList, level, customers }) {
   return (
     <>
       {list.length > 0 ? (
@@ -11,12 +12,17 @@ export default function List({ list, hasLink, reloadList, customers }) {
         >
           {list.map((item, index) => (
             <React.Fragment key={index}>
-              <ListItem
-                item={item}
-                hasLink={hasLink}
-                reloadList={reloadList}
-                customers={customers}
-              />
+              {level === 1 && (
+                <ListItem item={item.item} reloadList={reloadList} />
+              )}
+
+              {level === 2 && (
+                <ListInquiry
+                  item={item.item}
+                  reloadList={reloadList}
+                  customers={customers}
+                />
+              )}
 
               {index === 0 || index < list.length - 1 ? <hr /> : null}
             </React.Fragment>

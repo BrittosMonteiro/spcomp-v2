@@ -2,7 +2,7 @@ import PageTitle from "../../../components/Common/PageTitle";
 import { useEffect, useState } from "react";
 import List from "../../../components/List/List";
 import { readInquiryItems } from "../../../services/inquiryItemService";
-import DialogInquiry from "../../../components/Dialog/DialogInquiry";
+import DialogInquiry from "../../../components/Dialog/DialogInquiryList";
 import FilterItems from "../../../components/Common/filterItems";
 import { useSelector } from "react-redux";
 import { readCustomerToItem } from "../../../services/customerService";
@@ -13,6 +13,7 @@ export default function Inquiry() {
   });
   const [items, setItems] = useState([]);
   const [originalItems, setOriginalItems] = useState([]);
+  const [level, setLevel] = useState("");
   const [customers, setCustomers] = useState([]);
   const [pending, setPending] = useState([]);
   const [open, setOpen] = useState(false);
@@ -25,8 +26,9 @@ export default function Inquiry() {
         }
       })
       .then((res) => {
-        setItems(res.data);
-        setOriginalItems(res.data);
+        setItems(res.data.items);
+        setOriginalItems(res.data.items);
+        setLevel(res.data.level);
       })
       .catch((err) => {
         console.log(err);
@@ -50,7 +52,12 @@ export default function Inquiry() {
       });
   }
 
-  function pendingItems() {
+  useEffect(() => {
+    loadList();
+    loadCustomers();
+  }, []);
+
+  useEffect(() => {
     if (items) {
       let pendingInquiryItems = [];
       const pending = items.filter(
@@ -76,15 +83,6 @@ export default function Inquiry() {
       }
       setPending(pendingInquiryItems);
     }
-  }
-
-  useEffect(() => {
-    loadList();
-    loadCustomers();
-  }, []);
-
-  useEffect(() => {
-    pendingItems();
   }, [items]);
 
   function reloadList() {
@@ -108,21 +106,17 @@ export default function Inquiry() {
       </div>
 
       {originalItems.length > 0 ? (
-        <FilterItems
-          setItems={setItems}
-          originalItems={originalItems}
-          reloadPendingItems={pendingItems}
-        />
+        <FilterItems setItems={setItems} originalItems={originalItems} />
       ) : null}
       {items.length > 0 ? (
         <List
           list={items}
           reloadList={reloadList}
-          hasLink={true}
           customers={customers}
+          level={level}
         />
       ) : (
-        <div className="mx-auto">
+        <div className="ma-auto">
           <p className="font-lg font-light">Não há itens em cotação</p>
         </div>
       )}

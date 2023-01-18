@@ -1,30 +1,27 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
-import { Copy, PencilSimple, Question, TrashSimple } from "phosphor-react";
-
-import DialogItem from "../Dialog/DialogItem";
-
-import { createInquiryItem } from "../../services/inquiryItemService";
-import { deleteItem } from "../../services/itemService";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { Copy, PencilSimple, TrashSimple, RepeatOnce } from "phosphor-react";
 import {
   displayMessageBox,
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
+import DialogInquiry from "../Dialog/DialogInquiry";
+import {
+  createInquiryItem,
+  deleteInquiryItem,
+} from "../../services/inquiryItemService";
 
-export default function ListItem({ item, reloadList }) {
+export default function ListInquiry({ item, reloadList, customers }) {
   const dispatch = useDispatch();
   const userSession = useSelector((state) => {
     return state.login;
   });
-
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
-  async function createInquiry(item) {
+  async function duplicateInquiryItem(item) {
     const data = {
-      idItem: item.id,
+      idItem: item.item.id,
       idUser: userSession.token,
     };
     await createInquiryItem(data)
@@ -34,39 +31,41 @@ export default function ListItem({ item, reloadList }) {
         }
       })
       .then(() => {
-        handleMessageBox("success", "Item enviado para cotação");
-        navigate("/main/inquiry");
-      })
-      .catch(() => {
-        handleMessageBox("failed", "Não foi possível enviar para cotação");
-      });
-  }
-
-  async function deleteItemFromList(item) {
-    const data = {
-      idItem: item.id,
-    };
-    await deleteItem(data)
-      .then(() => {
-        handleMessageBox("success", true, "Item removido");
+        handleMessageBox("success", "Item duplicado");
         reloadList();
       })
       .catch(() => {
-        handleMessageBox("failed", true, "Nao foi possível remover");
+        handleMessageBox("failed", "Não foi possível duplicar o item");
       });
+  }
+
+  async function deleteItemFromList(idInquiryItem) {
+    await deleteInquiryItem(idInquiryItem)
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then(() => {
+        handleMessageBox("success", "Item removido");
+        reloadList();
+      })
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível remover o item");
+      });
+  }
+
+  function copyText(text) {
+    navigator.clipboard.writeText(text);
+    handleMessageBox("success", "Texto copiado");
   }
 
   function closeModal() {
     setOpen(false);
   }
 
-  function copyText(text) {
-    navigator.clipboard.writeText(text);
-    handleMessageBox("success", true, "Texto copiado");
-  }
-
-  function handleMessageBox(color, display, message) {
-    dispatch(displayMessageBox({ color, display, message }));
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
 
     setTimeout(() => {
       dispatch(hideMessageBox());
@@ -82,37 +81,41 @@ export default function ListItem({ item, reloadList }) {
             <div className="row gap-2">
               {userSession.isAdmin ? (
                 <Link
-                  to={`/admin/inquiry/item/${item.id}`}
+                  to={`/admin/inquiry/item/${item.item.id}`}
                   className="font-medium font-md text-dark-3"
                 >
-                  {item.description}
+                  {item.item.description}
                 </Link>
               ) : (
-                <span className="font-medium font-md">{item.description}</span>
+                <span className="font-medium font-md">
+                  {item.item.description}
+                </span>
               )}
               <button type="button" className="bg-transparent">
                 <Copy
                   alt="Copar texto"
                   className="icon-default"
-                  onClick={() => copyText(item.description)}
+                  onClick={() => copyText(item.item.description)}
                 />
               </button>
             </div>
           </div>
           <div className="column gap-1">
             <span className="font-light font-sm">Type</span>
-            <span className="font-medium font-md">{item.type.description}</span>
+            <span className="font-medium font-md">
+              {item.item.type.description}
+            </span>
           </div>
           <div className="column gap-1">
             <span className="font-light font-sm">Encap</span>
             <span className="font-medium font-md">
-              {item.encap.description}
+              {item.item.encap.description}
             </span>
           </div>
           <div className="column gap-1">
             <span className="font-light font-sm">Brand</span>
             <span className="font-medium font-md">
-              {item.brand.description}
+              {item.item.brand.description}
             </span>
           </div>
         </div>
@@ -123,25 +126,27 @@ export default function ListItem({ item, reloadList }) {
               className="bg-transparent"
               onClick={() => setOpen(true)}
             >
-              <PencilSimple alt="Visualizar item" className="icon-default" />
+              <PencilSimple className="icon-default" />
             </button>
-            <DialogItem
+
+            <DialogInquiry
               item={item}
               onClose={closeModal}
-              reloadList={reloadList}
               open={open}
-              idUser={userSession.token}
+              reloadList={reloadList}
+              customers={customers}
+              userSession={userSession}
             />
 
             <button
               type="button"
               className="bg-transparent"
-              onClick={() => createInquiry(item)}
+              onClick={() => duplicateInquiryItem(item)}
             >
-              <Question alt="Cotar item" className="icon-default" />
+              <RepeatOnce alt="Cotar novamente" className="icon-default" />
             </button>
 
-            {userSession.isAdmin && (
+            {(userSession.isAdmin || item.user.id === userSession.token) && (
               <button
                 type="button"
                 className="bg-transparent"
@@ -152,6 +157,15 @@ export default function ListItem({ item, reloadList }) {
             )}
           </div>
         </div>
+      </div>
+      <div className="row align-items-center font-sm">
+        <span>Criado em: {item.createdAt}</span>
+        {(userSession.isAdmin || userSession.token !== item.user.id) && (
+          <>
+            &nbsp;por&nbsp;
+            <span className="font-black">{item.user.username}</span>
+          </>
+        )}
       </div>
     </li>
   );
