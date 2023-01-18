@@ -1,7 +1,7 @@
-import PageTitle from "../../components/Common/PageTitle";
+import PageTitle from "../../../components/Common/PageTitle";
 import { useState, useEffect } from "react";
-import List from "../../components/List/List";
-import { getStockItemList } from "../../services/stockService";
+import List from "../../../components/List/List";
+import { getStockItemList } from "../../../services/stockService";
 
 export default function Stock() {
   const [items, setItems] = useState([]);

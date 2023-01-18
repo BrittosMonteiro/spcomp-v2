@@ -38,7 +38,7 @@ export async function readSingleItemFromInquiryList(data) {
 export async function inquiryListDownload(data) {
   return await fetch(`${API_URL}/inquiryListDownload`, {
     method: "POST",
-    headers: { "Content-type": "application/json" },
+    headers: { "Content-type": "application/json", "response-type": "bloob" },
     body: JSON.stringify(data),
   });
 }

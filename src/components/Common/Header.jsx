@@ -75,7 +75,7 @@ export default function Header() {
                   {userSession.role !== 4 ? (
                     <DropdownMenu.Item>
                       <Link
-                        to="/admin-route/customers"
+                        to="/admin/customers"
                         className="row align-items-center gap-2 text-dark-1"
                       >
                         <Handshake className="icon-default" />
@@ -88,7 +88,7 @@ export default function Header() {
                     <>
                       <DropdownMenu.Item>
                         <Link
-                          to="/admin-route/suppliers"
+                          to="/admin/suppliers"
                           className="row align-items-center gap-2 text-dark-1"
                         >
                           <Airplane className="icon-default" />
@@ -98,7 +98,7 @@ export default function Header() {
 
                       <DropdownMenu.Item>
                         <Link
-                          to="/admin-route/users"
+                          to="/admin/users"
                           className="row align-items-center gap-2 text-dark-1"
                         >
                           <Users className="icon-default" />

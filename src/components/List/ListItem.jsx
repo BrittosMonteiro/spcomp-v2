@@ -71,9 +71,16 @@ export default function ListItem({ item, hasLink, reloadList, customers }) {
     if (!item.quantity || !item.unitPurchasePrice || !item.unitSalePrice)
       return;
 
+    const purchaseItem = {
+      idInquiryItem: item.id,
+      idUser: item.idUser,
+      idCustomer: item.idCustomer,
+      idSupplier: item.idSupplier,
+    };
+
     item.step = 2;
 
-    await addItemToPurchaseList(item)
+    await addItemToPurchaseList(purchaseItem)
       .then(() => {
         navigate("/main/purchase");
         handleMessageBox("success", true, "Item movido para compras");
@@ -217,7 +224,7 @@ export default function ListItem({ item, hasLink, reloadList, customers }) {
             <div className="row gap-2">
               {hasLink && userSession.isAdmin ? (
                 <Link
-                  to={`/admin-route/inquiry/item/${item.id}`}
+                  to={`/admin/inquiry/item/${item.id}`}
                   className="font-medium font-md text-dark-3"
                 >
                   {item.description}
@@ -236,15 +243,19 @@ export default function ListItem({ item, hasLink, reloadList, customers }) {
           </div>
           <div className="column gap-1">
             <span className="font-light font-sm">Type</span>
-            <span className="font-medium font-md">{item.type}</span>
+            <span className="font-medium font-md">{item.type.description}</span>
           </div>
           <div className="column gap-1">
             <span className="font-light font-sm">Encap</span>
-            <span className="font-medium font-md">{item.encap}</span>
+            <span className="font-medium font-md">
+              {item.encap.description}
+            </span>
           </div>
           <div className="column gap-1">
             <span className="font-light font-sm">Brand</span>
-            <span className="font-medium font-md">{item.brand}</span>
+            <span className="font-medium font-md">
+              {item.brand.description}
+            </span>
           </div>
         </div>
         <div className="row align-items-center gap-4">

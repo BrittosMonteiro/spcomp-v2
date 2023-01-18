@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import PageTitle from "../../components/Common/PageTitle";
-import List from "../../components/List/List";
-import { getPurchaseList } from "../../services/purchaseService";
+import PageTitle from "../../../components/Common/PageTitle";
+import List from "../../../components/List/List";
+import { getPurchaseList } from "../../../services/purchaseService";
 
 export default function Imports() {
   const [items, setItems] = useState([]);

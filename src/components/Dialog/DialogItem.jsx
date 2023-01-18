@@ -44,19 +44,16 @@ export default function DialogItemDefault({
   useEffect(() => {
     if (item) {
       setDescription(item.description);
-      setBrand(item.brand);
-      setType(item.type);
-      setEncap(item.encap);
+      setBrand(item.brand.id);
+      setType(item.type.id);
+      setEncap(item.encap.id);
       setIpi(item.ipi);
       setWeight(item.weight);
       setNote(item.note);
-      setStep(item.step);
-      setStatus(item.status);
       setQuantity(item.quantity);
       setUnitSalePrice(item.unitSalePrice);
       setUnitPurchasePrice(item.unitPurchasePrice);
-      setIdCustomer(item.idCustomer);
-      setNameCustomer(item.nameCustomer);
+      setIdCustomer(item.customer.id);
     }
   }, [item]);
 
@@ -338,11 +335,10 @@ export default function DialogItemDefault({
                       <select
                         name="item_customer"
                         id="item_customer"
-                        defaultValue={`${idCustomer}-${nameCustomer}`}
+                        defaultValue={idCustomer}
                         className="border-default pa-2 border-radius-soft font-medium font-md"
                         onChange={(e) => {
-                          setIdCustomer(e.target.value.split("-")[0]);
-                          setNameCustomer(e.target.value.split("-")[1]);
+                          setIdCustomer(e.target.value);
                         }}
                         disabled={
                           idUser !== item.idUser && !userSession.isAdmin
@@ -354,10 +350,7 @@ export default function DialogItemDefault({
                               <option>Escolher cliente</option>
                             ) : null}
                             {customers.map((customer) => (
-                              <option
-                                value={`${customer.id}-${customer.name}`}
-                                key={customer.id}
-                              >
+                              <option value={customer.id} key={customer.id}>
                                 {customer.name}
                               </option>
                             ))}

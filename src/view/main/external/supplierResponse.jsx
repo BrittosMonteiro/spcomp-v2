@@ -8,18 +8,18 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import PageTitle from "../../components/Common/PageTitle";
+import PageTitle from "../../../components/Common/PageTitle";
 import {
   readInquiryHistory,
   readActiveInquiryHistory,
   updateInquiryHistory,
   deleteInquiryHistory,
-} from "../../services/inquiryHistoryService";
-import { inquiryListDownload } from "../../services/inquiryListService";
+} from "../../../services/inquiryHistoryService";
+import { inquiryListDownload } from "../../../services/inquiryListService";
 import {
   displayMessageBox,
   hideMessageBox,
-} from "../../store/actions/messageBoxAction.js";
+} from "../../../store/actions/messageBoxAction.js";
 
 export default function SupplierResponse() {
   const dispatch = useDispatch();
@@ -132,11 +132,14 @@ export default function SupplierResponse() {
     await inquiryListDownload({ idInquiryHistory, title })
       .then((response) => {
         if (response.status === 200) {
-          return response.json();
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", `${title}.xlsx`);
+          document.body.appendChild(link);
+          link.click();
+          // return response.json();
         }
-      })
-      .then((res) => {
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);

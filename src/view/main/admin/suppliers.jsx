@@ -1,23 +1,23 @@
-import PageTitle from "../../components/Common/PageTitle";
+import PageTitle from "../../../components/Common/PageTitle";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState, useEffect } from "react";
-import { readUsers } from "../../services/usersService";
-import DialogUser from "../../components/Dialog/DialogUser";
-import ListUser from "../../components/List/ListUser";
+import DialogSupplier from "../../../components/Dialog/DialogSupplier";
+import ListSupplier from "../../../components/List/ListSupplier";
+import { readSuppliers } from "../../../services/supplierService";
 
-export default function Users() {
+export default function Suppliers() {
   const [open, setOpen] = useState(false);
-  const [usersList, setUsersList] = useState([]);
+  const [suppliersList, setSuppliersList] = useState([]);
 
-  async function loadList() {
-    await readUsers()
+  function loadList() {
+    readSuppliers()
       .then((response) => {
         if (response.status === 200) {
           return response.json();
         }
       })
       .then((response) => {
-        setUsersList(response.data || []);
+        setSuppliersList(response.data || []);
       })
       .catch((err) => {
         console.log(err);
@@ -36,15 +36,15 @@ export default function Users() {
   return (
     <>
       <div className="row justify-content-between align-items-center">
-        <PageTitle title={"Usuários"} />
+        <PageTitle title={"Fornecedores"} />
         <Dialog.Root open={open} onOpenChange={setOpen}>
           <Dialog.Trigger className="font-medium font-sm bg-transparent">
-            Adicionar novo usuário
+            Adicionar novo fornecedor
           </Dialog.Trigger>
-          <DialogUser reloadList={reloadList} />
+          <DialogSupplier reloadList={reloadList} />
         </Dialog.Root>
       </div>
-      <ListUser usersList={usersList} reloadList={reloadList} />
+      <ListSupplier suppliersList={suppliersList} reloadList={reloadList} />
     </>
   );
 }

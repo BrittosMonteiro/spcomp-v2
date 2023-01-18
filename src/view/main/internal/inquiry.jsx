@@ -1,11 +1,11 @@
-import PageTitle from "../../components/Common/PageTitle";
+import PageTitle from "../../../components/Common/PageTitle";
 import { useEffect, useState } from "react";
-import List from "../../components/List/List";
-import { readInquiryItems } from "../../services/inquiryItemService";
-import DialogInquiry from "../../components/Dialog/DialogInquiry";
-import FilterItems from "../../components/Common/filterItems";
+import List from "../../../components/List/List";
+import { readInquiryItems } from "../../../services/inquiryItemService";
+import DialogInquiry from "../../../components/Dialog/DialogInquiry";
+import FilterItems from "../../../components/Common/filterItems";
 import { useSelector } from "react-redux";
-import { readCustomerToItem } from "../../services/customerService";
+import { readCustomerToItem } from "../../../services/customerService";
 
 export default function Inquiry() {
   const userSession = useSelector((state) => {
