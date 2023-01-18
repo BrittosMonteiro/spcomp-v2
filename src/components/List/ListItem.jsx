@@ -1,40 +1,26 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-//Icons
 import {
-  ArchiveBox,
-  CheckCircle,
   Copy,
   DotsThreeVertical,
   PencilSimple,
   Question,
-  ShoppingCart,
-  Tag,
   TrashSimple,
-  WarningCircle,
 } from "phosphor-react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
-//Components
 import DialogItem from "../Dialog/DialogItem";
 
-//Services
-import {
-  createInquiryItem,
-  deleteInquiryItem,
-} from "../../services/inquiryItemService";
+import { createInquiryItem } from "../../services/inquiryItemService";
 import { deleteItem } from "../../services/itemService";
-import { addItemToPurchaseList } from "../../services/purchaseService";
-import { deleteItemFromPurchaseList } from "../../services/purchaseService";
-import { deleteStockItem, postStockItem } from "../../services/stockService";
 import { useDispatch, useSelector } from "react-redux";
 import {
   displayMessageBox,
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
 
-export default function ListItem({ item, hasLink, reloadList, customers }) {
+export default function ListItem({ item, reloadList }) {
   const dispatch = useDispatch();
   const userSession = useSelector((state) => {
     return state.login;
@@ -43,7 +29,7 @@ export default function ListItem({ item, hasLink, reloadList, customers }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
-  function setInquiryItem(item) {
+  function createInquiry(item) {
     item.status = "Pendente";
     item.step = 1;
     item.quantity = 0;
@@ -67,68 +53,7 @@ export default function ListItem({ item, hasLink, reloadList, customers }) {
       });
   }
 
-  async function setPurchaseItem(item) {
-    if (!item.quantity || !item.unitPurchasePrice || !item.unitSalePrice)
-      return;
-
-    const purchaseItem = {
-      idInquiryItem: item.id,
-      idUser: item.idUser,
-      idCustomer: item.idCustomer,
-      idSupplier: item.idSupplier,
-    };
-
-    item.step = 2;
-
-    await addItemToPurchaseList(purchaseItem)
-      .then(() => {
-        navigate("/main/purchase");
-        handleMessageBox("success", true, "Item movido para compras");
-      })
-      .catch(() => {
-        handleMessageBox("failed", true, "Não foi possível mover para compras");
-      });
-  }
-
-  async function moveToStock(item) {
-    item.step = 3;
-    item.status = "Reservado";
-    await postStockItem(item)
-      .then(() => {
-        navigate("/stock");
-        handleMessageBox("success", true, "Item movido para o estoque");
-      })
-      .catch(() => {
-        handleMessageBox(
-          "failed",
-          true,
-          "Não foi possível mover para o estoque"
-        );
-      });
-  }
-
-  function removeItem(item) {
-    const data = {
-      id: item.id,
-    };
-
-    switch (item.step) {
-      case 1:
-        deleteFromItemInquiry(data);
-        break;
-      case 2:
-        deleteFromItemPurchase(data);
-        break;
-      case 3:
-        deleteFromItemStock(data);
-        break;
-      default:
-        deleteFromItemList(data);
-        break;
-    }
-  }
-
-  async function deleteFromItemList(data) {
+  async function deleteItemFromList(data) {
     await deleteItem(data)
       .then(() => {
         handleMessageBox("success", true, "Item removido");
@@ -137,45 +62,6 @@ export default function ListItem({ item, hasLink, reloadList, customers }) {
       .catch(() => {
         handleMessageBox("failed", true, "Nao foi possível remover");
       });
-  }
-
-  async function deleteFromItemInquiry(data) {
-    await deleteInquiryItem(data)
-      .then(() => {
-        handleMessageBox("success", true, "Item removido");
-        reloadList();
-      })
-      .catch(() => {
-        handleMessageBox("failed", true, "Nao foi possível remover");
-      });
-  }
-
-  async function deleteFromItemPurchase(data) {
-    await deleteItemFromPurchaseList(data)
-      .then(() => {
-        handleMessageBox("success", true, "Item removido");
-      })
-      .catch(() => {
-        handleMessageBox("failed", true, "Nao foi possível remover");
-      });
-  }
-
-  async function deleteFromItemStock(data) {
-    await deleteStockItem(data)
-      .then(() => {
-        handleMessageBox("success", true, "Item removido");
-      })
-      .catch(() => {
-        handleMessageBox("failed", true, "Nao foi possível remover");
-      });
-  }
-
-  function handleMessageBox(color, display, message) {
-    dispatch(displayMessageBox({ color, display, message }));
-
-    setTimeout(() => {
-      dispatch(hideMessageBox());
-    }, 5000);
   }
 
   function closeModal() {
@@ -187,24 +73,12 @@ export default function ListItem({ item, hasLink, reloadList, customers }) {
     handleMessageBox("success", true, "Texto copiado");
   }
 
-  async function createInquiryItemCopy() {
-    const data = {
-      ...item,
-      idUser: userSession.token,
-      nameUser: userSession.username,
-      unitSalePrice: 0,
-      unitPurchasePrice: 0,
-      idCustomer: "",
-      nameCustomer: "",
-    };
-    await createInquiryItem(data)
-      .then(() => {
-        handleMessageBox("success", true, "Item copiado");
-        reloadList();
-      })
-      .catch(() => {
-        handleMessageBox("success", true, "Não foi possível copiar o item");
-      });
+  function handleMessageBox(color, display, message) {
+    dispatch(displayMessageBox({ color, display, message }));
+
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (
@@ -212,17 +86,9 @@ export default function ListItem({ item, hasLink, reloadList, customers }) {
       <div className="row justify-content-between">
         <div className="row gap-4">
           <div className="column gap-1">
-            <span className="font-light font-sm">Quantity</span>
-            {item.quantity ? (
-              <span className="font-medium font-md">{item.quantity}</span>
-            ) : (
-              "-"
-            )}
-          </div>
-          <div className="column gap-1">
             <span className="font-light font-sm">Description</span>
             <div className="row gap-2">
-              {hasLink && userSession.isAdmin ? (
+              {userSession.isAdmin ? (
                 <Link
                   to={`/admin/inquiry/item/${item.id}`}
                   className="font-medium font-md text-dark-3"
@@ -260,18 +126,6 @@ export default function ListItem({ item, hasLink, reloadList, customers }) {
         </div>
         <div className="row align-items-center gap-4">
           <div className="row gap-2">
-            {item.unitPurchasePrice && item.unitSalePrice ? (
-              <CheckCircle
-                alt="Item cotado"
-                className="icon-default text-green-1"
-              />
-            ) : null}
-            {item.quantity <= 0 && (
-              <WarningCircle
-                alt="Informar a quantidade"
-                className="icon-default text-orange-1"
-              />
-            )}
             <button
               type="button"
               className="bg-transparent"
@@ -285,7 +139,6 @@ export default function ListItem({ item, hasLink, reloadList, customers }) {
               reloadList={reloadList}
               open={open}
               idUser={userSession.token}
-              customers={customers}
             />
 
             <DropdownMenu.Root>
@@ -295,57 +148,19 @@ export default function ListItem({ item, hasLink, reloadList, customers }) {
 
               <DropdownMenu.Portal>
                 <DropdownMenu.Content className="bg-white-1 border-default border-radius-soft pa-2 gap-4 column font-medium font-md">
-                  {item.step !== 1 && (
+                  <DropdownMenu.Item
+                    className="row align-items-center gap-2"
+                    onClick={() => createInquiry(item)}
+                  >
+                    <Question className="icon-default" /> Cotar
+                  </DropdownMenu.Item>
+
+                  {userSession.isAdmin && (
                     <DropdownMenu.Item
                       className="row align-items-center gap-2"
-                      onClick={() => setInquiryItem(item)}
-                    >
-                      <Question className="icon-default" /> Cotar
-                    </DropdownMenu.Item>
-                  )}
-
-                  {item.step >= 1 &&
-                  item.quantity > 0 &&
-                  item.unitPurchasePrice &&
-                  item.unitSalePrice &&
-                  (item.idUser === userSession.token || userSession.isAdmin) ? (
-                    <DropdownMenu.Item
-                      className="row align-items-center gap-2"
-                      onClick={() => setPurchaseItem(item)}
-                    >
-                      <ShoppingCart className="icon-default" /> Solicitar compra
-                    </DropdownMenu.Item>
-                  ) : null}
-
-                  {item.step === 2 && item.status === "Concluído" && (
-                    <DropdownMenu.Item
-                      className="row align-items-center gap-2"
-                      onClick={() => moveToStock(item)}
-                    >
-                      <ArchiveBox className="icon-default" /> Mover para estoque
-                    </DropdownMenu.Item>
-                  )}
-
-                  {item.step === 3 && (
-                    <DropdownMenu.Item className="row align-items-center gap-2">
-                      <Tag className="icon-default" /> Criar pedido
-                    </DropdownMenu.Item>
-                  )}
-
-                  {item.idUser === userSession.token || userSession.isAdmin ? (
-                    <DropdownMenu.Item
-                      className="row align-items-center gap-2"
-                      onClick={() => removeItem(item)}
+                      onClick={() => deleteItemFromList(item)}
                     >
                       <TrashSimple className="icon-default" /> Remover
-                    </DropdownMenu.Item>
-                  ) : null}
-                  {item.idItem && (
-                    <DropdownMenu.Item
-                      className="row align-items-center gap-2"
-                      onClick={() => createInquiryItemCopy()}
-                    >
-                      <Copy className="icon-default" /> Criar cópia
                     </DropdownMenu.Item>
                   )}
                 </DropdownMenu.Content>
@@ -354,13 +169,6 @@ export default function ListItem({ item, hasLink, reloadList, customers }) {
           </div>
         </div>
       </div>
-      {item.idUser && item.idUser !== userSession.token ? (
-        <div className="row">
-          <span className="font-sm font-light">
-            Vendedor: <span className="font-bold">{item.nameUser}</span>
-          </span>
-        </div>
-      ) : null}
     </li>
   );
 }

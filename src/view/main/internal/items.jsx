@@ -18,6 +18,7 @@ export default function Items() {
 
   const [items, setItems] = useState([]);
   const [originalItems, setOriginalItems] = useState([]);
+  const [level, setLevel] = useState("");
   const [open, setOpen] = useState(false);
 
   async function loadList() {
@@ -28,8 +29,9 @@ export default function Items() {
         }
       })
       .then((response) => {
-        setItems(response.data || []);
-        setOriginalItems(response.data || []);
+        setItems(response.data.itemsList);
+        setOriginalItems(response.data.itemsList);
+        setLevel(response.data.level);
       })
       .catch(() => {
         handleMessageBox("Faile", true, "Não foi possível carregar os itens");
@@ -72,7 +74,7 @@ export default function Items() {
         <FilterItems setItems={setItems} originalItems={originalItems} />
       ) : null}
       {items.length > 0 ? (
-        <List list={items} reloadList={reloadList} />
+        <List list={items} level={level} reloadList={reloadList} />
       ) : (
         <div className="mx-auto">
           <p className="font-lg font-light">Não há itens cadastrados</p>

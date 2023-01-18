@@ -1,163 +1,111 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { readBrands } from "../../services/brandService";
 import { readEncap } from "../../services/encapService";
 import { readType } from "../../services/typeService";
-import { updateInquiryItem } from "../../services/inquiryItemService";
 import { createItem, updateItem } from "../../services/itemService";
 import {
   displayMessageBox,
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
 
-export default function DialogItemDefault({
-  item,
-  open,
-  onClose,
-  reloadList,
-  idUser,
-  customers,
-}) {
+export default function DialogItemDefault({ item, open, onClose, reloadList }) {
   const dispatch = useDispatch();
-  const userSession = useSelector((state) => {
-    return state.login;
-  });
 
   const [brandList, setBrandList] = useState([]);
   const [typeList, setTypeList] = useState([]);
   const [encapList, setEncapList] = useState([]);
   const [description, setDescription] = useState("");
-  const [brand, setBrand] = useState("");
-  const [type, setType] = useState("");
-  const [encap, setEncap] = useState("");
+  const [idBrand, setIdBrand] = useState("");
+  const [idEncap, setIdEncap] = useState("");
+  const [idType, setIdType] = useState("");
   const [ipi, setIpi] = useState("");
   const [weight, setWeight] = useState("");
   const [note, setNote] = useState("");
-  const [step, setStep] = useState(0);
-  const [status, setStatus] = useState("");
-  const [quantity, setQuantity] = useState(0);
-  const [unitSalePrice, setUnitSalePrice] = useState(0);
-  const [unitPurchasePrice, setUnitPurchasePrice] = useState(0);
-  const [idCustomer, setIdCustomer] = useState("");
-  const [nameCustomer, setNameCustomer] = useState("");
 
   useEffect(() => {
     if (item) {
       setDescription(item.description);
-      setBrand(item.brand.id);
-      setType(item.type.id);
-      setEncap(item.encap.id);
+      setIdBrand(item.brand.id);
+      setIdType(item.type.id);
+      setIdEncap(item.encap.id);
       setIpi(item.ipi);
       setWeight(item.weight);
       setNote(item.note);
-      setQuantity(item.quantity);
-      setUnitSalePrice(item.unitSalePrice);
-      setUnitPurchasePrice(item.unitPurchasePrice);
-      setIdCustomer(item.customer.id);
     }
   }, [item]);
 
   useEffect(() => {
-    readBrands()
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        } else {
-          handleMessageBox("failed", true, "As marcas não foram carregadas 1");
-        }
-      })
-      .then((res) => setBrandList(res.data))
-      .catch(() => {
-        handleMessageBox("failed", true, "As marcas não foram carregadas 2");
-      });
-
-    readType()
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        } else {
-          handleMessageBox("failed", true, "Os tipos não foram carregados");
-        }
-      })
-      .then((res) => setTypeList(res.data))
-      .catch(() =>
-        handleMessageBox("failed", true, "Os tipos não foram carregados")
-      );
-
-    readEncap()
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        } else {
-          handleMessageBox(
-            "failed",
-            true,
-            "Os encapsulamentos não foram carregados 2"
-          );
-        }
-      })
-      .then((res) => setEncapList(res.data))
-      .catch(() =>
-        handleMessageBox(
-          "failed",
-          true,
-          "Os encapsulamentos não foram carregados"
-        )
-      );
+    loadBrands();
+    loadEncaps();
+    loadTypes();
   }, []);
 
   function handleItem(e) {
     e.preventDefault();
 
-    if (!description || !brand || !type || !encap || !ipi || !weight || !note) {
+    if (
+      !description ||
+      !idBrand ||
+      !idType ||
+      !idEncap ||
+      !ipi ||
+      !weight ||
+      !note
+    ) {
       handleMessageBox("failed", true, "Preencha o formulário");
       return;
     }
 
     let data = {
-      description: description,
-      brand: brand,
-      type: type,
-      encap: encap,
-      ipi: ipi,
-      weight: weight,
-      note: note,
-      step: step,
-      status: status,
+      description,
+      idBrand,
+      idType,
+      idEncap,
+      ipi,
+      weight,
+      note,
     };
 
-    manageItem(data);
-  }
-
-  function manageItem(data) {
     if (item?.id) {
-      let additional = {
-        id: item.id,
-        quantity: quantity,
-        unitPurchasePrice: unitPurchasePrice,
-        unitSalePrice: unitSalePrice,
-        idCustomer: idCustomer,
-        nameCustomer: nameCustomer,
-      };
-
-      data = { ...data, ...additional };
-
-      switch (step) {
-        case 0 || undefined:
-          updateItemOnList(data);
-          break;
-        case 1:
-          updateInquiryItemOnList(data);
-          break;
-        case 2:
-          updatePurchaseItemOnList(data);
-          break;
-        default:
-          break;
-      }
+      data = { data, idItem: item.id };
+      updateItemOnList(data);
     } else {
       create(data);
     }
+  }
+
+  async function loadBrands() {
+    await readBrands()
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then((res) => setBrandList(res.data))
+      .catch(() => {});
+  }
+
+  async function loadEncaps() {
+    await readEncap()
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then((res) => setEncapList(res.data))
+      .catch(() => {});
+  }
+
+  async function loadTypes() {
+    await readType()
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then((res) => setTypeList(res.data))
+      .catch(() => {});
   }
 
   async function create(data) {
@@ -185,37 +133,6 @@ export default function DialogItemDefault({
       });
   }
 
-  async function updateInquiryItemOnList(data) {
-    await updateInquiryItem(data)
-      .then(() => {
-        handleMessageBox("success", true, "Item atualizado");
-        onClose();
-        reloadList();
-      })
-      .catch(() => {
-        handleMessageBox("faile", true, "Não foi possível atualizar o item");
-      });
-  }
-
-  async function updatePurchaseItemOnList(data) {
-    await updateItem(data)
-      .then(() => {
-        handleMessageBox("success", true, "Item atualizado");
-        onClose();
-        reloadList();
-      })
-      .catch(() => {
-        handleMessageBox("faile", true, "Não foi possível atualizar o item");
-      });
-  }
-
-  function handleMessageBox(color, display, message) {
-    dispatch(displayMessageBox({ color, display, message }));
-    setTimeout(() => {
-      dispatch(hideMessageBox());
-    }, 5000);
-  }
-
   function closeModal(e) {
     const elementId = e.target.id === "overlay";
     if (elementId) onClose();
@@ -223,12 +140,19 @@ export default function DialogItemDefault({
 
   function clearFields() {
     setDescription("");
-    setBrand("");
-    setType("");
-    setEncap("");
+    setIdBrand("");
+    setIdType("");
+    setIdEncap("");
     setIpi("");
     setWeight("");
     setNote("");
+  }
+
+  function handleMessageBox(color, display, message) {
+    dispatch(displayMessageBox({ color, display, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (
@@ -248,7 +172,6 @@ export default function DialogItemDefault({
                     name="item_description"
                     id="item_description"
                     defaultValue={description}
-                    disabled={step > 0}
                     placeholder="Descrição"
                     className="border-default pa-2 border-radius-soft font-medium font-md"
                     onChange={(e) => setDescription(e.target.value)}
@@ -260,16 +183,15 @@ export default function DialogItemDefault({
                   <select
                     name="item_brand"
                     id="item_brand"
-                    defaultValue={brand}
-                    disabled={step > 0}
+                    defaultValue={idBrand}
                     className="border-default pa-2 border-radius-soft font-medium font-md"
-                    onChange={(e) => setBrand(e.target.value)}
+                    onChange={(e) => setIdBrand(e.target.value)}
                   >
                     {brandList.length > 0 ? (
                       <>
                         <option>Escolher marca do item</option>
                         {brandList.map((brand, index) => (
-                          <option value={brand.description} key={index}>
+                          <option value={brand.id} key={index}>
                             {brand.description}
                           </option>
                         ))}
@@ -285,16 +207,15 @@ export default function DialogItemDefault({
                   <select
                     name="item_type"
                     id="item_type"
-                    defaultValue={type}
-                    disabled={step > 0}
+                    defaultValue={idType}
                     className="border-default pa-2 border-radius-soft font-medium font-md"
-                    onChange={(e) => setType(e.target.value)}
+                    onChange={(e) => setIdType(e.target.value)}
                   >
                     {typeList.length > 0 ? (
                       <>
                         <option>Escolher tipo do item</option>
                         {typeList.map((type, index) => (
-                          <option value={type.description} key={index}>
+                          <option value={type.id} key={index}>
                             {type.description}
                           </option>
                         ))}
@@ -308,16 +229,15 @@ export default function DialogItemDefault({
                   <select
                     name="item_encap"
                     id="item_encap"
-                    defaultValue={encap}
-                    disabled={step > 0}
+                    defaultValue={idEncap}
                     className="border-default pa-2 border-radius-soft font-medium font-md"
-                    onChange={(e) => setEncap(e.target.value)}
+                    onChange={(e) => setIdEncap(e.target.value)}
                   >
                     {encapList.length > 0 ? (
                       <>
                         <option>Escolher encapsulamento do item</option>
                         {encapList.map((encap, index) => (
-                          <option value={encap.description} key={index}>
+                          <option value={encap.id} key={index}>
                             {encap.description}
                           </option>
                         ))}
@@ -326,99 +246,6 @@ export default function DialogItemDefault({
                   </select>
                 </div>
               </div>
-
-              {step >= 1 ? (
-                <>
-                  <div className="row align-items-center mt-8">
-                    <div className="column gap-2 text-dark-3 font-medium font-sm">
-                      <label htmlFor="item_customer">Atrelar cliente</label>
-                      <select
-                        name="item_customer"
-                        id="item_customer"
-                        defaultValue={idCustomer}
-                        className="border-default pa-2 border-radius-soft font-medium font-md"
-                        onChange={(e) => {
-                          setIdCustomer(e.target.value);
-                        }}
-                        disabled={
-                          idUser !== item.idUser && !userSession.isAdmin
-                        }
-                      >
-                        {customers.length > 0 ? (
-                          <>
-                            {!idCustomer || !nameCustomer ? (
-                              <option>Escolher cliente</option>
-                            ) : null}
-                            {customers.map((customer) => (
-                              <option value={customer.id} key={customer.id}>
-                                {customer.name}
-                              </option>
-                            ))}
-                          </>
-                        ) : null}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="row align-items-center gap-4 mt-8">
-                    <div className="column gap-2 text-dark-3 font-medium font-sm">
-                      <label htmlFor="item_quantity">Quantidade</label>
-                      <input
-                        type={"text"}
-                        name="item_quantity"
-                        id="item_quantity"
-                        defaultValue={quantity}
-                        placeholder="Quantidade"
-                        className="border-default pa-2 border-radius-soft font-medium font-md"
-                        onChange={(e) => setQuantity(e.target.value)}
-                        disabled={
-                          idUser !== item.idUser && !userSession.isAdmin
-                        }
-                      />
-                    </div>
-
-                    {userSession.isAdmin && (
-                      <div className="column gap-2 text-dark-3 font-medium font-sm">
-                        <label htmlFor="item_unit_sale_price">
-                          Preço de compra unitário
-                        </label>
-                        <div className="row border-default pa-2 gap-2 border-radius-soft">
-                          <span className="font-medium font-md">USD</span>
-                          <input
-                            type={"text"}
-                            name="item_unit_sale_price"
-                            id="item_unit_sale_price"
-                            defaultValue={unitPurchasePrice}
-                            className="font-medium font-md"
-                            placeholder="Preço de compra unitário"
-                            onChange={(e) => setUnitSalePrice(e.target.value)}
-                            disabled={true}
-                          />
-                        </div>
-                      </div>
-                    )}
-                    <div className="column gap-2 text-dark-3 font-medium font-sm">
-                      <label htmlFor="item_unit_purchase_price">
-                        Preço de venda unitário
-                      </label>
-                      <div className="row border-default pa-2 gap-2 border-radius-soft">
-                        <span className="font-medium font-md">R$</span>
-                        <input
-                          type={"text"}
-                          name="item_unit_purchase_price"
-                          id="item_unit_purchase_price"
-                          defaultValue={unitSalePrice}
-                          className="font-medium font-md"
-                          placeholder="Preço de venda unitário"
-                          onChange={(e) => setUnitPurchasePrice(e.target.value)}
-                          disabled={
-                            idUser !== item?.idUser && !userSession.isAdmin
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </>
-              ) : null}
 
               <div className="row align-items-center gap-4 mt-8">
                 <div className="column gap-2 text-dark-3 font-medium font-sm">
@@ -431,11 +258,6 @@ export default function DialogItemDefault({
                     placeholder="IPI do item"
                     className="border-default pa-2 border-radius-soft font-medium font-md"
                     onChange={(e) => setIpi(e.target.value)}
-                    disabled={
-                      item?.idUser &&
-                      item?.idUser !== idUser &&
-                      !userSession.isAdmin
-                    }
                   />
                 </div>
 
@@ -449,11 +271,6 @@ export default function DialogItemDefault({
                     placeholder="Peso do item"
                     className="border-default pa-2 border-radius-soft font-medium font-md"
                     onChange={(e) => setWeight(e.target.value)}
-                    disabled={
-                      item?.idUser &&
-                      item?.idUser !== idUser &&
-                      !userSession.isAdmin
-                    }
                   />
                 </div>
               </div>
@@ -467,11 +284,6 @@ export default function DialogItemDefault({
                   placeholder="Informações importantes sobre o item"
                   className="border-default pa-2 border-radius-soft font-medium font-md"
                   onChange={(e) => setNote(e.target.value)}
-                  disabled={
-                    item?.idUser &&
-                    item?.idUser !== idUser &&
-                    !userSession.isAdmin
-                  }
                 ></textarea>
               </div>
 
