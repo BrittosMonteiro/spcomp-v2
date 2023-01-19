@@ -113,7 +113,6 @@ export default function DialogInquiry({
   }
 
   async function updateItemOnList(data) {
-    console.log(data);
     await updateInquiryItem(data)
       .then(() => {
         handleMessageBox("success", true, "Item atualizado");

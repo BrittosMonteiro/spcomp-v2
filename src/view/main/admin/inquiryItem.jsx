@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import PageTitle from "../../../components/Common/PageTitle";
-import ListSupplierResponse from "../../../components/List/ListSupplierResponse";
+import ListInquiryDetail from "../../../components/List/ListInquiryDetail";
 import { readSingleItemFromInquiryList } from "../../../services/inquiryListService";
-import {
-  displayMessageBox,
-  hideMessageBox,
-} from "../../../store/actions/messageBoxAction";
+// import {
+//   displayMessageBox,
+//   hideMessageBox,
+// } from "../../../store/actions/messageBoxAction";
 
 export default function InquiryItem() {
   const { idInquiryItem } = useParams();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const userSession = useSelector((state) => {
     return state.login;
   });
@@ -24,18 +25,16 @@ export default function InquiryItem() {
         .then((res) => {
           setCompanies(res.data);
         })
-        .catch(() => {
-          handleMessageBox("failed", "Não foi possível encontrar o item");
-        });
+        .catch(() => {});
     }
   }, [idInquiryItem]);
 
-  function handleMessageBox(color, message) {
-    dispatch(displayMessageBox({ color, display: true, message }));
-    setInterval(() => {
-      dispatch(hideMessageBox());
-    }, 2500);
-  }
+  // function handleMessageBox(color, message) {
+  //   dispatch(displayMessageBox({ color, display: true, message }));
+  //   setInterval(() => {
+  //     dispatch(hideMessageBox());
+  //   }, 2500);
+  // }
 
   return (
     <>
@@ -53,7 +52,7 @@ export default function InquiryItem() {
               </div>
               {company.item.map((item) => (
                 <React.Fragment key={item.idInquiryItem}>
-                  <ListSupplierResponse
+                  <ListInquiryDetail
                     idInquiryList={company.idInquiryList}
                     idSupplier={company.idSupplier}
                     nameSupplier={company.nameSupplier}

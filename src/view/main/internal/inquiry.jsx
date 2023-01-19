@@ -6,6 +6,7 @@ import DialogInquiry from "../../../components/Dialog/DialogInquiryList";
 import FilterItems from "../../../components/Common/filterItems";
 import { useSelector } from "react-redux";
 import { readCustomerToItem } from "../../../services/customerService";
+import { PaperPlaneTilt } from "phosphor-react";
 
 export default function Inquiry() {
   const userSession = useSelector((state) => {
@@ -62,24 +63,13 @@ export default function Inquiry() {
       let pendingInquiryItems = [];
       const pending = items.filter(
         (item) =>
-          item.quantity > 0 &&
-          item.unitPurchasePrice === 0 &&
-          item.idCustomer &&
-          item.nameCustomer
+          item.item.item.quantity > 0 &&
+          item.item.item.unitPurchasePrice === 0 &&
+          item.item.customer.id
       );
 
       for (let item of pending) {
-        const data = {
-          idItem: item.idItem,
-          idInquiryItem: item.id,
-          description: item.description,
-          brand: item.brand,
-          encap: item.encap,
-          quantity: item.quantity,
-          type: item.type,
-          unitPurchasePrice: item.unitPurchasePrice,
-        };
-        pendingInquiryItems.push(data);
+        pendingInquiryItems.push(item.item.idInquiryItem);
       }
       setPending(pendingInquiryItems);
     }
@@ -98,9 +88,16 @@ export default function Inquiry() {
       <div className="row justify-content-between align-items-center">
         <PageTitle title={"Cotações"} />
         {userSession.isAdmin && pending.length > 0 ? (
-          <span className="font-light font-md" onClick={() => setOpen(true)}>
-            Cotar itens pendentes ({pending.length})
-          </span>
+          <button
+            type="button"
+            className="row bg-green-1 text-white-1 align-items-center gap-2 pa-2 border-radius-soft"
+            onClick={() => setOpen(true)}
+          >
+            <PaperPlaneTilt className="icon-default" />
+            <span className="font-medium font-sm">
+              Enviar pendentes ({pending.length})
+            </span>
+          </button>
         ) : null}
         <DialogInquiry open={open} onClose={closeModal} pending={pending} />
       </div>

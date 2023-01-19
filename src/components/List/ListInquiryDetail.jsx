@@ -10,31 +10,29 @@ import { updateInquiryList } from "../../services/inquiryListService.js";
 import { updateInquiryItemPrice } from "../../services/inquiryItemService";
 import { getCurrencyValue } from "../../utils/currencyApi";
 
-export default function ListSupplierResponse({
-  idInquiryList,
-  idSupplier,
-  nameSupplier,
+export default function ListInquiryDetail({
   item,
+  idSupplier,
   btnChoosePrice,
   reloadInquiryListByCompany,
 }) {
+  console.log(item);
   const dispatch = useDispatch();
   const userSession = useSelector((state) => {
     return state.login;
   });
-  const [unitPurchasePrice, setUnitPurchasePrice] = useState("");
+  const [purchasePrice, setPurchasePrice] = useState(0);
 
   useEffect(() => {
-    setUnitPurchasePrice(item.unitPurchasePrice);
+    setPurchasePrice(item.unitPurchasePrice);
   }, [item]);
 
   function updateItemPrice(e) {
     e.preventDefault();
 
     const updatePrice = {
-      idInquiryList,
-      idInquiryItem: item.idInquiryItem,
-      unitPurchasePrice,
+      idInquiryList: item.idInquiryList,
+      purchasePrice: purchasePrice ? purchasePrice : 0,
     };
 
     updateInquiryList(updatePrice)
@@ -75,7 +73,6 @@ export default function ListSupplierResponse({
       unitPurchasePrice,
       unitSalePrice,
       idSupplier,
-      nameSupplier,
     };
 
     await updateInquiryItemPrice(data)
@@ -140,8 +137,8 @@ export default function ListSupplierResponse({
             userSession.role !== 4 ? "text-grey-1" : "text-dark-3"
           }`}
           style={{ maxWidth: "100px" }}
-          defaultValue={unitPurchasePrice}
-          onChange={(e) => setUnitPurchasePrice(e.target.value)}
+          defaultValue={purchasePrice}
+          onChange={(e) => setPurchasePrice(e.target.value)}
           disabled={userSession.role !== 4}
         />
         {userSession.role === 4 ? (
@@ -158,7 +155,7 @@ export default function ListSupplierResponse({
             type="button"
             className="bg-green-1 text-white-1 pa-2"
             style={{ overflow: "hidden" }}
-            onClick={() => setInquiryItemPrice(item)}
+            onClick={() => setInquiryItemPrice()}
           >
             Escolher
           </button>

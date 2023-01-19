@@ -29,6 +29,7 @@ import LoginSupplier from "../view/login/loginSupplier";
 import NotFound from "../view/notFound";
 
 export default function MainRoutes() {
+  const allRoles = [1, 2, 3, 4];
   const internalRoles = [1, 2, 3];
   const externalRoles = [1, 4];
   const adminOnly = [1];
@@ -63,15 +64,11 @@ export default function MainRoutes() {
           element={<InquiryItem />}
         />
       </Route>
-      <Route path="/" exact element={<PrivateRoute canView={internalRoles} />}>
+      <Route path="/" exact element={<PrivateRoute canView={allRoles} />}>
         <Route path="/" element={<Index />} />
       </Route>
 
-      <Route
-        path="/main/"
-        exact
-        element={<PrivateRoute canView={internalRoles} />}
-      >
+      <Route path="/main/" exact element={<PrivateRoute canView={allRoles} />}>
         <Route path="/main/" element={<Index />} />
       </Route>
 
