@@ -87,16 +87,14 @@ export default function InquiryAvailable() {
                       item={item}
                       reloadInquiryListByCompany={reloadInquiryListByCompany}
                     />
-                    {index < inquiries.length - 1 ? <hr /> : ""}
+                    {index <= inquiries.length - 1 ? <hr /> : ""}
                   </React.Fragment>
                 ))}
               </ol>
             </div>
           ))}
         </React.Fragment>
-      ) : (
-        <>Teste</>
-      )}
+      ) : null}
     </>
   );
 }

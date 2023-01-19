@@ -16,7 +16,6 @@ export default function ListInquiryDetail({
   btnChoosePrice,
   reloadInquiryListByCompany,
 }) {
-  console.log(item);
   const dispatch = useDispatch();
   const userSession = useSelector((state) => {
     return state.login;
