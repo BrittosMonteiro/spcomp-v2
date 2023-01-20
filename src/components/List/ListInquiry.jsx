@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Copy, PencilSimple, TrashSimple, RepeatOnce } from "phosphor-react";
+import {
+  Copy,
+  PencilSimple,
+  TrashSimple,
+  RepeatOnce,
+  ListPlus,
+} from "phosphor-react";
 import {
   displayMessageBox,
   hideMessageBox,
@@ -11,6 +17,7 @@ import {
   createInquiryItem,
   deleteInquiryItem,
 } from "../../services/inquiryItemService";
+import { createPurchaseItem } from "../../services/purchaseService";
 
 export default function ListInquiry({ item, reloadList, customers }) {
   const dispatch = useDispatch();
@@ -55,6 +62,23 @@ export default function ListInquiry({ item, reloadList, customers }) {
       });
   }
 
+  async function createPurchase() {
+    const idInquiryItem = item.idInquiryItem;
+
+    await createPurchaseItem({ idInquiryItem })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then(() => {
+        handleMessageBox("success", "Pedido criado");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   function copyText(text) {
     navigator.clipboard.writeText(text);
     handleMessageBox("success", "Texto copiado");
@@ -74,8 +98,19 @@ export default function ListInquiry({ item, reloadList, customers }) {
 
   return (
     <li className="column py-4 gap-2">
+      {item.item.unitPurchasePrice && item.item.unitSalePrice ? (
+        <div className="row">
+          <span className="font-sm font-light bg-green-1 pa-1 text-white-1">
+            Item cotado
+          </span>
+        </div>
+      ) : null}
       <div className="row justify-content-between">
         <div className="row gap-4">
+          <div className="column gap-1">
+            <span className="font-light font-sm">Quantidade</span>
+            <span className="font-medium font-md">{item.item.quantity}</span>
+          </div>
           <div className="column gap-1">
             <span className="font-light font-sm">Description</span>
             <div className="row gap-2">
@@ -145,6 +180,19 @@ export default function ListInquiry({ item, reloadList, customers }) {
             >
               <RepeatOnce alt="Cotar novamente" className="icon-default" />
             </button>
+
+            {item.item.unitPurchasePrice && item.item.unitSalePrice ? (
+              <button
+                type="button"
+                className="bg-transparent"
+                onClick={() => createPurchase()}
+              >
+                <ListPlus
+                  alt="Adicionar aos pedidos de compra"
+                  className="icon-default"
+                />
+              </button>
+            ) : null}
 
             {(userSession.isAdmin || item.user.id === userSession.token) && (
               <button
