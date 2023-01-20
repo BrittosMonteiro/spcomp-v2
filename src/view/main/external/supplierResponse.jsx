@@ -180,7 +180,7 @@ export default function SupplierResponse() {
                   </>
                 ) : null}
                 <span className="font-black font-md">{inquiry.title}</span>
-                {userSession.isAdmin ? (
+                {userSession.isAdmin && 1 + 1 === 3 ? (
                   <button
                     type="button"
                     onClick={() =>
