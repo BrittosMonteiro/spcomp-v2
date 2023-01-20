@@ -1,71 +1,66 @@
+import { ArrowCircleUpRight } from "phosphor-react";
 import React, { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PageTitle from "../../../components/Common/PageTitle";
 import ListInquiryDetail from "../../../components/List/ListInquiryDetail";
 import { readSingleItemFromInquiryList } from "../../../services/inquiryListService";
-// import {
-//   displayMessageBox,
-//   hideMessageBox,
-// } from "../../../store/actions/messageBoxAction";
 
 export default function InquiryItem() {
   const { idInquiryItem } = useParams();
-  // const dispatch = useDispatch();
-  const userSession = useSelector((state) => {
-    return state.login;
-  });
-  const [companies, setCompanies] = useState([]);
+  const [inquiries, setInquiries] = useState([]);
 
   useEffect(() => {
     if (idInquiryItem) {
       readSingleItemFromInquiryList({ idInquiryItem })
-        .then((res) => res.json())
         .then((res) => {
-          setCompanies(res.data);
+          if (res.status === 200) {
+            return res.json();
+          }
+        })
+        .then((res) => {
+          setInquiries(res.data);
         })
         .catch(() => {});
     }
   }, [idInquiryItem]);
-
-  // function handleMessageBox(color, message) {
-  //   dispatch(displayMessageBox({ color, display: true, message }));
-  //   setInterval(() => {
-  //     dispatch(hideMessageBox());
-  //   }, 2500);
-  // }
 
   return (
     <>
       <div className="row justify-content-between align-items-center">
         <PageTitle title={"Analisar item"} />
       </div>
-      {companies.length > 0 ? (
-        <React.Fragment>
-          {companies.map((company) => (
-            <ol className="my-4" key={company.idInquiryList}>
+      {inquiries.length > 0 ? (
+        <ol className="column my-4 gap-4">
+          {inquiries.map((inquiry, index) => (
+            <div className="column" key={index}>
               <div className="row">
-                <h1 className="font-light font-md bg-red-1 text-white-1 pa-1">
-                  {company.nameSupplier}
-                </h1>
+                <div className="row align-items-center bg-red-1 text-white-1 pa-1 gap-1">
+                  <span className="font-light font-md align-items-center">
+                    {inquiry.supplier.name}
+                  </span>
+                  <span className="row font-sm font-medium bg-white-1 text-dark-3 pa-1 border-radius-soft align-items-center gap-1">
+                    <span>{`Cotação: ${inquiry.inquiryHistory.title}`}</span>
+                    <Link
+                      className="text-dark-3"
+                      to={`/inquiry/list/available/${inquiry.inquiryHistory.idInquiryHistory}/${inquiry.inquiryHistory.title}`}
+                    >
+                      <ArrowCircleUpRight className="icon-default" />
+                    </Link>
+                  </span>
+                </div>
               </div>
-              {company.item.map((item) => (
-                <React.Fragment key={item.idInquiryItem}>
-                  <ListInquiryDetail
-                    idInquiryList={company.idInquiryList}
-                    idSupplier={company.idSupplier}
-                    nameSupplier={company.nameSupplier}
-                    supplierId={userSession.token}
-                    item={item}
-                    btnChoosePrice={true}
-                  />
-                  <hr />
-                </React.Fragment>
+              {inquiry.items.map((item, index) => (
+                <ListInquiryDetail
+                  key={index}
+                  idSupplier={inquiry.supplier.idSupplier}
+                  item={item}
+                  btnChoosePrice={true}
+                />
               ))}
-            </ol>
+              <hr />
+            </div>
           ))}
-        </React.Fragment>
+        </ol>
       ) : null}
     </>
   );

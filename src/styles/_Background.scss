@@ -1,6 +1,6 @@
 @import 'Colors';
 
-.bg-transparent{
+.bg-transparent {
     background-color: transparent;
 }
 
@@ -34,4 +34,8 @@
 // Green
 .bg-green-1 {
     background-color: $green-1;
+}
+
+.bg-gray-light {
+    background-color: $gray-light;
 }

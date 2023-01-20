@@ -81,7 +81,7 @@ export default function ListInquiry({ item, reloadList, customers }) {
             <div className="row gap-2">
               {userSession.isAdmin ? (
                 <Link
-                  to={`/admin/inquiry/item/${item.item.id}`}
+                  to={`/admin/inquiry/item/${item.idInquiryItem}`}
                   className="font-medium font-md text-dark-3"
                 >
                   {item.item.description}
