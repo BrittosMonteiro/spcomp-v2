@@ -33,8 +33,8 @@ export default function DialogInquiry({
   const [weight, setWeight] = useState("");
   const [note, setNote] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [salePrice, setSalePrice] = useState("");
-  const [purchasePrice, setPurchasePrice] = useState("");
+  const [salePrice, setSalePrice] = useState(0);
+  const [purchasePrice, setPurchasePrice] = useState(0);
 
   useEffect(() => {
     if (item) {
@@ -48,6 +48,8 @@ export default function DialogInquiry({
       setNote(item.item.note);
       setIdCustomer(item.customer.id);
       setQuantity(item.item.quantity);
+      setSalePrice(item.item.unitSalePrice);
+      setPurchasePrice(item.item.unitPurchasePrice);
     }
   }, [item]);
 

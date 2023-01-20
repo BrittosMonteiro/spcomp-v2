@@ -35,14 +35,16 @@ export default function ListInquiryDetail({
     };
 
     updateInquiryList(updatePrice)
-      .then((res) => res.json())
       .then((res) => {
         if (res.status === 200) {
-          handleMessageBox("success", "Price updated");
-          reloadInquiryListByCompany();
+          return res.json();
         } else {
           handleMessageBox("failed", "Could not update the price");
         }
+      })
+      .then(() => {
+        handleMessageBox("success", "Price updated");
+        reloadInquiryListByCompany();
       })
       .catch(() => {
         handleMessageBox("failed", "Could not update the price");
@@ -61,27 +63,30 @@ export default function ListInquiryDetail({
     }, 2500);
   }
 
-  async function setInquiryItemPrice(item) {
-    const { idInquiryItem, unitPurchasePrice } = item;
+  async function setInquiryItemPrice() {
     const { dolar } = await getCurrencyValue();
 
-    const unitSalePrice = unitPurchasePrice * dolar;
+    const unitSalePrice = item.unitPurchasePrice * dolar;
 
     const data = {
-      idInquiryItem,
-      unitPurchasePrice,
-      unitSalePrice,
-      idSupplier,
+      idInquiryItem: item.idInquiryItem,
+      data: {
+        unitPurchasePrice: item.unitPurchasePrice,
+        unitSalePrice: unitSalePrice,
+        idSupplier,
+      },
     };
 
     await updateInquiryItemPrice(data)
-      .then((res) => res.json())
       .then((res) => {
         if (res.status === 200) {
-          handleMessageBox("success", "Preço definido");
+          return res.json();
         } else {
           handleMessageBox("failed", "Não foi possível definir o preço");
         }
+      })
+      .then(() => {
+        handleMessageBox("success", "Preço definido");
       })
       .catch(() => {
         handleMessageBox("failed", "Não foi possível definir o preço");
@@ -136,7 +141,7 @@ export default function ListInquiryDetail({
             userSession.role !== 4 ? "text-grey-1" : "text-dark-3"
           }`}
           style={{ maxWidth: "100px" }}
-          defaultValue={purchasePrice}
+          defaultValue={item.unitPurchasePrice}
           onChange={(e) => setPurchasePrice(e.target.value)}
           disabled={userSession.role !== 4}
         />
