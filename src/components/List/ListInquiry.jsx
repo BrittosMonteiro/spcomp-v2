@@ -18,7 +18,7 @@ import {
   deleteInquiryItem,
   updateInquiryItemStep,
 } from "../../services/inquiryItemService";
-import { createPurchaseItem } from "../../services/purchaseService";
+import { createOrderItem } from "../../services/orderService.js";
 
 export default function ListInquiry({ item, reloadList, customers }) {
   const dispatch = useDispatch();
@@ -66,7 +66,7 @@ export default function ListInquiry({ item, reloadList, customers }) {
   async function createPurchase() {
     const idInquiryItem = item.idInquiryItem;
 
-    await createPurchaseItem({ idInquiryItem })
+    await createOrderItem({ idInquiryItem })
       .then((response) => {
         if (response.status === 200) {
           return response.json();
@@ -120,11 +120,13 @@ export default function ListInquiry({ item, reloadList, customers }) {
     "Pronto para cotar",
     "Enviado para cotar",
     "Cotado",
+    "Pedido colocado",
     "Pedido enviado",
-    "Pedido com o fornecedor",
     "Pedido confirmado pelo fornecedor",
     "Item recebido",
     "Pedido de venda",
+    "Cancelado pelo administrador",
+    "Cancelado pelo cliente",
     "Cancelado pelo fornecedor",
   ];
 

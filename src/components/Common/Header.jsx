@@ -45,7 +45,7 @@ export default function Header() {
                 </li>
                 {userSession.isAdmin && (
                   <li className="pb-1">
-                    <Link to="/main/purchase">Compras</Link>
+                    <Link to="/main/order">Pedidos</Link>
                   </li>
                 )}
                 <li className="pb-1">

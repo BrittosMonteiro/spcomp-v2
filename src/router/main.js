@@ -7,7 +7,7 @@ import Index from "../view/main/index";
 //Private Internal roles
 import Items from "../view/main/internal/items";
 import Inquiry from "../view/main/internal/inquiry";
-import Purchase from "../view/main/internal/purchase";
+import Purchase from "../view/main/internal/order";
 import Stock from "../view/main/internal/stock";
 import Sales from "../view/main/internal/sales";
 import Profile from "../view/main/internal/profile";
@@ -89,11 +89,11 @@ export default function MainRoutes() {
       </Route>
 
       <Route
-        path="/main/purchase"
+        path="/main/order"
         exact
         element={<PrivateRoute canView={internalRoles} />}
       >
-        <Route path="/main/purchase" element={<Purchase />} />
+        <Route path="/main/order" element={<Purchase />} />
       </Route>
 
       <Route
