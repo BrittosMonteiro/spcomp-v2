@@ -61,12 +61,7 @@ export default function Inquiry() {
   useEffect(() => {
     if (items) {
       let pendingInquiryItems = [];
-      const pending = items.filter(
-        (item) =>
-          item.item.item.quantity > 0 &&
-          item.item.item.unitPurchasePrice === 0 &&
-          item.item.customer.id
-      );
+      const pending = items.filter((item) => item.item.item.step === 1);
 
       for (let item of pending) {
         pendingInquiryItems.push(item.item.idInquiryItem);

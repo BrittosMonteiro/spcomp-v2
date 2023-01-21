@@ -16,6 +16,7 @@ import DialogInquiry from "../Dialog/DialogInquiry";
 import {
   createInquiryItem,
   deleteInquiryItem,
+  updateInquiryItemStep,
 } from "../../services/inquiryItemService";
 import { createPurchaseItem } from "../../services/purchaseService";
 
@@ -73,10 +74,28 @@ export default function ListInquiry({ item, reloadList, customers }) {
       })
       .then(() => {
         handleMessageBox("success", "Pedido criado");
+        updateItemStep(idInquiryItem);
       })
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  async function updateItemStep(item) {
+    const data = {
+      pending: item,
+      step: 4,
+    };
+    await updateInquiryItemStep(data)
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then(() => {
+        reloadList();
+      })
+      .catch(() => {});
   }
 
   function copyText(text) {

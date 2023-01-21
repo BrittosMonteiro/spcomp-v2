@@ -83,8 +83,6 @@ export default function DialogInquiry({
       data.data.idCustomer = idCustomer;
     }
 
-    console.log(data);
-
     updateItemOnList(data);
   }
 
@@ -275,7 +273,9 @@ export default function DialogInquiry({
                     placeholder="Quantidade"
                     className="border-default pa-2 border-radius-soft font-medium font-md"
                     onChange={(e) => setQuantity(e.target.value)}
-                    disabled={userSession.token !== item.user.id}
+                    disabled={
+                      userSession.token !== item.user.id || item.item.step >= 2
+                    }
                   />
                 </div>
 

@@ -7,7 +7,10 @@ import {
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
 import { updateInquiryList } from "../../services/inquiryListService.js";
-import { updateInquiryItemPrice } from "../../services/inquiryItemService";
+import {
+  updateInquiryItemPrice,
+  updateInquiryItemStep,
+} from "../../services/inquiryItemService";
 import { getCurrencyValue } from "../../utils/currencyApi";
 
 export default function ListInquiryDetail({
@@ -87,10 +90,28 @@ export default function ListInquiryDetail({
       })
       .then(() => {
         handleMessageBox("success", "Preço definido");
+        updateItemStep(data.idInquiryItem);
       })
       .catch(() => {
         handleMessageBox("failed", "Não foi possível definir o preço");
       });
+  }
+
+  async function updateItemStep(item) {
+    const data = {
+      pending: item,
+      step: 3,
+    };
+    await updateInquiryItemStep(data)
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then(() => {
+        handleMessageBox("success", "Preço definido");
+      })
+      .catch(() => {});
   }
 
   return (

@@ -36,6 +36,14 @@ export async function updateInquiryItemPrice(data) {
   });
 }
 
+export async function updateInquiryItemStep(data) {
+  return await fetch(`${API_URL}/updateStep`, {
+    method: "PUT",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
 export async function deleteInquiryItem(data) {
   return fetch(`${API_URL}`, {
     method: "DELETE",

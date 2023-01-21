@@ -6,6 +6,7 @@ import {
 import { createInquiryHistory } from "../../services/inquiryHistoryService";
 import { createInquiryList } from "../../services/inquiryListService";
 import { useNavigate } from "react-router-dom";
+import { updateInquiryItemStep } from "../../services/inquiryItemService";
 
 export default function DialogInquiry({ open, onClose, pending }) {
   const dispatch = useDispatch();
@@ -32,19 +33,7 @@ export default function DialogInquiry({ open, onClose, pending }) {
           idInquiryHistory: res.data,
           items: pending,
         };
-        createInquiryList(data)
-          .then((response) => {
-            if (response.status === 201) {
-              return response.json();
-            }
-          })
-          .then(() => {
-            handleMessageBox("success", "Cotação criada com sucesso!");
-            navigate("/inquiry/list");
-          })
-          .catch(() => {
-            handleMessageBox("Failed", "Nao foi possível criar a cotação!");
-          });
+        createInquiry(data);
       })
       .catch(() => {
         handleMessageBox("Failed", "Nao foi possível criar a cotação!");
@@ -52,6 +41,39 @@ export default function DialogInquiry({ open, onClose, pending }) {
       .finally(() => {
         onClose();
       });
+  }
+
+  async function createInquiry(data) {
+    await createInquiryList(data)
+      .then((response) => {
+        if (response.status === 201) {
+          return response.json();
+        }
+      })
+      .then(() => {
+        navigate("/inquiry/list");
+        updateItemStep();
+      })
+      .catch(() => {
+        handleMessageBox("Failed", "Nao foi possível criar a cotação!");
+      });
+  }
+
+  async function updateItemStep() {
+    const data = {
+      pending,
+      step: 2,
+    };
+    await updateInquiryItemStep(data)
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then(() => {
+        handleMessageBox("success", "Cotação criada com sucesso!");
+      })
+      .catch(() => {});
   }
 
   function handleMessageBox(color, message) {
