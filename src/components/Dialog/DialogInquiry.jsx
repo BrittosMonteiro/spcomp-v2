@@ -70,14 +70,21 @@ export default function DialogInquiry({
     let data = {
       idInquiryItem,
       data: {
-        idCustomer,
         quantity,
         salePrice,
         ipi,
         weight,
         note,
+        step: idCustomer && quantity ? 1 : 0,
       },
     };
+
+    if (idCustomer) {
+      data.data.idCustomer = idCustomer;
+    }
+
+    console.log(data);
+
     updateItemOnList(data);
   }
 
@@ -356,12 +363,14 @@ export default function DialogInquiry({
                 >
                   Fechar
                 </button>
-                <button
-                  type={"submit"}
-                  className="font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"
-                >
-                  Atualizar
-                </button>
+                {item.item.step <= 1 && (
+                  <button
+                    type={"submit"}
+                    className="font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"
+                  >
+                    Atualizar
+                  </button>
+                )}
               </div>
             </form>
           </div>

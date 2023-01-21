@@ -96,15 +96,26 @@ export default function ListInquiry({ item, reloadList, customers }) {
     }, 5000);
   }
 
+  const itemStep = [
+    "Aguardando quantidade/cliente",
+    "Pronto para cotar",
+    "Enviado para cotar",
+    "Cotado",
+    "Pedido enviado",
+    "Pedido com o fornecedor",
+    "Pedido confirmado pelo fornecedor",
+    "Item recebido",
+    "Pedido de venda",
+    "Cancelado pelo fornecedor",
+  ];
+
   return (
     <li className="column py-4 gap-2">
-      {item.item.unitPurchasePrice && item.item.unitSalePrice ? (
-        <div className="row">
-          <span className="font-sm font-light bg-green-1 pa-1 text-white-1">
-            Item cotado
-          </span>
-        </div>
-      ) : null}
+      <div className="row">
+        <span className="font-sm font-light bg-green-1 pa-1 text-white-1">
+          {itemStep[item.item.step]}
+        </span>
+      </div>
       <div className="row justify-content-between">
         <div className="row gap-4">
           <div className="column gap-1">

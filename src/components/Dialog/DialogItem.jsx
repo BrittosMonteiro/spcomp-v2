@@ -44,15 +44,7 @@ export default function DialogItemDefault({ item, open, onClose, reloadList }) {
   function handleItem(e) {
     e.preventDefault();
 
-    if (
-      !description ||
-      !idBrand ||
-      !idType ||
-      !idEncap ||
-      !ipi ||
-      !weight ||
-      !note
-    ) {
+    if (!description || !idBrand || !idType || !idEncap) {
       handleMessageBox("failed", true, "Preencha o formulário");
       return;
     }
