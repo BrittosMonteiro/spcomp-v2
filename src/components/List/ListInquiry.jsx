@@ -126,7 +126,7 @@ export default function ListInquiry({ item, reloadList, customers }) {
     "Item recebido",
     "Pedido de venda",
     "Cancelado pelo administrador",
-    "Cancelado pelo cliente",
+    "Cancelado pelo vendedor",
     "Cancelado pelo fornecedor",
   ];
 

@@ -1,36 +1,57 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import PageTitle from "../../../components/Common/PageTitle";
-import List from "../../../components/List/List";
-// import { getPurchaseList } from "../../../services/purchaseService";
+import ListOrder from "../../../components/List/ListOrder";
+import { readOrder } from "../../../services/orderService";
 
 export default function Imports() {
-  const [items, setItems] = useState([]);
+  const userSession = useSelector((state) => {
+    return state.login;
+  });
+  const [orders, setOrders] = useState([]);
 
-  // function loadList() {
-  //   getPurchaseList()
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       setItems(res || []);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
+  function loadList() {
+    readOrder()
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then((res) => {
+        setOrders(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
-  // useEffect(() => {
-  //   loadList();
-  // }, []);
+  useEffect(() => {
+    loadList();
+  }, []);
 
-  // function reloadList() {
-  //   loadList();
-  // }
+  function reloadList() {
+    loadList();
+  }
 
   return (
     <>
       <div className="row justify-content-between align-items-center">
-        <PageTitle title={"Compras"} />
+        <PageTitle title={"Pedidos"} />
       </div>
-      {/* <List list={items} reloadList={reloadList} /> */}
+      {orders.length > 0 ? (
+        <ol className="column gap-8">
+          {orders.map((order, index) => (
+            <React.Fragment key={order.idOrder}>
+              <ListOrder
+                order={order}
+                reloadOrderList={reloadList}
+                user={userSession}
+              />
+              {index === 0 || index < orders.length - 1 ? <hr /> : null}
+            </React.Fragment>
+          ))}
+        </ol>
+      ) : null}
     </>
   );
 }

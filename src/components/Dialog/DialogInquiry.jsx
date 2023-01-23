@@ -246,7 +246,13 @@ export default function DialogInquiry({
                     defaultValue={idCustomer}
                     className="border-default pa-2 border-radius-soft font-medium font-md"
                     onChange={(e) => setIdCustomer(e.target.value)}
-                    disabled={userSession.token !== item.user.id}
+                    disabled={
+                      userSession.token !== item.user.id ||
+                      (item.item.step >= 2 &&
+                        item.item.step !== 9 &&
+                        item.item.step !== 10 &&
+                        item.item.step !== 11)
+                    }
                   >
                     {customers.length > 0 ? (
                       <>
@@ -274,7 +280,11 @@ export default function DialogInquiry({
                     className="border-default pa-2 border-radius-soft font-medium font-md"
                     onChange={(e) => setQuantity(e.target.value)}
                     disabled={
-                      userSession.token !== item.user.id || item.item.step >= 2
+                      userSession.token !== item.user.id ||
+                      (item.item.step >= 2 &&
+                        item.item.step !== 9 &&
+                        item.item.step !== 10 &&
+                        item.item.step !== 11)
                     }
                   />
                 </div>
@@ -289,7 +299,13 @@ export default function DialogInquiry({
                     placeholder="Preço de venda"
                     className="border-default pa-2 border-radius-soft font-medium font-md"
                     onChange={(e) => setSalePrice(e.target.value)}
-                    disabled={userSession.token !== item.user.id}
+                    disabled={
+                      userSession.token !== item.user.id ||
+                      (item.item.step >= 2 &&
+                        item.item.step !== 9 &&
+                        item.item.step !== 10 &&
+                        item.item.step !== 11)
+                    }
                   />
                 </div>
 
@@ -321,7 +337,13 @@ export default function DialogInquiry({
                     placeholder="IPI do item"
                     className="border-default pa-2 border-radius-soft font-medium font-md"
                     onChange={(e) => setIpi(e.target.value)}
-                    disabled={userSession.token !== item.user.id}
+                    disabled={
+                      userSession.token !== item.user.id ||
+                      (item.item.step >= 2 &&
+                        item.item.step !== 9 &&
+                        item.item.step !== 10 &&
+                        item.item.step !== 11)
+                    }
                   />
                 </div>
 
@@ -335,7 +357,13 @@ export default function DialogInquiry({
                     placeholder="Peso do item"
                     className="border-default pa-2 border-radius-soft font-medium font-md"
                     onChange={(e) => setWeight(e.target.value)}
-                    disabled={userSession.token !== item.user.id}
+                    disabled={
+                      userSession.token !== item.user.id ||
+                      (item.item.step >= 2 &&
+                        item.item.step !== 9 &&
+                        item.item.step !== 10 &&
+                        item.item.step !== 11)
+                    }
                   />
                 </div>
               </div>
@@ -349,7 +377,13 @@ export default function DialogInquiry({
                   placeholder="Informações importantes sobre o item"
                   className="border-default pa-2 border-radius-soft font-medium font-md"
                   onChange={(e) => setNote(e.target.value)}
-                  disabled={userSession.token !== item.user.id}
+                  disabled={
+                    userSession.token !== item.user.id ||
+                    (item.item.step >= 2 &&
+                      item.item.step !== 9 &&
+                      item.item.step !== 10 &&
+                      item.item.step !== 11)
+                  }
                 ></textarea>
               </div>
 
@@ -363,7 +397,10 @@ export default function DialogInquiry({
                 >
                   Fechar
                 </button>
-                {item.item.step <= 1 && (
+                {(item.item.step <= 1 ||
+                  item.item.step === 9 ||
+                  item.item.step === 10 ||
+                  item.item.step === 11) && (
                   <button
                     type={"submit"}
                     className="font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"
