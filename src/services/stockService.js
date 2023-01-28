@@ -3,7 +3,7 @@ import { checkEnv } from "./serviceConfig";
 const BASE_URL = checkEnv();
 const API_URL = `${BASE_URL}/stock`;
 
-export async function postStockItem(data) {
+export async function createStockItem(data) {
   return await fetch(`${API_URL}`, {
     method: "POST",
     headers: { "Content-type": "application/json" },
@@ -11,13 +11,13 @@ export async function postStockItem(data) {
   });
 }
 
-export async function getStockItemList() {
+export async function readStockList() {
   return await fetch(`${API_URL}`, {
     method: "GET",
   });
 }
 
-export async function putStockItem(data) {
+export async function updateStockItem(data) {
   console.log("PUT");
 }
 

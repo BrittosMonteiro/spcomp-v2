@@ -11,6 +11,14 @@ export async function createOrderItem(data) {
   });
 }
 
+export async function updateOrderItem(data) {
+  return await fetch(`${API_URL}`, {
+    method: "PUT",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
 export async function readOrder() {
   return await fetch(`${API_URL}`, {
     method: "GET",

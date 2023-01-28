@@ -1,31 +1,31 @@
-import { PaperPlaneTilt, XCircle } from "phosphor-react";
+import { CheckCircle, PaperPlaneTilt, XCircle } from "phosphor-react";
+import { useState } from "react";
 import { updateInquiryItemStep } from "../../services/inquiryItemService";
-import {
-  createOrderListItem,
-  deleteOrderListItem,
-} from "../../services/orderListService";
+import { createOrderListItem } from "../../services/orderListService";
+import { createStockItem } from "../../services/stockService";
+import DialogCancel from "../Dialog/DialogCancelOrder";
 
 export default function ListOrder({ order, reloadOrderList, user }) {
-  async function handleOrder(step, role) {
-    //Send to supplier - step 5
-    if (step && !role) {
-      sendOrderToSupplier({ pending: order.item.idInquiry, step: step });
-    }
+  const [open, setOpen] = useState(false);
 
-    //Cancel item
-    if (!step && role) {
-      if (role === 1) {
-        deleteOrderToSupplier({ pending: order.item.idInquiry, step: 9 });
-      } else {
-        deleteOrderToSupplier({ pending: order.item.idInquiry, step: 10 });
-      }
-    }
-  }
-
-  async function sendOrderToSupplier(data) {
+  async function sendOrderToSupplier(step) {
+    const data = { pending: order.item.idInquiry, step: step };
     await createOrderListItem({ idInquiryItem: data.pending })
       .then((responseCreate) => {
         if (responseCreate.status === 200) {
+          updateStep(data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  async function setItemToStock(step) {
+    const data = { pending: order.item.idInquiry, step };
+    await createStockItem({ idInquiryItem: data.pending })
+      .then((responseCreate) => {
+        if (responseCreate.status === 201) {
           updateStep(data);
         }
       })
@@ -46,16 +46,8 @@ export default function ListOrder({ order, reloadOrderList, user }) {
       });
   }
 
-  async function deleteOrderToSupplier(data) {
-    await deleteOrderListItem({ idInquiryItem: data.pending })
-      .then((responseDelete) => {
-        if (responseDelete.status === 200) {
-          updateStep(data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  function closeModal() {
+    setOpen(false);
   }
 
   const itemStep = [
@@ -75,10 +67,17 @@ export default function ListOrder({ order, reloadOrderList, user }) {
 
   return (
     <li className="column gap-4">
-      <div className="row">
-        <span className="bg-green-1 text-white-1 pa-1 font-sm font-light">
-          {itemStep[order.item.step]}
-        </span>
+      <div className="column gap-2">
+        <div className="row">
+          <span className="bg-green-1 text-white-1 pa-1 font-sm font-light">
+            {`${itemStep[order.item.step]}`}
+            {order.item.step >= 9 &&
+              order.item.step <= 11 &&
+              order.item.reason && (
+                <span>&nbsp;-&nbsp;{order.item.reason}</span>
+              )}
+          </span>
+        </div>
       </div>
       <div className="row justify-content-between align-items-start">
         <div className="row gap-4">
@@ -122,7 +121,7 @@ export default function ListOrder({ order, reloadOrderList, user }) {
             <button
               type="button"
               className="text-white-1 pa-1 border-radius-soft bg-green-1"
-              onClick={() => handleOrder(5, null)}
+              onClick={() => sendOrderToSupplier(5)}
             >
               <PaperPlaneTilt
                 alt="Enviar ao fornecedor"
@@ -130,29 +129,71 @@ export default function ListOrder({ order, reloadOrderList, user }) {
               />
             </button>
           ) : null}
-          {order.item.step < 9 || order.item.step > 11 ? (
+          {(order.item.step < 9 || order.item.step > 11) &&
+          (order.item.step !== 7 && order.item.step !== 8) &&
+          user.isAdmin ? (
+            <>
+              <button
+                type="button"
+                className="bg-red-1 text-white-1 pa-1 border-radius-soft"
+                onClick={() => setOpen(true)}
+                title="Cancelar item"
+              >
+                <XCircle className="icon-default" />
+              </button>
+              <DialogCancel
+                item={order}
+                onClose={closeModal}
+                open={open}
+                role={user.role}
+                reloadOrderList={reloadOrderList}
+              />
+            </>
+          ) : null}
+          {order.item.step === 5 && !user.isAdmin ? (
             <button
+              title="Accept order"
               type="button"
-              className="bg-red-1 text-white-1 pa-1 border-radius-soft"
-              onClick={() => handleOrder(null, user.role)}
+              className="row bg-green-1 pa-1 border-radius-soft text-white-1 align-items-center gap-1"
+              onClick={() =>
+                updateStep({ pending: order.item.idInquiry, step: 6 })
+              }
             >
-              <XCircle alt="Cancelar item" className="icon-default" />
+              <CheckCircle className="icon-default" /> <span>Accept item</span>
+            </button>
+          ) : null}
+          {order.item.step === 6 && user.isAdmin ? (
+            <button
+              title="Accept order"
+              type="button"
+              className="row bg-green-1 pa-1 border-radius-soft text-white-1 align-items-center gap-1"
+              onClick={() => setItemToStock(7)}
+            >
+              <CheckCircle className="icon-default" />{" "}
+              <span>Item recebido</span>
             </button>
           ) : null}
         </div>
       </div>
       <div className="row gap-4">
-        <span className="font-sm font-light">
-          Vendedor(a): <span className="font-bold">{order.user.username}</span>
-        </span>
+        {order?.user ? (
+          <span className="font-sm font-light">
+            Vendedor(a):{" "}
+            <span className="font-bold">{order.user.username}</span>
+          </span>
+        ) : null}
 
-        <span className="font-sm font-light">
-          Cliente: <span className="font-bold">{order.customer.name}</span>
-        </span>
+        {order?.customer ? (
+          <span className="font-sm font-light">
+            Cliente: <span className="font-bold">{order.customer.name}</span>
+          </span>
+        ) : null}
 
-        <span className="font-sm font-light">
-          Fornecedor: <span className="font-bold">{order.supplier.name}</span>
-        </span>
+        {order?.supplier ? (
+          <span className="font-sm font-light">
+            Fornecedor: <span className="font-bold">{order.supplier.name}</span>
+          </span>
+        ) : null}
       </div>
     </li>
   );

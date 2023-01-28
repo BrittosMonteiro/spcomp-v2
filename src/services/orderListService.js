@@ -11,6 +11,30 @@ export async function createOrderListItem(data) {
   });
 }
 
+export async function readOrderList() {
+  return await fetch(`${API_URL}/all`, {
+    method: "GET",
+  });
+}
+
+export async function readOrderListBySupplier(idSupplier) {
+  return await fetch(`${API_URL}/byCompany/${idSupplier}`, {
+    method: "GET",
+  });
+}
+
+export async function readOrderListByUser(idUser) {
+  return await fetch(`${API_URL}/byUser/${idUser}`, {
+    method: "GET",
+  });
+}
+
+export async function readOrderListByStock() {
+  return await fetch(`${API_URL}/stock`, {
+    method: "GET",
+  });
+}
+
 export async function deleteOrderListItem(data) {
   return await fetch(`${API_URL}`, {
     method: "DELETE",

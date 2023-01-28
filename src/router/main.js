@@ -27,6 +27,9 @@ import PublicRoute from "./publicRoute";
 import Login from "../view/login/login";
 import LoginSupplier from "../view/login/loginSupplier";
 import NotFound from "../view/notFound";
+import OrderAdmin from "../view/main/admin/orderAdmin";
+import OrderSupplier from "../view/main/external/orderSupplier";
+import OrderStock from "../view/main/stock/orderStock";
 
 export default function MainRoutes() {
   const allRoles = [1, 2, 3, 4];
@@ -141,6 +144,30 @@ export default function MainRoutes() {
         element={<PrivateRoute canView={adminOnly} />}
       >
         <Route path="/admin/users" element={<Users />} />
+      </Route>
+
+      <Route
+        path="/admin/order-list"
+        exact
+        element={<PrivateRoute canView={adminOnly} />}
+      >
+        <Route path="/admin/order-list" element={<OrderAdmin />} />
+      </Route>
+
+      <Route
+        path="/supplier/order-list"
+        exact
+        element={<PrivateRoute canView={externalRoles} />}
+      >
+        <Route path="/supplier/order-list" element={<OrderSupplier />} />
+      </Route>
+
+      <Route
+        path="/stock/order-list"
+        exact
+        element={<PrivateRoute canView={adminOnly} />}
+      >
+        <Route path="/stock/order-list" element={<OrderStock />} />
       </Route>
 
       {/* <PublicRoute /> */}

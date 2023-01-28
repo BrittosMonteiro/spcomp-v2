@@ -1,15 +1,25 @@
 import PageTitle from "../../../components/Common/PageTitle";
-import { useState, useEffect } from "react";
-import List from "../../../components/List/List";
-import { getStockItemList } from "../../../services/stockService";
+import React, { useState, useEffect } from "react";
+import { readStockList } from "../../../services/stockService.js";
+import ListOrder from "../../../components/List/ListOrder";
+import { useSelector } from "react-redux";
 
 export default function Stock() {
-  const [items, setItems] = useState([]);
+  const userSession = useSelector((state) => {
+    return state.login;
+  });
+  const [stockItems, setStockItems] = useState([]);
 
   useEffect(() => {
-    getStockItemList()
-      .then((res) => res.json())
-      .then((res) => setItems(res))
+    readStockList()
+      .then((responseRead) => {
+        if (responseRead.status === 200) {
+          return responseRead.json();
+        }
+      })
+      .then((res) => {
+        setStockItems(res.data);
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -20,7 +30,16 @@ export default function Stock() {
       <div className="row justify-content-between align-items-center">
         <PageTitle title={"Estoque"} />
       </div>
-      <List list={items} />
+      {stockItems.length > 0 ? (
+        <ol className="column gap-4">
+          {stockItems.map((item, index) => (
+            <React.Fragment key={index}>
+              <ListOrder order={item} user={userSession} />
+              {index < stockItems.length - 1 ? <hr /> : null}
+            </React.Fragment>
+          ))}
+        </ol>
+      ) : null}
     </>
   );
 }

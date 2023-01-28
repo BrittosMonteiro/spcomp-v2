@@ -1,0 +1,27 @@
+@import "Font";
+@import "Colors";
+
+.table {
+  border-radius: 2px;
+  border-collapse: collapse;
+  th,
+  td {
+    border: 1px solid lightgray;
+    padding: 4px;
+    font-size: $font-sm;
+  }
+
+  th {
+    background-color: $red-1;
+    color: $white-1;
+    font-weight: $font-weight-bold;
+    border-color: $red-1;
+  }
+
+  tr:hover {
+    background-color: $gray-light;
+  }
+  td {
+    text-align: center;
+  }
+}

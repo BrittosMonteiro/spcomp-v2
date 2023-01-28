@@ -1,11 +1,15 @@
 import { ArrowCircleUpRight } from "phosphor-react";
 import React, { useEffect, useState } from "react";
+// import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import PageTitle from "../../../components/Common/PageTitle";
 import ListInquiryDetail from "../../../components/List/ListInquiryDetail";
 import { readSingleItemFromInquiryList } from "../../../services/inquiryListService";
 
 export default function InquiryItem() {
+  // const userSession = useSelector((state) => {
+  //   return state.login;
+  // });
   const { idInquiryItem } = useParams();
   const [inquiries, setInquiries] = useState([]);
 
@@ -61,7 +65,57 @@ export default function InquiryItem() {
             </div>
           ))}
         </ol>
-      ) : null}
+      ) : // <table className="table">
+      //   <thead>
+      //     <th>Supplier</th>
+      //     <th>Quantity</th>
+      //     <th>Description</th>
+      //     <th>Type</th>
+      //     <th>Encap</th>
+      //     <th>Brand</th>
+      //     <th>Price</th>
+      //     <th>Lead time</th>
+      //     <th>Condição</th>
+      //     <th>DC</th>
+      //     <th>Outros</th>
+      //     <th>Ação</th>
+      //   </thead>
+      //   <tbody>
+      //     {inquiries.map((item) => (
+      //       <>
+      //         <tr>
+      //           <td>{item.supplier.name}</td>
+      //           {item.items.map((detail) => (
+      //             <>
+      //               <td>{detail.quantity}</td>
+      //               <td>{detail.description}</td>
+      //               <td>{detail.type}</td>
+      //               <td>{detail.encap}</td>
+      //               <td>{detail.brand}</td>
+      //               <td>{`USD ${detail.unitPurchasePrice}`}</td>
+      //               <td></td>
+      //               <td></td>
+      //               <td></td>
+      //               <td></td>
+      //               <td>
+      //                 {userSession.isAdmin ? (
+      //                   <button
+      //                     type="button"
+      //                     className="bg-green-1 text-white-1 pa-2"
+      //                     style={{ overflow: "hidden" }}
+      //                   >
+      //                     Escolher
+      //                   </button>
+      //                 ) : null}
+      //               </td>
+      //             </>
+      //           ))}
+      //         </tr>
+      //       </>
+      //     ))}
+      //   </tbody>
+      // </table>
+      null}
     </>
   );
 }

@@ -210,10 +210,13 @@ export default function ListInquiry({ item, reloadList, customers }) {
               className="bg-transparent"
               onClick={() => duplicateInquiryItem(item)}
             >
-              <RepeatOnce alt="Cotar novamente" className="icon-default" />
+              <RepeatOnce alt="Repetir item" className="icon-default" />
             </button>
 
-            {item.item.unitPurchasePrice && item.item.unitSalePrice ? (
+            {item.item.unitPurchasePrice &&
+            item.item.unitSalePrice &&
+            item.item.step === 3 &&
+            item.user.id === userSession.token ? (
               <button
                 type="button"
                 className="bg-transparent"
@@ -226,15 +229,16 @@ export default function ListInquiry({ item, reloadList, customers }) {
               </button>
             ) : null}
 
-            {(userSession.isAdmin || item.user.id === userSession.token) && (
-              <button
-                type="button"
-                className="bg-transparent"
-                onClick={() => deleteItemFromList(item)}
-              >
-                <TrashSimple alt="Remover item" className="icon-default" />
-              </button>
-            )}
+            {(userSession.isAdmin || item.user.id === userSession.token) &&
+              item.item.step < 2 && (
+                <button
+                  type="button"
+                  className="bg-transparent"
+                  onClick={() => deleteItemFromList(item)}
+                >
+                  <TrashSimple alt="Remover item" className="icon-default" />
+                </button>
+              )}
           </div>
         </div>
       </div>
