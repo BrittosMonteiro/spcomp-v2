@@ -1,10 +1,11 @@
-import PageTitle from "../../../components/Common/PageTitle";
-import List from "../../../components/List/List";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+
+import PageTitle from "../../../components/Common/PageTitle";
 import { readItems } from "../../../services/itemService";
 import DialogItem from "../../../components/Dialog/DialogItem";
-import { useSelector } from "react-redux";
 import FilterItems from "../../../components/Common/filterItems";
+import ItemTable from "../../../components/Tables/ItemTable";
 
 export default function Items() {
   const userSession = useSelector((state) => {
@@ -13,7 +14,6 @@ export default function Items() {
 
   const [items, setItems] = useState([]);
   const [originalItems, setOriginalItems] = useState([]);
-  const [level, setLevel] = useState("");
   const [open, setOpen] = useState(false);
 
   async function loadList() {
@@ -26,7 +26,6 @@ export default function Items() {
       .then((response) => {
         setItems(response.data.itemsList);
         setOriginalItems(response.data.itemsList);
-        setLevel(response.data.level);
       })
       .catch(() => {});
   }
@@ -72,7 +71,7 @@ export default function Items() {
         <FilterItems setItems={setItems} originalItems={originalItems} />
       ) : null}
       {items.length > 0 ? (
-        <List list={items} level={level} reloadList={reloadList} />
+        <ItemTable list={items} reloadList={reloadList} />
       ) : (
         <div className="ma-auto">
           <p className="font-lg font-light">Não há itens cadastrados</p>

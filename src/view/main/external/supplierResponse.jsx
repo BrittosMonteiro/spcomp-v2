@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ArrowCircleRight,
   DownloadSimple,
@@ -5,9 +7,8 @@ import {
   ToggleRight,
   Trash,
 } from "phosphor-react";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
 import PageTitle from "../../../components/Common/PageTitle";
 import {
   readInquiryHistory,
@@ -84,7 +85,7 @@ export default function SupplierResponse() {
     await updateInquiryHistory(data)
       .then((response) => {
         if (response.status === 200) {
-          handleMessageBox("failed", "Visibilidade alterada");
+          handleMessageBox("success", "Visibilidade alterada");
           loadInquiryHistory();
         } else {
           handleMessageBox("failed", "Não foi possível alterar a visibilidade");

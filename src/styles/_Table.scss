@@ -4,14 +4,16 @@
 .table {
   border-radius: 2px;
   border-collapse: collapse;
+  overflow-x: auto;
+  width: 100%;
   th,
   td {
     border: 1px solid lightgray;
-    padding: 4px;
     font-size: $font-sm;
   }
 
   th {
+    padding: 4px;
     background-color: $red-1;
     color: $white-1;
     font-weight: $font-weight-bold;
@@ -22,6 +24,7 @@
     background-color: $gray-light;
   }
   td {
+    padding: 6px;
     text-align: center;
   }
 }

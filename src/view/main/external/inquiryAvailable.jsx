@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+
 import PageTitle from "../../../components/Common/PageTitle";
 import {
   readInquiryListByCompany,
   readInquiryList,
 } from "../../../services/inquiryListService";
-import ListInquiryDetail from "../../../components/List/ListInquiryDetail";
+import ListInquiryListSentItemsTable from "../../../components/Tables/InquiryListSentItemsTable";
 
 export default function InquiryAvailable() {
   const userSession = useSelector((state) => {
@@ -69,31 +69,11 @@ export default function InquiryAvailable() {
         <PageTitle title={title} />
       </div>
       {inquiries.length > 0 ? (
-        <React.Fragment>
-          {inquiries.map((inquiry, index) => (
-            <div className="column" key={index}>
-              {userSession.isAdmin && (
-                <div className="row">
-                  <h1 className="font-md font-medium bg-red-1 text-white-1 pa-1">
-                    {inquiry.supplier.name}
-                  </h1>
-                </div>
-              )}
-              <ol className="my-4">
-                {inquiry.items.map((item, index) => (
-                  <React.Fragment key={index}>
-                    <ListInquiryDetail
-                      idSupplier={inquiry.supplier.idSupplier}
-                      item={item}
-                      reloadInquiryListByCompany={reloadInquiryListByCompany}
-                    />
-                    {index <= inquiries.length - 1 ? <hr /> : ""}
-                  </React.Fragment>
-                ))}
-              </ol>
-            </div>
-          ))}
-        </React.Fragment>
+        <ListInquiryListSentItemsTable
+          list={inquiries}
+          reloadList={reloadInquiryListByCompany}
+          userSession={userSession}
+        />
       ) : null}
     </>
   );

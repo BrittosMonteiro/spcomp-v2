@@ -1,8 +1,9 @@
-import PageTitle from "../../../components/Common/PageTitle";
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+
+import PageTitle from "../../../components/Common/PageTitle";
 import { readStockList } from "../../../services/stockService.js";
 import ListOrder from "../../../components/List/ListOrder";
-import { useSelector } from "react-redux";
 
 export default function Stock() {
   const userSession = useSelector((state) => {

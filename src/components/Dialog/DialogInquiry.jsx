@@ -8,10 +8,10 @@ import {
   displayMessageBox,
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
+import { readCustomerToItem } from "../../services/customerService";
 
 export default function DialogInquiry({
   item,
-  customers,
   open,
   onClose,
   reloadList,
@@ -22,6 +22,7 @@ export default function DialogInquiry({
   const [brandList, setBrandList] = useState([]);
   const [typeList, setTypeList] = useState([]);
   const [encapList, setEncapList] = useState([]);
+  const [customers, setCustomers] = useState([]);
 
   const [idInquiryItem, setIdInquiryItem] = useState("");
   const [description, setDescription] = useState("");
@@ -35,6 +36,23 @@ export default function DialogInquiry({
   const [quantity, setQuantity] = useState("");
   const [salePrice, setSalePrice] = useState(0);
   const [purchasePrice, setPurchasePrice] = useState(0);
+
+  async function loadCustomers() {
+    await readCustomerToItem()
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log("Não pôde carregar");
+        } else {
+          return response.json();
+        }
+      })
+      .then((res) => {
+        setCustomers(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   useEffect(() => {
     if (item) {
@@ -57,6 +75,7 @@ export default function DialogInquiry({
     loadBrands();
     loadEncaps();
     loadTypes();
+    loadCustomers();
   }, []);
 
   function handleItem(e) {

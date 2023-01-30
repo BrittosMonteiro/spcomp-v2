@@ -1,41 +1,49 @@
-@import 'Colors';
+@import "Colors";
 
 .bg-transparent {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 // White
 .bg-white-1 {
-    background-color: $white-1;
+  background-color: $white-1;
 }
 
 // Dark
 .bg-dark-1 {
-    background-color: $dark-1;
+  background-color: $dark-1;
 }
 
 .bg-dark-2 {
-    background-color: $dark-2;
+  background-color: $dark-2;
 }
 
 .bg-dark-3 {
-    background-color: $dark-3;
+  background-color: $dark-3;
 }
 
 .bg-dark-5 {
-    background-color: $dark-5;
+  background-color: $dark-5;
 }
 
 // Red
 .bg-red-1 {
-    background-color: $red-1;
+  background-color: $red-1;
 }
 
 // Green
 .bg-green-1 {
-    background-color: $green-1;
+  background-color: $green-1;
 }
 
 .bg-gray-light {
-    background-color: $gray-light;
+  background-color: $gray-light;
+}
+
+.bg-blue-1 {
+  background-color: $blue-1;
+}
+
+.bg-orange-1 {
+  background-color: $orange-1;
 }

@@ -56,11 +56,9 @@ export default function Header() {
                 </li>
               </>
             ) : null}
-            {userSession.role === 4 || userSession.isAdmin ? (
+            {userSession.role === 4 ? (
               <li className="pb-1">
-                <Link to="/inquiry/list">
-                  {userSession.role === 4 ? "Inquiries" : "Cotações enviadas"}
-                </Link>
+                <Link to="/inquiry/list">Inquiries</Link>
               </li>
             ) : null}
           </ul>

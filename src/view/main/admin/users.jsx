@@ -1,6 +1,7 @@
-import PageTitle from "../../../components/Common/PageTitle";
-import * as Dialog from "@radix-ui/react-dialog";
 import { useState, useEffect } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
+
+import PageTitle from "../../../components/Common/PageTitle";
 import { readUsers } from "../../../services/usersService";
 import DialogUser from "../../../components/Dialog/DialogUser";
 import ListUser from "../../../components/List/ListUser";

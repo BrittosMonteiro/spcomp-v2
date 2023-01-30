@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+
 import PageTitle from "../../../components/Common/PageTitle";
 import ListOrder from "../../../components/List/ListOrder";
 import { readOrderListBySupplier } from "../../../services/orderListService";
@@ -12,7 +13,7 @@ export default function OrderSupplier() {
 
   const [orderList, setOrderList] = useState([]);
 
-  async function loadOrderList() {
+  async function loadOrderList(userSession) {
     await readOrderListBySupplier(userSession.token)
       .then((responseRead) => {
         if (responseRead.status === 200) {
@@ -26,8 +27,8 @@ export default function OrderSupplier() {
   }
 
   useEffect(() => {
-    loadOrderList();
-  }, []);
+    loadOrderList(userSession);
+  }, [userSession]);
 
   function reloadOrderList() {
     loadOrderList();
