@@ -18,6 +18,12 @@ export async function readSuppliers() {
   });
 }
 
+export async function readSuppliersSimple() {
+  return await fetch(`${API_URL}/simple`, {
+    method: "GET",
+  });
+}
+
 export async function updateSupplier(data) {
   return await fetch(`${API_URL}`, {
     method: "PUT",

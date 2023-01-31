@@ -1,6 +1,6 @@
 import InquiryTableRow from "./InquiryRow";
 
-export default function ListInquiryTable({ list, reloadList }) {
+export default function InquiryTable({ list, reloadList }) {
   return (
     <table className="table mt-4">
       <thead>

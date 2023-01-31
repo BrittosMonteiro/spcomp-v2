@@ -77,7 +77,7 @@ export default function Inquiry() {
           ) : null}
           <DialogInquiry open={open} onClose={closeModal} pending={pending} />
           <Link
-            to={"/inquiry/list"}
+            to={"/supplier/inquiry-list"}
             className="font-sm font-medium text-white-1 row align-items-center gap-2 bg-green-1 text-white-1 pa-2"
           >
             <span>Cotações enviadas</span>

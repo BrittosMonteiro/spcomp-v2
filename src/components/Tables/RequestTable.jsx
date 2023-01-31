@@ -1,27 +1,26 @@
-import InquiryListItemRow from "./InquiryListItemRow";
+import RequestRow from "./RequestRow";
 
-export default function InquiryListItemTable({ list }) {
+export default function RequestTable({ list, reloadRequestList }) {
   return (
     <table className="table">
       <thead>
         <tr>
-          <th>Cotação</th>
           <th>Fornecedor</th>
           <th>Qtd</th>
           <th>Descrição</th>
           <th>Tipo</th>
           <th>Encap</th>
           <th>Marca</th>
-          <th>USD compra</th>
-          <th>LT</th>
-          <th>DC</th>
-          <th>Condição</th>
+          <th>USD Compra</th>
+          <th>R$ Venda</th>
+          <th>Vendedor</th>
+          <th>Cliente</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
-        {list.map((item, index) => (
-          <InquiryListItemRow item={item} key={index} />
+        {list.map((request, index) => (
+          <RequestRow key={index} request={request} />
         ))}
       </tbody>
     </table>

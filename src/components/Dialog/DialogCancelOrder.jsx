@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { updateInquiryItemStep } from "../../services/inquiryItemService";
 import { deleteOrderListItem } from "../../services/orderListService";
-import { updateOrderItem } from "../../services/orderService";
+import { updateRequestItem } from "../../services/requestService";
 
 export default function DialogCancel({
   open,
   onClose,
   item,
   role,
-  reloadOrderList,
+  reloadRequestList,
 }) {
   function closeModal(e) {
     const elementId = e.target.id === "overlay";
@@ -64,10 +64,10 @@ export default function DialogCancel({
       reason,
     };
 
-    await updateOrderItem(data)
+    await updateRequestItem(data)
       .then((responseUpdate) => {
         if (responseUpdate) {
-          reloadOrderList();
+          reloadRequestList();
         }
       })
       .catch((err) => {

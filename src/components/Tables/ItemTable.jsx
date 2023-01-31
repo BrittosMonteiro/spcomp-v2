@@ -1,6 +1,6 @@
 import ItemRow from "./ItemRow";
 
-export default function ListItemTable({ list, reloadList }) {
+export default function ItemTable({ list, reloadList }) {
   return (
     <table className="table mt-4">
       <thead>

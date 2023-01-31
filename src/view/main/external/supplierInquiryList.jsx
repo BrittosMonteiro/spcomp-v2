@@ -195,7 +195,7 @@ export default function SupplierResponse() {
               </div>
               <div className="row align-items-center gap-2">
                 <Link
-                  to={`/inquiry/list/available/${inquiry.id}/${inquiry.title}`}
+                  to={`/supplier/inquiry-list/available/${inquiry.id}/${inquiry.title}`}
                   className="row gap-2 font-light font-sm bg-green-1 pa-1 border-radius-soft text-white-1 align-items-center"
                 >
                   {userSession.role === 4

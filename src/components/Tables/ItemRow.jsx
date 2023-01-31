@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import DialogItem from "../Dialog/DialogItem.jsx";
 
-export default function ListItemTableRow({ item, reloadList }) {
+export default function ItemTableRow({ item, reloadList }) {
   const dispatch = useDispatch();
   const userSession = useSelector((state) => {
     return state.login;

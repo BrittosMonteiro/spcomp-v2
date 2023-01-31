@@ -7,7 +7,7 @@ import {
   readInquiryListByCompany,
   readInquiryList,
 } from "../../../services/inquiryListService";
-import ListInquiryListSentItemsTable from "../../../components/Tables/InquiryListSentItemsTable";
+import InquiryListSentItemsTable from "../../../components/Tables/InquiryListSentItemsTable";
 
 export default function InquiryAvailable() {
   const userSession = useSelector((state) => {
@@ -69,7 +69,7 @@ export default function InquiryAvailable() {
         <PageTitle title={title} />
       </div>
       {inquiries.length > 0 ? (
-        <ListInquiryListSentItemsTable
+        <InquiryListSentItemsTable
           list={inquiries}
           reloadList={reloadInquiryListByCompany}
           userSession={userSession}

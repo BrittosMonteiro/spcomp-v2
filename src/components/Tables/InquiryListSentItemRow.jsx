@@ -12,7 +12,7 @@ import {
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
 
-export default function ListInquiryListSentItemsTableRow({
+export default function InquiryListSentItemsTableRow({
   item,
   price,
   reloadList,

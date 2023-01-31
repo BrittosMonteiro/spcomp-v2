@@ -1,7 +1,7 @@
 import React from "react";
 import InquiryListSentItemsRow from "./InquiryListSentItemRow";
 
-export default function ListInquiryListSentItemsTable({
+export default function InquiryListSentItemsTable({
   list,
   reloadList,
   userSession,

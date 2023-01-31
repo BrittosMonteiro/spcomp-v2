@@ -45,7 +45,7 @@ export default function Header() {
                 </li>
                 {userSession.isAdmin && (
                   <li className="pb-1">
-                    <Link to="/main/order">Pedidos</Link>
+                    <Link to="/main/order-requests">Solicitações</Link>
                   </li>
                 )}
                 <li className="pb-1">
@@ -57,9 +57,14 @@ export default function Header() {
               </>
             ) : null}
             {userSession.role === 4 ? (
-              <li className="pb-1">
-                <Link to="/inquiry/list">Inquiries</Link>
-              </li>
+              <>
+                <li className="pb-1">
+                  <Link to="/supplier/inquiry-list">Inquiries</Link>
+                </li>
+                <li className="pb-1">
+                  <Link to="/supplier/order-requests">Orders</Link>
+                </li>
+              </>
             ) : null}
           </ul>
           <div className="header-icons gap-3">

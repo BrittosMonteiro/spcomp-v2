@@ -5,7 +5,7 @@ import { createOrderListItem } from "../../services/orderListService";
 import { createStockItem } from "../../services/stockService";
 import DialogCancel from "../Dialog/DialogCancelOrder";
 
-export default function ListOrder({ order, reloadOrderList, user }) {
+export default function ListOrder({ order, reloadRequestList, user }) {
   const [open, setOpen] = useState(false);
 
   async function sendOrderToSupplier(step) {
@@ -38,7 +38,7 @@ export default function ListOrder({ order, reloadOrderList, user }) {
     await updateInquiryItemStep(data)
       .then((responseUpdate) => {
         if (responseUpdate) {
-          reloadOrderList();
+          reloadRequestList();
         }
       })
       .catch((err) => {
@@ -130,7 +130,8 @@ export default function ListOrder({ order, reloadOrderList, user }) {
             </button>
           ) : null}
           {(order.item.step < 9 || order.item.step > 11) &&
-          (order.item.step !== 7 && order.item.step !== 8) &&
+          order.item.step !== 7 &&
+          order.item.step !== 8 &&
           user.isAdmin ? (
             <>
               <button
@@ -146,7 +147,7 @@ export default function ListOrder({ order, reloadOrderList, user }) {
                 onClose={closeModal}
                 open={open}
                 role={user.role}
-                reloadOrderList={reloadOrderList}
+                reloadRequestList={reloadRequestList}
               />
             </>
           ) : null}

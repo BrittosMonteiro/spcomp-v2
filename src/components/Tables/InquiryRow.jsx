@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Copy,
   ListPlus,
@@ -5,8 +8,7 @@ import {
   RepeatOnce,
   TrashSimple,
 } from "phosphor-react";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import {
   displayMessageBox,
   hideMessageBox,
@@ -16,11 +18,10 @@ import {
   deleteInquiryItem,
   updateInquiryItemStep,
 } from "../../services/inquiryItemService";
-import { createOrderItem } from "../../services/orderService.js";
+import { createRequestItem } from "../../services/requestService.js";
 import DialogInquiry from "../Dialog/DialogInquiry";
-import { Link } from "react-router-dom";
 
-export default function ListInquiryTableRow({ item, reloadList, customers }) {
+export default function InquiryTableRow({ item, reloadList, customers }) {
   const dispatch = useDispatch();
   const userSession = useSelector((state) => {
     return state.login;
@@ -64,9 +65,9 @@ export default function ListInquiryTableRow({ item, reloadList, customers }) {
   }
 
   async function createPurchase() {
-    const idInquiryItem = item.idInquiryItem;
+    const idInquiryItem = item.item.idInquiryItem;
 
-    await createOrderItem({ idInquiryItem })
+    await createRequestItem({ idInquiryItem })
       .then((response) => {
         if (response.status === 200) {
           return response.json();

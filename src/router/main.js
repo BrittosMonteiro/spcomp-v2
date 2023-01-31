@@ -7,7 +7,7 @@ import Index from "../view/main/index";
 //Private Internal roles
 import Items from "../view/main/internal/items";
 import Inquiry from "../view/main/internal/inquiry";
-import Purchase from "../view/main/internal/order";
+import OrderRequest from "../view/main/admin/orderRequest";
 import Stock from "../view/main/internal/stock";
 import Sales from "../view/main/internal/sales";
 import Profile from "../view/main/internal/profile";
@@ -19,7 +19,7 @@ import Users from "../view/main/admin/users";
 import InquiryItem from "../view/main/admin/inquiryItem";
 
 //Private External role
-import SupplierResponse from "../view/main/external/supplierResponse";
+import SupplierInquiryList from "../view/main/external/supplierInquiryList";
 import InquiryAvailable from "../view/main/external/inquiryAvailable";
 
 //Public route
@@ -28,35 +28,41 @@ import Login from "../view/login/login";
 import LoginSupplier from "../view/login/loginSupplier";
 import NotFound from "../view/notFound";
 import OrderAdmin from "../view/main/admin/orderAdmin";
-import OrderSupplier from "../view/main/external/orderSupplier";
 import OrderStock from "../view/main/stock/orderStock";
+import SupplierOrder from "../view/main/external/supplierOrder";
+import SupplierOrderList from "../view/main/external/supplierOrderList";
 
 export default function MainRoutes() {
   const allRoles = [1, 2, 3, 4];
   const internalRoles = [1, 2, 3];
-  const externalRoles = [1, 4];
+  const externalRoles = [1, 3, 4];
   const adminOnly = [1];
 
   return (
     <Routes>
       {/* <PrivateRoute /> */}
       <Route
-        path="/inquiry/list"
-        exact
-        element={<PrivateRoute canView={externalRoles} />}
-      >
-        <Route path="/inquiry/list" element={<SupplierResponse />} />
-      </Route>
-      <Route
-        path="/inquiry/list/available/:idInquiryHistory/:title"
+        path="/supplier/inquiry-list"
         exact
         element={<PrivateRoute canView={externalRoles} />}
       >
         <Route
-          path="/inquiry/list/available/:idInquiryHistory/:title"
+          path="/supplier/inquiry-list"
+          element={<SupplierInquiryList />}
+        />
+      </Route>
+
+      <Route
+        path="/supplier/inquiry-list/available/:idInquiryHistory/:title"
+        exact
+        element={<PrivateRoute canView={externalRoles} />}
+      >
+        <Route
+          path="/supplier/inquiry-list/available/:idInquiryHistory/:title"
           element={<InquiryAvailable />}
         />
       </Route>
+
       <Route
         path="/admin/inquiry/item/:idInquiryItem"
         exact
@@ -91,14 +97,36 @@ export default function MainRoutes() {
         <Route path="/main/inquiry" element={<Inquiry />} />
       </Route>
 
+      {/* Displays all requested items to be ordered and a list of opened orders to suppliers */}
       <Route
-        path="/main/order"
+        path="/main/order-requests"
         exact
         element={<PrivateRoute canView={internalRoles} />}
       >
-        <Route path="/main/order" element={<Purchase />} />
+        <Route path="/main/order-requests" element={<OrderRequest />} />
       </Route>
 
+      {/* Lists all orders to an specific supplier */}
+      <Route
+        path="/supplier/order-requests"
+        element={<PrivateRoute canView={externalRoles} />}
+      >
+        <Route
+          path="/supplier/order-requests"
+          element={<SupplierOrderList />}
+        />
+      </Route>
+
+      {/* Display all items from an order of an specific supplier */}
+      <Route
+        path="/supplier/order/:idOrder"
+        exact
+        element={<PrivateRoute canView={externalRoles} />}
+      >
+        <Route path="/supplier/order/:idOrder" element={<SupplierOrder />} />
+      </Route>
+
+      {/* Controlled by stock staff, displays all items available in stock */}
       <Route
         path="/main/stock"
         exact
@@ -107,6 +135,7 @@ export default function MainRoutes() {
         <Route path="/main/stock" element={<Stock />} />
       </Route>
 
+      {/* Managed by sellers, displays all sales created */}
       <Route
         path="/main/sales"
         exact
@@ -122,6 +151,7 @@ export default function MainRoutes() {
       >
         <Route path="/main/profile" element={<Profile />} />
       </Route>
+
       <Route
         path="/admin/customers"
         exact
@@ -129,7 +159,6 @@ export default function MainRoutes() {
       >
         <Route path="/admin/customers" element={<Customers />} />
       </Route>
-
       <Route
         path="/admin/suppliers"
         exact
@@ -137,7 +166,6 @@ export default function MainRoutes() {
       >
         <Route path="/admin/suppliers" element={<Suppliers />} />
       </Route>
-
       <Route
         path="/admin/users"
         exact
@@ -145,21 +173,12 @@ export default function MainRoutes() {
       >
         <Route path="/admin/users" element={<Users />} />
       </Route>
-
       <Route
         path="/admin/order-list"
         exact
         element={<PrivateRoute canView={adminOnly} />}
       >
         <Route path="/admin/order-list" element={<OrderAdmin />} />
-      </Route>
-
-      <Route
-        path="/supplier/order-list"
-        exact
-        element={<PrivateRoute canView={externalRoles} />}
-      >
-        <Route path="/supplier/order-list" element={<OrderSupplier />} />
       </Route>
 
       <Route

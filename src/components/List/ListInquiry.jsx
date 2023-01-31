@@ -18,7 +18,7 @@ import {
   deleteInquiryItem,
   updateInquiryItemStep,
 } from "../../services/inquiryItemService";
-import { createOrderItem } from "../../services/orderService.js";
+import { createRequestItem } from "../../services/requestService.js";
 
 export default function ListInquiry({ item, reloadList, customers }) {
   const dispatch = useDispatch();
@@ -66,7 +66,7 @@ export default function ListInquiry({ item, reloadList, customers }) {
   async function createPurchase() {
     const idInquiryItem = item.idInquiryItem;
 
-    await createOrderItem({ idInquiryItem })
+    await createRequestItem({ idInquiryItem })
       .then((response) => {
         if (response.status === 200) {
           return response.json();

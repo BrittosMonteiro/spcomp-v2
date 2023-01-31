@@ -1,25 +1,26 @@
-import InquiryRow from "./InquiryRow";
+import OrderRow from "./OrderRow";
 
-export default function ListOrderTable({ list, reloadList }) {
+export default function OrderTable({ list, userSession }) {
   return (
-    <table className="table mt-4">
+    <table className="table">
       <thead>
         <tr>
-          <th>Data</th>
-          <th>Qtd</th>
-          <th>Descrição</th>
-          <th>Tipo</th>
+          <th>Qty</th>
+          <th>Description</th>
+          <th>Type</th>
           <th>Encap</th>
-          <th>Marca</th>
-          <th>Cliente</th>
-          <th>Vendedor</th>
+          <th>Brand</th>
+          <th>USD Price</th>
+          <th>LT</th>
+          <th>DC</th>
+          <th>Condition</th>
           <th>Status</th>
-          <th>Ações</th>
+          <th>{userSession.role === 4 ? "Action" : "Ação"}</th>
         </tr>
       </thead>
       <tbody>
-        {list.map((item, index) => (
-          <InquiryRow key={index} item={item} reloadList={reloadList} />
+        {list.items.map((item, index) => (
+          <OrderRow item={item} key={index} userSession={userSession} />
         ))}
       </tbody>
     </table>
