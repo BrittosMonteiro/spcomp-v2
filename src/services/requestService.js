@@ -24,3 +24,9 @@ export async function readRequest() {
     method: "GET",
   });
 }
+
+export async function readRequestBySupplier(idSupplier) {
+  return await fetch(`${API_URL}/bySupplier/${idSupplier}`, {
+    method: "GET",
+  });
+}

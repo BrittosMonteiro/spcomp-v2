@@ -1,9 +1,26 @@
+import { Copy } from "phosphor-react";
+
 export default function RequestRow({ request }) {
+  function copyText(text) {
+    navigator.clipboard.writeText(text);
+    // handleMessageBox("success", "Text copied to clipboard");
+  }
   return (
     <tr>
       <td>{request.supplier.name}</td>
       <td>{request.item.quantity}</td>
-      <td>{request.item.description}</td>
+      <td>
+        <div className="row gap-2">
+          <button
+            type="button"
+            className="bg-transparent"
+            onClick={() => copyText(request.item.description)}
+          >
+            <Copy className="icon-default" />
+          </button>
+          {request.item.description}
+        </div>
+      </td>
       <td>{request.item.type}</td>
       <td>{request.item.encap}</td>
       <td>{request.item.brand}</td>

@@ -71,8 +71,7 @@ export default function ItemTableRow({ item, reloadList }) {
     <tr>
       <td>
         <div className="row">
-          <div className="row mx-auto gap-2">
-            <span>{item.item.description}</span>
+          <div className="row  gap-2">
             <button
               type="button"
               onClick={() => copyText(item.item.description)}
@@ -80,6 +79,7 @@ export default function ItemTableRow({ item, reloadList }) {
             >
               <Copy className="icon-default" />
             </button>
+            <span>{item.item.description}</span>
           </div>
         </div>
       </td>

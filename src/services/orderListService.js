@@ -47,6 +47,14 @@ export async function updateOrderStatus(data) {
   });
 }
 
+export async function updateOrderAddItems(data) {
+  return await fetch(`${API_URL}/updateOrderAddItems`, {
+    method: "PUT",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
 export async function deleteOrderListItem(data) {
   return await fetch(`${API_URL}`, {
     method: "DELETE",

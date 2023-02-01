@@ -51,7 +51,7 @@ export default function DialogInquiry({ open, onClose, pending }) {
         }
       })
       .then(() => {
-        navigate("/inquiry/list");
+        navigate("/supplier/inquiry-list");
         updateItemStep();
       })
       .catch(() => {

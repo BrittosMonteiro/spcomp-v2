@@ -1,15 +1,33 @@
-import { Check } from "phosphor-react";
+import { Check, Copy } from "phosphor-react";
 
 export default function InquiryListItemRow({ item }) {
   function updateInquiryListItemPurchasePrice(item) {
     console.log(item);
   }
+
+  function copyText(text) {
+    navigator.clipboard.writeText(text);
+    // handleMessageBox("success", "Text copied to clipboard");
+  }
+
   return (
     <tr>
       <td>{item.inquiryHistory.title}</td>
       <td>{item.price.name}</td>
       <td>{item.quantity}</td>
-      <td>{item.description}</td>
+      <td>
+        {" "}
+        <div className="row gap-2">
+          <button
+            type="button"
+            className="bg-transparent"
+            onClick={() => copyText(item.description)}
+          >
+            <Copy className="icon-default" />
+          </button>
+          {item.description}
+        </div>
+      </td>
       <td>{item.type}</td>
       <td>{item.encap}</td>
       <td>{item.brand}</td>

@@ -17,10 +17,15 @@ export default function OrderListTable({
       <table className="table mt-4">
         <thead>
           <tr>
-            <th>Data</th>
-            <th>Fornecedor</th>
-            {userSession.isAdmin && <th>Status</th>}
-            <th>Ações</th>
+            <th>Date</th>
+            <th>Supplier</th>
+            <th>View</th>
+            {userSession.isAdmin && (
+              <>
+                <th>Status</th>
+                <th>Delete</th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
