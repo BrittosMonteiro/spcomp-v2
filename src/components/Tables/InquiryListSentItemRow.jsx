@@ -184,10 +184,8 @@ export default function InquiryListSentItemsTableRow({
                 >
                   <Check className="icon-sm" />
                 </button>
-              ) : null}
-
-              {item.step > 3 ? (
-                "Em processo"
+              ) : item.step > 3 ? (
+                "Concluído"
               ) : userSession.isAdmin && price.unitPurchasePrice ? (
                 <button
                   type="button"
@@ -198,7 +196,7 @@ export default function InquiryListSentItemsTableRow({
                   <Check className="icon-sm" />
                 </button>
               ) : userSession.isAdmin ? (
-                "Pendente"
+                "pendente"
               ) : null}
             </div>
           </div>
