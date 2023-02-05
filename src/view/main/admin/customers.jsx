@@ -2,7 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 
 import DialogCustomer from "../../../components/Dialog/DialogCustomer";
-import ListCustomers from "../../../components/List/ListCustomer";
+import CustomersTable from "./Components/CustomersTable";
 import { readCustomers } from "../../../services/customerService";
 
 export default function Customers() {
@@ -37,13 +37,13 @@ export default function Customers() {
     <>
       <div className="row justify-content-between align-items-center">
         <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger className="font-medium font-sm bg-transparent">
+          <Dialog.Trigger className="font-medium font-sm bg-green-1 text-white-1 pa-2 border-radius-soft">
             Adicionar novo cliente
           </Dialog.Trigger>
           <DialogCustomer reloadList={reloadList} />
         </Dialog.Root>
       </div>
-      <ListCustomers customersList={customersList} reloadList={reloadList} />
+      <CustomersTable customersList={customersList} reloadList={reloadList} />
     </>
   );
 }

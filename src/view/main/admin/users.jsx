@@ -3,7 +3,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 
 import { readUsers } from "../../../services/usersService";
 import DialogUser from "../../../components/Dialog/DialogUser";
-import ListUser from "../../../components/List/ListUser";
+import UsersTable from "./Components/UsersTable";
 
 export default function Users() {
   const [open, setOpen] = useState(false);
@@ -37,13 +37,15 @@ export default function Users() {
     <>
       <div className="row justify-content-between align-items-center">
         <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger className="font-medium font-sm bg-transparent">
+          <Dialog.Trigger className="font-medium font-sm bg-transparent pa-2 bg-green-1 border-radius-soft text-white-1">
             Adicionar novo usuário
           </Dialog.Trigger>
           <DialogUser reloadList={reloadList} />
         </Dialog.Root>
       </div>
-      <ListUser usersList={usersList} reloadList={reloadList} />
+      {usersList.length > 0 ? (
+        <UsersTable usersList={usersList} reloadList={reloadList} />
+      ) : null}
     </>
   );
 }

@@ -2,7 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useState, useEffect } from "react";
 
 import DialogSupplier from "../../../components/Dialog/DialogSupplier";
-import ListSupplier from "../../../components/List/ListSupplier";
+import SuppliersTable from "./Components/SupplierTable";
 import { readSuppliers } from "../../../services/supplierService";
 
 export default function Suppliers() {
@@ -37,13 +37,13 @@ export default function Suppliers() {
     <>
       <div className="row justify-content-between align-items-center">
         <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger className="font-medium font-sm bg-transparent">
+          <Dialog.Trigger className="font-medium font-sm bg-green-1 text-white-1 pa-2 border-radius-soft">
             Adicionar novo fornecedor
           </Dialog.Trigger>
           <DialogSupplier reloadList={reloadList} />
         </Dialog.Root>
       </div>
-      <ListSupplier suppliersList={suppliersList} reloadList={reloadList} />
+      <SuppliersTable suppliersList={suppliersList} reloadList={reloadList} />
     </>
   );
 }
