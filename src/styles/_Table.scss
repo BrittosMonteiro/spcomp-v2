@@ -1,4 +1,5 @@
 @import "Font";
+@import "Spacing";
 @import "Colors";
 
 .table {
@@ -6,25 +7,29 @@
   border-collapse: collapse;
   overflow-x: auto;
   width: 100%;
+
+  thead tr {
+    border-radius: 4px;
+  }
+
   th,
   td {
-    border: 1px solid lightgray;
+    padding: $spacing-2;
     font-size: $font-sm;
+    text-align: left;
   }
 
   th {
-    padding: 4px;
+    padding: $spacing-2;
     background-color: $red-1;
     color: $white-1;
     font-weight: $font-weight-bold;
-    border-color: $red-1;
+  }
+  tbody tr:not(:nth-last-child(1)) {
+    border-bottom: 1px solid lightgray;
   }
 
-  tr:hover {
+  tbody tr:nth-child(even) {
     background-color: $gray-light;
-  }
-  td {
-    padding: 6px;
-    text-align: center;
   }
 }

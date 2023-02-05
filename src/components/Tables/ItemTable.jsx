@@ -1,8 +1,8 @@
 import ItemRow from "./ItemRow";
 
-export default function ItemTable({ list, reloadList }) {
+export default function ItemTable({ list, reloadList, changeTab }) {
   return (
-    <table className="table mt-4">
+    <table className="table">
       <thead>
         <tr>
           <th>Descrição</th>
@@ -14,7 +14,12 @@ export default function ItemTable({ list, reloadList }) {
       </thead>
       <tbody>
         {list.map((item, index) => (
-          <ItemRow key={index} item={item} reloadList={reloadList} />
+          <ItemRow
+            key={index}
+            item={item}
+            reloadList={reloadList}
+            changeTab={changeTab}
+          />
         ))}
       </tbody>
     </table>

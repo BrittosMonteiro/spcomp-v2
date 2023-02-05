@@ -2,7 +2,7 @@ import InquiryTableRow from "./InquiryRow";
 
 export default function InquiryTable({ list, reloadList }) {
   return (
-    <table className="table mt-4">
+    <table className="table">
       <thead>
         <tr>
           <th>Data</th>

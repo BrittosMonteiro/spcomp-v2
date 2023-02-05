@@ -1,7 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 
-import PageTitle from "../../../components/Common/PageTitle";
 import DialogCustomer from "../../../components/Dialog/DialogCustomer";
 import ListCustomers from "../../../components/List/ListCustomer";
 import { readCustomers } from "../../../services/customerService";
@@ -37,8 +36,6 @@ export default function Customers() {
   return (
     <>
       <div className="row justify-content-between align-items-center">
-        <PageTitle title={"Clientes"} />
-
         <Dialog.Root open={open} onOpenChange={setOpen}>
           <Dialog.Trigger className="font-medium font-sm bg-transparent">
             Adicionar novo cliente

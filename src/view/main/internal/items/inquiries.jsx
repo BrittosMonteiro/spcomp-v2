@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ArrowCircleRight, PaperPlaneTilt } from "phosphor-react";
+import { PaperPlaneTilt } from "phosphor-react";
 
-import PageTitle from "../../../components/Common/PageTitle";
-import DialogInquiry from "../../../components/Dialog/DialogInquiryList";
-import FilterItems from "../../../components/Common/filterItems";
-import InquiryTable from "../../../components/Tables/InquiryTable";
-import { readInquiryItems } from "../../../services/inquiryItemService";
+import DialogInquiry from "../../../../components/Dialog/DialogInquiryList";
+// import FilterItems from "../../../../components/Common/filterItems";
+import InquiryTable from "../../../../components/Tables/InquiryTable";
+import { readInquiryItems } from "../../../../services/inquiryItemService";
 
-export default function Inquiry() {
+export default function Inquiries({ changeTab }) {
   const userSession = useSelector((state) => {
     return state.login;
   });
   const [items, setItems] = useState([]);
-  const [originalItems, setOriginalItems] = useState([]);
+  // const [originalItems, setOriginalItems] = useState([]);
   const [pending, setPending] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -27,7 +25,7 @@ export default function Inquiry() {
       })
       .then((res) => {
         setItems(res.data.items);
-        setOriginalItems(res.data.items);
+        // setOriginalItems(res.data.items);
       })
       .catch((err) => {
         console.log(err);
@@ -61,7 +59,6 @@ export default function Inquiry() {
   return (
     <>
       <div className="row justify-content-between align-items-center">
-        <PageTitle title={"Cotações"} />
         <div className="row gap-2">
           {userSession.isAdmin && pending.length > 0 ? (
             <button
@@ -75,20 +72,17 @@ export default function Inquiry() {
               <PaperPlaneTilt className="icon-default" />
             </button>
           ) : null}
-          <DialogInquiry open={open} onClose={closeModal} pending={pending} />
-          <Link
-            to={"/supplier/inquiry-list"}
-            className="font-sm font-medium text-white-1 row align-items-center gap-2 bg-green-1 text-white-1 pa-2"
-          >
-            <span>Cotações enviadas</span>
-            <ArrowCircleRight className="icon-default" />
-          </Link>
+          <DialogInquiry
+            open={open}
+            onClose={closeModal}
+            pending={pending}
+            changeTab={changeTab}
+          />
         </div>
       </div>
-
-      {originalItems.length > 0 ? (
+      {/* {originalItems.length > 0 ? (
         <FilterItems setItems={setItems} originalItems={originalItems} />
-      ) : null}
+      ) : null} */}
       {items.length > 0 ? (
         // <List
         //   list={items}

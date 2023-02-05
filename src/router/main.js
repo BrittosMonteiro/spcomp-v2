@@ -5,17 +5,13 @@ import PrivateRoute from "./privateRoute";
 import Index from "../view/main/index";
 
 //Private Internal roles
-import Items from "../view/main/internal/items";
-import Inquiry from "../view/main/internal/inquiry";
+import Items from "../view/main/internal/items/itemsView";
 import OrderRequest from "../view/main/admin/orderRequest";
-import Stock from "../view/main/internal/stock";
-import Sales from "../view/main/internal/sales";
+import Stock from "../view/main/internal/stock/stock";
+import Sales from "../view/main/internal/sales/sales";
 import Profile from "../view/main/internal/profile";
 
 //Private Admin role
-import Customers from "../view/main/admin/customers";
-import Suppliers from "../view/main/admin/suppliers";
-import Users from "../view/main/admin/users";
 import InquiryItem from "../view/main/admin/inquiryItem";
 
 //Private External role
@@ -31,6 +27,7 @@ import OrderAdmin from "../view/main/admin/orderAdmin";
 import OrderStock from "../view/main/stock/orderStock";
 import SupplierOrder from "../view/main/external/supplierOrder";
 import SupplierOrderList from "../view/main/external/supplierOrderList";
+import AdminView from "../view/main/admin/AdminView";
 
 export default function MainRoutes() {
   const allRoles = [1, 2, 3, 4];
@@ -41,38 +38,6 @@ export default function MainRoutes() {
   return (
     <Routes>
       {/* <PrivateRoute /> */}
-      <Route
-        path="/supplier/inquiry-list"
-        exact
-        element={<PrivateRoute canView={externalRoles} />}
-      >
-        <Route
-          path="/supplier/inquiry-list"
-          element={<SupplierInquiryList />}
-        />
-      </Route>
-
-      <Route
-        path="/supplier/inquiry-list/available/:idInquiryHistory/:title"
-        exact
-        element={<PrivateRoute canView={externalRoles} />}
-      >
-        <Route
-          path="/supplier/inquiry-list/available/:idInquiryHistory/:title"
-          element={<InquiryAvailable />}
-        />
-      </Route>
-
-      <Route
-        path="/admin/inquiry/item/:idInquiryItem"
-        exact
-        element={<PrivateRoute canView={adminOnly} />}
-      >
-        <Route
-          path="/admin/inquiry/item/:idInquiryItem"
-          element={<InquiryItem />}
-        />
-      </Route>
       <Route path="/" exact element={<PrivateRoute canView={allRoles} />}>
         <Route path="/" element={<Index />} />
       </Route>
@@ -81,122 +46,52 @@ export default function MainRoutes() {
         <Route path="/main/" element={<Index />} />
       </Route>
 
-      <Route
-        path="/main/items"
-        exact
-        element={<PrivateRoute canView={internalRoles} />}
-      >
-        <Route path="/main/items" element={<Items />} />
+      <Route path="/admin/general" exact element={<PrivateRoute canView={adminOnly} />}>
+        <Route path="/admin/general" element={<AdminView />} />
       </Route>
-
-      <Route
-        path="/main/inquiry"
-        exact
-        element={<PrivateRoute canView={internalRoles} />}
-      >
-        <Route path="/main/inquiry" element={<Inquiry />} />
+      <Route path="/admin/inquiry/item/:idInquiryItem" exact element={<PrivateRoute canView={adminOnly} />}>
+        <Route path="/admin/inquiry/item/:idInquiryItem" element={<InquiryItem />}/>
       </Route>
-
-      {/* Displays all requested items to be ordered and a list of opened orders to suppliers */}
-      <Route
-        path="/main/order-requests"
-        exact
-        element={<PrivateRoute canView={internalRoles} />}
-      >
-        <Route path="/main/order-requests" element={<OrderRequest />} />
-      </Route>
-
-      {/* Lists all orders to an specific supplier */}
-      <Route
-        path="/supplier/order-requests"
-        element={<PrivateRoute canView={externalRoles} />}
-      >
-        <Route
-          path="/supplier/order-requests"
-          element={<SupplierOrderList />}
-        />
-      </Route>
-
-      {/* Display all items from an order of an specific supplier */}
-      <Route
-        path="/supplier/order/:idOrder"
-        exact
-        element={<PrivateRoute canView={externalRoles} />}
-      >
-        <Route path="/supplier/order/:idOrder" element={<SupplierOrder />} />
-      </Route>
-
-      {/* Controlled by stock staff, displays all items available in stock */}
-      <Route
-        path="/main/stock"
-        exact
-        element={<PrivateRoute canView={internalRoles} />}
-      >
-        <Route path="/main/stock" element={<Stock />} />
-      </Route>
-
-      {/* Managed by sellers, displays all sales created */}
-      <Route
-        path="/main/sales"
-        exact
-        element={<PrivateRoute canView={internalRoles} />}
-      >
-        <Route path="/main/sales" element={<Sales />} />
-      </Route>
-
-      <Route
-        path="/main/profile"
-        exact
-        element={<PrivateRoute canView={internalRoles} />}
-      >
-        <Route path="/main/profile" element={<Profile />} />
-      </Route>
-
-      <Route
-        path="/admin/customers"
-        exact
-        element={<PrivateRoute canView={internalRoles} />}
-      >
-        <Route path="/admin/customers" element={<Customers />} />
-      </Route>
-      <Route
-        path="/admin/suppliers"
-        exact
-        element={<PrivateRoute canView={adminOnly} />}
-      >
-        <Route path="/admin/suppliers" element={<Suppliers />} />
-      </Route>
-      <Route
-        path="/admin/users"
-        exact
-        element={<PrivateRoute canView={adminOnly} />}
-      >
-        <Route path="/admin/users" element={<Users />} />
-      </Route>
-      <Route
-        path="/admin/order-list"
-        exact
-        element={<PrivateRoute canView={adminOnly} />}
-      >
+      <Route path="/admin/order-list" exact element={<PrivateRoute canView={adminOnly} />}>
         <Route path="/admin/order-list" element={<OrderAdmin />} />
       </Route>
 
-      <Route
-        path="/stock/order-list"
-        exact
-        element={<PrivateRoute canView={adminOnly} />}
-      >
-        <Route path="/stock/order-list" element={<OrderStock />} />
+      <Route path="/main/profile" exact element={<PrivateRoute canView={internalRoles} />}>
+        <Route path="/main/profile" element={<Profile />} />
+      </Route>
+      <Route path="/main/items" exact element={<PrivateRoute canView={internalRoles} />}>
+        <Route path="/main/items" element={<Items />} />
+      </Route>
+      <Route path="/main/order" exact element={<PrivateRoute canView={internalRoles} />}>
+        <Route path="/main/order" element={<OrderRequest />} />
+      </Route>
+      <Route path="/main/stock" exactelement={<PrivateRoute canView={internalRoles} />}>
+        <Route path="/main/stock" element={<Stock />} />
+      </Route>
+      <Route path="/main/sales" exact element={<PrivateRoute canView={internalRoles} />}>
+        <Route path="/main/sales" element={<Sales />} />
       </Route>
 
-      {/* <PublicRoute /> */}
+      <Route path="/supplier/inquiry-list" exact element={<PrivateRoute canView={externalRoles} />}>
+        <Route path="/supplier/inquiry-list" element={<SupplierInquiryList />}/>
+      </Route>
+      <Route path="/supplier/inquiry-list/available/:idInquiryHistory/:title" exact element={<PrivateRoute canView={externalRoles} />}>
+        <Route path="/supplier/inquiry-list/available/:idInquiryHistory/:title" element={<InquiryAvailable />}/>
+      </Route>
+      <Route path="/supplier/order-requests" element={<PrivateRoute canView={externalRoles} />}>
+        <Route path="/supplier/order-requests" element={<SupplierOrderList />}/>
+      </Route>
+      <Route path="/supplier/order/:idOrder" exact element={<PrivateRoute canView={externalRoles} />}>
+        <Route path="/supplier/order/:idOrder" element={<SupplierOrder />} />
+      </Route>
+
       <Route path="/supplier/login" exact element={<PublicRoute />}>
         <Route path="/supplier/login" element={<LoginSupplier />} />
       </Route>
-
       <Route path="/login" exact element={<PublicRoute />}>
         <Route path="/login" element={<Login />} />
       </Route>
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

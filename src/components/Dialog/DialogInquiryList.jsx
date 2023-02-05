@@ -5,12 +5,10 @@ import {
 } from "../../store/actions/messageBoxAction";
 import { createInquiryHistory } from "../../services/inquiryHistoryService";
 import { createInquiryList } from "../../services/inquiryListService";
-import { useNavigate } from "react-router-dom";
 import { updateInquiryItemStep } from "../../services/inquiryItemService";
 
-export default function DialogInquiry({ open, onClose, pending }) {
+export default function DialogInquiry({ open, onClose, pending, changeTab }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   function closeModal(e) {
     const elementId = e.target.id === "overlay" || e.target.id === "btn_close";
@@ -51,7 +49,7 @@ export default function DialogInquiry({ open, onClose, pending }) {
         }
       })
       .then(() => {
-        navigate("/supplier/inquiry-list");
+        changeTab(2);
         updateItemStep();
       })
       .catch(() => {

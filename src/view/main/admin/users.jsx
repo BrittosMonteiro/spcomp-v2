@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 
-import PageTitle from "../../../components/Common/PageTitle";
 import { readUsers } from "../../../services/usersService";
 import DialogUser from "../../../components/Dialog/DialogUser";
 import ListUser from "../../../components/List/ListUser";
@@ -37,7 +36,6 @@ export default function Users() {
   return (
     <>
       <div className="row justify-content-between align-items-center">
-        <PageTitle title={"Usuários"} />
         <Dialog.Root open={open} onOpenChange={setOpen}>
           <Dialog.Trigger className="font-medium font-sm bg-transparent">
             Adicionar novo usuário

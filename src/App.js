@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import Header from "./components/Common/Header";
+
+import Sidebar from "./components/Common/Sidebar";
 import MainRoutes from "./router/main";
 import MessageBox from "./components/Common/MessageBox";
 import { setUser } from "./store/actions/userAction";
@@ -14,9 +15,11 @@ function App() {
 
   return (
     <Router>
-      <div className="container px-4">
-        <Header />
-        <MainRoutes />
+      <div className="container row">
+        <Sidebar />
+        <div className="column w-full">
+          <MainRoutes />
+        </div>
         <MessageBox />
       </div>
     </Router>
