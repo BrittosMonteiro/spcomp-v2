@@ -5,6 +5,7 @@ import TabList from "../../../../components/Common/tabList";
 import Items from "./items";
 import Inquiries from "./inquiries";
 import SupplierResponse from "../../external/supplierInquiryList";
+import Card from "../../../../components/Common/Card";
 
 export default function ItemsView() {
   const [tabView, setTabView] = useState(0);
@@ -33,7 +34,7 @@ export default function ItemsView() {
   return (
     <div className="column w-full gap-4">
       <TabList tabList={tabList} changeTab={changeTab} />
-      {tabList[tabView].component}
+      <Card>{tabList[tabView].component}</Card>
     </div>
   );
 }

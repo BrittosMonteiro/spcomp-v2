@@ -48,12 +48,10 @@ export default function Items({ changeTab }) {
         <div className="row jc-start align-items-center">
           <button
             type="button"
-            className="bg-green-1 pa-2 border-radius-soft"
+            className="pa-1 border-radius-soft action-btn font-sm font-medium"
             onClick={() => setOpen(true)}
           >
-            <span className="font-sm font-medium text-white-1">
-              Adicionar novo item
-            </span>
+            Adicionar novo item
           </button>
           <DialogItem
             open={open}

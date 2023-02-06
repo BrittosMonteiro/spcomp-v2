@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import Card from "../../../components/Common/Card";
 
 import PageTitle from "../../../components/Common/PageTitle";
 import DialogAddNewItemToOrder from "../../../components/Dialog/DialogAddNewItemToOrder";
@@ -96,7 +97,9 @@ export default function Order() {
         )}
       </div>
       {order.idOrder ? (
-        <OrderTable list={order} userSession={userSession} />
+        <Card>
+          <OrderTable list={order} userSession={userSession} />
+        </Card>
       ) : (
         <p className="ma-auto font-lg font-light">Não há itens neste pedido</p>
       )}

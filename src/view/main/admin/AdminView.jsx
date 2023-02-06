@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import Card from "../../../components/Common/Card";
 import TabList from "../../../components/Common/tabList";
 import Customers from "./customers";
 import Suppliers from "./suppliers";
@@ -31,7 +32,7 @@ export default function AdminView() {
   return (
     <div className="column w-full gap-4">
       <TabList tabList={tabList} changeTab={changeTab} />
-      {tabList[tabView].component}
+      <Card>{tabList[tabView].component}</Card>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import {
   readInquiryList,
 } from "../../../services/inquiryListService";
 import InquiryListSentItemsTable from "../../../components/Tables/InquiryListSentItemsTable";
+import Card from "../../../components/Common/Card";
 
 export default function InquiryAvailable() {
   const userSession = useSelector((state) => {
@@ -69,11 +70,13 @@ export default function InquiryAvailable() {
         <PageTitle title={title} />
       </div>
       {inquiries.length > 0 ? (
-        <InquiryListSentItemsTable
-          list={inquiries}
-          reloadList={reloadInquiryListByCompany}
-          userSession={userSession}
-        />
+        <Card>
+          <InquiryListSentItemsTable
+            list={inquiries}
+            reloadList={reloadInquiryListByCompany}
+            userSession={userSession}
+          />
+        </Card>
       ) : null}
     </div>
   );

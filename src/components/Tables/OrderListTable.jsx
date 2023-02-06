@@ -14,7 +14,7 @@ export default function OrderListTable({
           <PageTitle title={"Orders"} />
         </div>
       )}
-      <table className="table mt-4">
+      <table className="table">
         <thead>
           <tr>
             <th>Date</th>

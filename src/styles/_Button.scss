@@ -1,0 +1,13 @@
+@import "Colors";
+
+.action-btn {
+  border: 2px solid $red-1;
+  color: $red-1;
+  transition: 0.3s;
+  background-color: transparent;
+
+  &:hover {
+    background-color: $red-1;
+    color: $white-1;
+  }
+}

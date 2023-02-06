@@ -17,7 +17,7 @@ function App() {
     <Router>
       <div className="container row">
         <Sidebar />
-        <div className="column w-full">
+        <div className="column w-full pa-4">
           <MainRoutes />
         </div>
         <MessageBox />

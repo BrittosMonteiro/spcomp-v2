@@ -3,13 +3,21 @@
 @import "Colors";
 
 .table {
+  display: table;
+  overflow-x: auto;
   border-radius: 2px;
   border-collapse: collapse;
-  overflow-x: auto;
   width: 100%;
 
   thead tr {
     border-radius: 4px;
+  }
+
+  th {
+    padding: $spacing-2;
+    background-color: $red-1;
+    color: $white-1;
+    font-weight: $font-weight-bold;
   }
 
   th,
@@ -19,12 +27,6 @@
     text-align: left;
   }
 
-  th {
-    padding: $spacing-2;
-    background-color: $red-1;
-    color: $white-1;
-    font-weight: $font-weight-bold;
-  }
   tbody tr:not(:nth-last-child(1)) {
     border-bottom: 1px solid lightgray;
   }

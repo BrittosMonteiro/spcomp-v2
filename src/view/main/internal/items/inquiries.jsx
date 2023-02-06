@@ -58,38 +58,34 @@ export default function Inquiries({ changeTab }) {
 
   return (
     <>
-      <div className="row justify-content-between align-items-center">
-        <div className="row gap-2">
-          {userSession.isAdmin && pending.length > 0 ? (
-            <button
-              type="button"
-              className="row bg-green-1 text-white-1 align-items-center gap-2 pa-2"
-              onClick={() => setOpen(true)}
-            >
-              <span className="font-medium font-sm">
-                Enviar pendentes ({pending.length})
-              </span>
-              <PaperPlaneTilt className="icon-default" />
-            </button>
-          ) : null}
+      {userSession.isAdmin && pending.length > 0 ? (
+        <>
+          <div className="row justify-content-between align-items-center">
+            <div className="row gap-2">
+              <button
+                type="button"
+                className="row action-btn ai-center gap-2 pa-1 border-radius-soft"
+                onClick={() => setOpen(true)}
+              >
+                <span className="font-medium font-sm">
+                  Enviar pendentes ({pending.length})
+                </span>
+                <PaperPlaneTilt className="icon-default" />
+              </button>
+            </div>
+          </div>
           <DialogInquiry
             open={open}
             onClose={closeModal}
             pending={pending}
             changeTab={changeTab}
           />
-        </div>
-      </div>
+        </>
+      ) : null}
       {/* {originalItems.length > 0 ? (
         <FilterItems setItems={setItems} originalItems={originalItems} />
       ) : null} */}
       {items.length > 0 ? (
-        // <List
-        //   list={items}
-        //   reloadList={reloadList}
-        //   customers={customers}
-        //   level={level}
-        // />
         <InquiryTable list={items} reloadList={reloadList} />
       ) : (
         <div className="ma-auto">

@@ -11,6 +11,7 @@ import {
 } from "../../../store/actions/messageBoxAction.js";
 import AvailableInquiryListTable from "../../../components/Tables/availableInquiryListTable";
 import PageTitle from "../../../components/Common/PageTitle";
+import Card from "../../../components/Common/Card";
 
 export default function SupplierResponse() {
   const dispatch = useDispatch();
@@ -81,11 +82,13 @@ export default function SupplierResponse() {
         </div>
       )}
       {inquiryHistory.length > 0 ? (
-        <AvailableInquiryListTable
-          inquiryHistoryList={inquiryHistory}
-          reloadInquiryHistory={reloadInquiryHistory}
-          userSession={userSession}
-        />
+        <Card>
+          <AvailableInquiryListTable
+            inquiryHistoryList={inquiryHistory}
+            reloadInquiryHistory={reloadInquiryHistory}
+            userSession={userSession}
+          />
+        </Card>
       ) : null}
     </div>
   );

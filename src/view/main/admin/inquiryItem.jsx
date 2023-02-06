@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Card from "../../../components/Common/Card";
 
 import PageTitle from "../../../components/Common/PageTitle";
 import InquiryListItemTable from "../../../components/Tables/InquiryListItemTable";
@@ -25,11 +26,15 @@ export default function InquiryItem() {
   }, [idInquiryItem]);
 
   return (
-    <>
+    <div className="column gap-4">
       <div className="row justify-content-between align-items-center">
         <PageTitle title={"Analisar item"} />
       </div>
-      {inquiries.length > 0 ? <InquiryListItemTable list={inquiries} /> : null}
-    </>
+      {inquiries.length > 0 ? (
+        <Card>
+          <InquiryListItemTable list={inquiries} />
+        </Card>
+      ) : null}
+    </div>
   );
 }

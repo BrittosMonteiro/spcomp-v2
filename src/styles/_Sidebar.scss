@@ -1,0 +1,10 @@
+.sidebar {
+  height: 100vh;
+  overflow-y: auto;
+  transition: 1s;
+  position: sticky;
+  top: 0;
+}
+.sidebar-open {
+  width: 275px;
+}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import Card from "../../../components/Common/Card";
 import OrderListTable from "../../../components/Tables/OrderListTable";
 import { readOrderListBySupplier } from "../../../services/orderListService";
 
@@ -28,11 +29,13 @@ export default function SupplierOrderList() {
   return (
     <>
       {ordersList.length > 0 ? (
-        <OrderListTable
-          list={ordersList}
-          userSession={userSession}
-          displayTitle={true}
-        />
+        <Card>
+          <OrderListTable
+            list={ordersList}
+            userSession={userSession}
+            displayTitle={true}
+          />
+        </Card>
       ) : null}
     </>
   );
