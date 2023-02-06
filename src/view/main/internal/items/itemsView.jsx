@@ -33,7 +33,7 @@ export default function ItemsView() {
 
   return (
     <div className="column w-full gap-4">
-      <TabList tabList={tabList} changeTab={changeTab} />
+      <TabList tab={tabView} tabList={tabList} changeTab={changeTab} />
       <Card>{tabList[tabView].component}</Card>
     </div>
   );
