@@ -71,7 +71,7 @@ export default function Order() {
   }
 
   return (
-    <>
+    <div className="column gap-4">
       <div className="row align-items-center justify-content-between">
         <PageTitle title={title} />
         {userSession.isAdmin && pendingItems.length > 0 && (
@@ -100,6 +100,6 @@ export default function Order() {
       ) : (
         <p className="ma-auto font-lg font-light">Não há itens neste pedido</p>
       )}
-    </>
+    </div>
   );
 }

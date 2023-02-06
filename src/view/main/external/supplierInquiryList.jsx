@@ -10,6 +10,7 @@ import {
   hideMessageBox,
 } from "../../../store/actions/messageBoxAction.js";
 import AvailableInquiryListTable from "../../../components/Tables/availableInquiryListTable";
+import PageTitle from "../../../components/Common/PageTitle";
 
 export default function SupplierResponse() {
   const dispatch = useDispatch();
@@ -73,7 +74,12 @@ export default function SupplierResponse() {
   }
 
   return (
-    <>
+    <div className="column gap-4">
+      {userSession.role === 4 && (
+        <div className="row">
+          <PageTitle title={"Inquiries list"} />
+        </div>
+      )}
       {inquiryHistory.length > 0 ? (
         <AvailableInquiryListTable
           inquiryHistoryList={inquiryHistory}
@@ -81,6 +87,6 @@ export default function SupplierResponse() {
           userSession={userSession}
         />
       ) : null}
-    </>
+    </div>
   );
 }

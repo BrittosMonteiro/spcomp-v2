@@ -93,7 +93,7 @@ export default function DialogInquiry({ open, onClose, pending, changeTab }) {
                 preencham com seus preços
               </p>
               <hr className="my-4" />
-              <div className="row justify-content-between">
+              <div className="row jc-between">
                 <button
                   className="font-medium font-md bg-red-1 text-white-1 pa-2 border-radius-soft"
                   type="button"

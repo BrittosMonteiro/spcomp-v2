@@ -9,10 +9,14 @@ import {
   SignOut,
 } from "phosphor-react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { unsetUser } from "../../store/actions/userAction";
 
 export default function Sidebar() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userSession = useSelector((state) => {
     return state.login;
   });
@@ -30,22 +34,22 @@ export default function Sidebar() {
     {
       path: "/main/items",
       label: "Itens",
-      icon: <Cpu className="icon-default" />,
+      icon: <Cpu className="icon-default" alt="Itens" />,
     },
     {
       path: "/main/orders",
       label: "Pedidos",
-      icon: <ClipboardText className="icon-default" />,
+      icon: <ClipboardText className="icon-default" alt="Pedidos" />,
     },
     {
       path: "/main/stock",
       label: "Estoque",
-      icon: <Package className="icon-default" />,
+      icon: <Package className="icon-default" alt="Estoque" />,
     },
     {
       path: "/main/sales",
       label: "Vendas",
-      icon: <CurrencyCircleDollar className="icon-default" />,
+      icon: <CurrencyCircleDollar className="icon-default" alt="Vendas" />,
     },
   ];
 
@@ -53,9 +57,28 @@ export default function Sidebar() {
     {
       path: "/admin/general",
       label: "Administrador",
-      icon: <GearSix className="icon-default" />,
+      icon: <GearSix className="icon-default" alt="Administrador" />,
     },
   ];
+
+  const supplierRoutes = [
+    {
+      path: "/supplier/inquiry-list",
+      label: "Inquiries",
+      icon: <Cpu className="icon-default" alt="Inquiries" />,
+    },
+    {
+      path: "/supplier/order-requests",
+      label: "Orders",
+      icon: <ClipboardText className="icon-default" alt="Orders" />,
+    },
+  ];
+
+  function logout() {
+    localStorage.removeItem("loggedUser");
+    dispatch(unsetUser());
+    navigate("/login");
+  }
   return (
     <div
       className="border-radius-soft bg-dark-2 pa-4 column gap-4 jc-between"
@@ -86,52 +109,90 @@ export default function Sidebar() {
             onClick={() => setOpen(!open)}
           >
             {open ? (
-              <CaretLeft className="icon-default" />
+              <CaretLeft
+                className="icon-default"
+                alt={userSession.role === 4 ? "Close" : "Fechar"}
+              />
             ) : (
-              <CaretRight className="icon-default" />
+              <CaretRight
+                className="icon-default"
+                alt={userSession.role === 4 ? "Open" : "Abrir"}
+              />
             )}
           </button>
         </div>
-        <hr />
-        <div className="column gap-4">
-          {internalRoutes.map((link, index) => (
-            <Link
-              key={index}
-              to={link.path}
-              className={`row text-white-1 ${
-                open ? "jc-start gap-4" : "jc-center"
-              }`}
-            >
-              {open ? (
-                <>
-                  {link.icon} <span>{link.label}</span>
-                </>
-              ) : (
-                link.icon
-              )}
-            </Link>
-          ))}
-        </div>
-        <hr />
-        <div className="column gap-4">
-          {AdminRoutes.map((link, index) => (
-            <Link
-              key={index}
-              to={link.path}
-              className={`row text-white-1 ${
-                open ? "jc-start gap-4" : "jc-center"
-              }`}
-            >
-              {open ? (
-                <>
-                  {link.icon} <span>{link.label}</span>
-                </>
-              ) : (
-                link.icon
-              )}
-            </Link>
-          ))}
-        </div>
+        {userSession.role >= 1 && userSession.role <= 3 ? (
+          <>
+            <hr />
+            <div className="column gap-4">
+              {internalRoutes.map((link, index) => (
+                <Link
+                  key={index}
+                  to={link.path}
+                  className={`row text-white-1 font-md font-regular ${
+                    open ? "jc-start gap-4" : "jc-center"
+                  }`}
+                >
+                  {open ? (
+                    <>
+                      {link.icon} <span>{link.label}</span>
+                    </>
+                  ) : (
+                    link.icon
+                  )}
+                </Link>
+              ))}
+            </div>
+          </>
+        ) : null}
+        {userSession.role === 1 ? (
+          <>
+            <hr />
+            <div className="column gap-4">
+              {AdminRoutes.map((link, index) => (
+                <Link
+                  key={index}
+                  to={link.path}
+                  className={`row text-white-1 font-md font-regular ${
+                    open ? "jc-start gap-4" : "jc-center"
+                  }`}
+                >
+                  {open ? (
+                    <>
+                      {link.icon} <span>{link.label}</span>
+                    </>
+                  ) : (
+                    link.icon
+                  )}
+                </Link>
+              ))}
+            </div>
+          </>
+        ) : null}
+        {userSession.role === 4 ? (
+          <>
+            <hr />
+            <div className="column gap-4">
+              {supplierRoutes.map((link, index) => (
+                <Link
+                  key={index}
+                  to={link.path}
+                  className={`row text-white-1 font-md font-regular ${
+                    open ? "jc-start gap-4" : "jc-center"
+                  }`}
+                >
+                  {open ? (
+                    <>
+                      {link.icon} <span>{link.label}</span>
+                    </>
+                  ) : (
+                    link.icon
+                  )}
+                </Link>
+              ))}
+            </div>
+          </>
+        ) : null}
       </div>
       <div className="column">
         <div
@@ -139,15 +200,21 @@ export default function Sidebar() {
             open ? "jc-start gap-4" : "jc-center"
           }`}
         >
-          {open ? (
-            <>
-              <SignOut className="icon-default" /> <span>Sair</span>
-            </>
-          ) : (
-            <button className="bg-transparent jc-center text-white-1">
-              <SignOut className="icon-default" />
-            </button>
-          )}
+          <button
+            type="button"
+            className="row ai-center gap-4 bg-transparent jc-center text-white-1 font-md font-regular"
+            onClick={() => logout()}
+          >
+            <SignOut
+              className="icon-default"
+              alt={userSession.role === 4 ? "Sign out" : "Sair"}
+            />
+            {open ? (
+              <>
+                <span>Sair</span>
+              </>
+            ) : null}
+          </button>
         </div>
       </div>
     </div>

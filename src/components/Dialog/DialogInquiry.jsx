@@ -414,7 +414,7 @@ export default function DialogInquiry({
 
               <hr className="my-4" />
 
-              <div className="row justify-content-between align-items-center">
+              <div className="row jc-between ai-center">
                 <button
                   type="button"
                   className="font-medium font-md bg-red-1 pa-2 text-white-1 border-radius-soft"

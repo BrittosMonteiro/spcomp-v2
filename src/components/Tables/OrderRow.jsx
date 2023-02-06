@@ -3,7 +3,7 @@ import { Check, Copy, XCircle } from "phosphor-react";
 export default function OrderRow({ item, userSession }) {
   async function cancelRequestedItem() {}
   async function confirmRequestedItem() {}
-  
+
   function copyText(text) {
     navigator.clipboard.writeText(text);
     // handleMessageBox("success", "Text copied to clipboard");
@@ -35,28 +35,26 @@ export default function OrderRow({ item, userSession }) {
       <td>{item.step}</td>
       <td>
         <div className="row">
-          <div className="row ma-auto">
-            {userSession.isAdmin && (
-              <button
-                type="button"
-                className="row align-items-center bg-red-1 text-white-1 pa-1 border-radius-soft"
-                onClick={() => cancelRequestedItem()}
-                title={"Cancelar item"}
-              >
-                <XCircle className="icon-default" />
-              </button>
-            )}
-            {userSession.role === 4 && (
-              <button
-                type="button"
-                className="row align-items-center bg-green-1 text-white-1 pa-1 border-radius-soft"
-                onClick={() => confirmRequestedItem()}
-                title={"Confirm item"}
-              >
-                <Check className="icon-default" />
-              </button>
-            )}
-          </div>
+          {userSession.isAdmin && (
+            <button
+              type="button"
+              className="row align-items-center bg-red-1 text-white-1 pa-1 border-radius-soft"
+              onClick={() => cancelRequestedItem()}
+              title={"Cancelar item"}
+            >
+              <XCircle className="icon-default" />
+            </button>
+          )}
+          {userSession.role === 4 && (
+            <button
+              type="button"
+              className="row align-items-center bg-green-1 text-white-1 pa-1 border-radius-soft"
+              onClick={() => confirmRequestedItem()}
+              title={"Confirm item"}
+            >
+              <Check className="icon-default" />
+            </button>
+          )}
         </div>
       </td>
     </tr>

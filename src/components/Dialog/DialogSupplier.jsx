@@ -149,7 +149,7 @@ export default function DialogSupplier({ supplierData, reloadList }) {
 
               <hr className="my-4" />
 
-              <div className="row justify-content-between align-items-center">
+              <div className="row jc-between ai-center">
                 <Dialog.Close className="font-medium font-md text-red-1 bg-transparent">
                   Fechar
                 </Dialog.Close>

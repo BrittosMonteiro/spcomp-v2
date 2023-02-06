@@ -98,7 +98,7 @@ export default function DialogCancel({
                 className="border-default border-radius-soft pa-2 font-md font-medium"
               ></textarea>
             </div>
-            <div className="row align-items-center justify-content-between">
+            <div className="row jc-between ai-center">
               <button
                 className="bg-transparent text-red-1 border-radius-soft pa-2 font-sm font-medium"
                 onClick={() => onClose()}

@@ -197,7 +197,7 @@ export default function DialogCustomer({ customerData, reloadList }) {
 
               <hr className="my-4" />
 
-              <div className="row align-items-center justify-content-between">
+              <div className="row jc-between ai-center">
                 <Dialog.Close className="font-medium font-md text-red-1 bg-transparent">
                   Fechar
                 </Dialog.Close>
