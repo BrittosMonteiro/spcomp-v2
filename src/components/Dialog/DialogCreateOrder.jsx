@@ -18,7 +18,7 @@ export default function DialogCreateOrder({ open, onClose, reloadOrdersList }) {
         }
       })
       .then(() => {
-        reloadOrdersList(2);
+        reloadOrdersList(1);
         onClose();
       })
       .catch((err) => {});

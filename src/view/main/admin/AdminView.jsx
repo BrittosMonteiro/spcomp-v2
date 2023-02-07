@@ -12,17 +12,26 @@ export default function AdminView() {
     {
       label: "Usuários",
       component: <Users changeTab={changeTab} />,
-      isAdmin: false,
     },
     {
       label: "Clientes",
       component: <Customers changeTab={changeTab} />,
-      isAdmin: false,
     },
     {
       label: "Fornecedores",
-      component: <Suppliers />,
-      isAdmin: true,
+      component: <Suppliers changeTab={changeTab} />,
+    },
+    {
+      label: "Tipos",
+      component: null,
+    },
+    {
+      label: "Encapsulamentos",
+      component: null,
+    },
+    {
+      label: "Marcas",
+      component: null,
     },
   ];
 
@@ -31,7 +40,7 @@ export default function AdminView() {
   }
   return (
     <div className="column w-full gap-4">
-      <TabList tabList={tabList} changeTab={changeTab} />
+      <TabList tab={tabView} tabList={tabList} changeTab={changeTab} />
       <Card>{tabList[tabView].component}</Card>
     </div>
   );

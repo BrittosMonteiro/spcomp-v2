@@ -36,7 +36,11 @@ export default function SupplierOrderList() {
             displayTitle={true}
           />
         </Card>
-      ) : null}
+      ) : (
+        <div className="ma-auto">
+          <p className="font-lg font-light">There's no order</p>
+        </div>
+      )}
     </>
   );
 }

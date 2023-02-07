@@ -57,6 +57,9 @@ export default function InquiryListSentItemsTableRow({
         unitPurchasePrice: unitPurchasePrice,
         unitSalePrice: unitSalePrice,
         idSupplier: price.idSupplier,
+        leadtime: leadtime,
+        datacode: datacode,
+        condition: condition,
       },
     };
 
@@ -174,31 +177,29 @@ export default function InquiryListSentItemsTableRow({
         </td>
         <td>
           <div className="row">
-            <div className="row mx-auto align-items-center">
-              {userSession.role === 4 ? (
-                <button
-                  type="button"
-                  className="row bg-green-1 text-white-1 pa-1 border-radius-soft"
-                  title="Confirm information"
-                  onClick={() => setPurchasePriceToItem()}
-                >
-                  <Check className="icon-sm" />
-                </button>
-              ) : item.step > 3 ? (
-                "Concluído"
-              ) : userSession.isAdmin && price.unitPurchasePrice ? (
-                <button
-                  type="button"
-                  className="row bg-green-1 text-white-1 pa-1 border-radius-soft"
-                  title="Escolher preço"
-                  onClick={() => setPurchasePriceToInquiryItem()}
-                >
-                  <Check className="icon-sm" />
-                </button>
-              ) : userSession.isAdmin ? (
-                "pendente"
-              ) : null}
-            </div>
+            {userSession.role === 4 ? (
+              <button
+                type="button"
+                className="row bg-green-1 text-white-1 pa-1 border-radius-soft"
+                title="Confirm information"
+                onClick={() => setPurchasePriceToItem()}
+              >
+                <Check className="icon-sm" />
+              </button>
+            ) : item.step > 3 ? (
+              "Concluído"
+            ) : userSession.isAdmin && price.unitPurchasePrice ? (
+              <button
+                type="button"
+                className="row bg-green-1 text-white-1 pa-1 border-radius-soft"
+                title="Escolher preço"
+                onClick={() => setPurchasePriceToInquiryItem()}
+              >
+                <Check className="icon-sm" />
+              </button>
+            ) : userSession.isAdmin ? (
+              "pendente"
+            ) : null}
           </div>
         </td>
       </tr>

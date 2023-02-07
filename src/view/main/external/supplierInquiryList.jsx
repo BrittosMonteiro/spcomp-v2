@@ -89,7 +89,15 @@ export default function SupplierResponse() {
             userSession={userSession}
           />
         </Card>
-      ) : null}
+      ) : (
+        <div className="ma-auto">
+          <p className="font-lg font-light">
+            {userSession.role === 4
+              ? "There is no inquiries available"
+              : "Não há cotações disponíveis"}
+          </p>
+        </div>
+      )}
     </div>
   );
 }

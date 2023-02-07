@@ -39,7 +39,7 @@ export default function Sidebar() {
       icon: <Cpu className="icon-default" alt="Itens" />,
     },
     {
-      path: "/main/orders",
+      path: "/main/order",
       label: "Pedidos",
       icon: <ClipboardText className="icon-default" alt="Pedidos" />,
     },
