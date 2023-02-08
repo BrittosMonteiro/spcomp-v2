@@ -118,7 +118,9 @@ export default function AvailableInquiryListRow({
           <td>
             <button
               type="button"
-              className="row bg-red-1 pa-1 text-white-1 border-radius-soft"
+              className={`row ${
+                inquiryHistory.status ? "" : "bg-red-1"
+              } pa-1 text-white-1 border-radius-soft`}
               onClick={() =>
                 deleteFromInquiryHistory(
                   inquiryHistory.id,
