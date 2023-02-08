@@ -5,7 +5,7 @@ import PublicRoute from "./publicRoute";
 import PrivateRoute from "./privateRoute";
 
 //Private All roles
-// import Index from "../view/main/index";
+import Index from "../view/main/index";
 
 //Private Internal roles
 import Profile from "../view/main/internal/profile";
@@ -39,7 +39,7 @@ export default function MainRoutes() {
     <Routes>
       {/* <PrivateRoute /> */}
       <Route path="/" exact element={<PrivateRoute canView={allRoles} />}>
-        <Route path="/" element={<ItemsView />} />
+        <Route path="/" element={<Index />} />
       </Route>
 
       <Route path="/admin/general" exact element={<PrivateRoute canView={adminOnly} />}>
@@ -58,7 +58,7 @@ export default function MainRoutes() {
       <Route path="/main/order" exact element={<PrivateRoute canView={internalRoles} />}>
         <Route path="/main/order" element={<OrderView />} />
       </Route>
-      <Route path="/main/stock" exactelement={<PrivateRoute canView={internalRoles} />}>
+      <Route path="/main/stock" exact element={<PrivateRoute canView={internalRoles} />}>
         <Route path="/main/stock" element={<StockView />} />
       </Route>
       <Route path="/main/sales" exact element={<PrivateRoute canView={internalRoles} />}>

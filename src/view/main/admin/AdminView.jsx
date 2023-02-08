@@ -2,8 +2,11 @@ import React from "react";
 import { useState } from "react";
 import Card from "../../../components/Common/Card";
 import TabList from "../../../components/Common/tabList";
+import Brands from "./brands";
 import Customers from "./customers";
+import Encaps from "./encaps";
 import Suppliers from "./suppliers";
+import Types from "./types";
 import Users from "./users";
 
 export default function AdminView() {
@@ -23,15 +26,15 @@ export default function AdminView() {
     },
     {
       label: "Tipos",
-      component: null,
+      component: <Types />,
     },
     {
       label: "Encapsulamentos",
-      component: null,
+      component: <Encaps />,
     },
     {
       label: "Marcas",
-      component: null,
+      component: <Brands />,
     },
   ];
 

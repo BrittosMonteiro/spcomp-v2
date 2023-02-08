@@ -2,7 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useState, useEffect } from "react";
 
 import DialogSupplier from "../../../components/Dialog/DialogSupplier";
-import SuppliersTable from "./Components/SupplierTable";
+import SuppliersTable from "./Components/TablesAndRows/SupplierTable";
 import { readSuppliers } from "../../../services/supplierService";
 
 export default function Suppliers() {

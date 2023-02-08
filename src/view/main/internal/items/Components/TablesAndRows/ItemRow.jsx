@@ -1,13 +1,13 @@
 import { Copy, PencilSimple, Share, TrashSimple } from "phosphor-react";
-import { deleteItem } from "../../services/itemService.js";
-import { createInquiryItem } from "../../services/inquiryItemService";
+import { deleteItem } from "../../../../../../services/itemService.js";
+import { createInquiryItem } from "../../../../../../services/inquiryItemService";
 import { useDispatch, useSelector } from "react-redux";
 import {
   displayMessageBox,
   hideMessageBox,
-} from "../../store/actions/messageBoxAction";
+} from "../../../../../../store/actions/messageBoxAction";
 import { useState } from "react";
-import DialogItem from "../Dialog/DialogItem.jsx";
+import DialogItem from "../../../../../../components/Dialog/DialogItem.jsx";
 
 export default function ItemTableRow({ item, reloadList, changeTab }) {
   const dispatch = useDispatch();

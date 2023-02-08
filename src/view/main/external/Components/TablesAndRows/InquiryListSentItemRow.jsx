@@ -3,14 +3,14 @@ import { useState } from "react";
 import {
   updateInquiryItemPrice,
   updateInquiryItemStep,
-} from "../../services/inquiryItemService";
-import { updateInquiryList } from "../../services/inquiryListService";
-import { getCurrencyValue } from "../../utils/currencyApi";
+} from "../../../../../services/inquiryItemService";
+import { updateInquiryList } from "../../../../../services/inquiryListService";
+import { getCurrencyValue } from "../../../../../utils/currencyApi";
 import { useDispatch } from "react-redux";
 import {
   displayMessageBox,
   hideMessageBox,
-} from "../../store/actions/messageBoxAction";
+} from "../../../../../store/actions/messageBoxAction";
 
 export default function InquiryListSentItemsTableRow({
   item,

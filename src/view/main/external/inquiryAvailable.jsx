@@ -7,7 +7,7 @@ import {
   readInquiryListByCompany,
   readInquiryList,
 } from "../../../services/inquiryListService";
-import InquiryListSentItemsTable from "../../../components/Tables/InquiryListSentItemsTable";
+import InquiryListSentItemsTable from "./Components/TablesAndRows/InquiryListSentItemsTable";
 import Card from "../../../components/Common/Card";
 
 export default function InquiryAvailable() {

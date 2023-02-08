@@ -3,7 +3,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 
 import { readUsers } from "../../../services/usersService";
 import DialogUser from "../../../components/Dialog/DialogUser";
-import UsersTable from "./Components/UsersTable";
+import UsersTable from "./Components/TablesAndRows/UsersTable";
 
 export default function Users() {
   const [open, setOpen] = useState(false);

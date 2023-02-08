@@ -12,14 +12,14 @@ import {
 import {
   displayMessageBox,
   hideMessageBox,
-} from "../../store/actions/messageBoxAction";
+} from "../../../../../../store/actions/messageBoxAction";
 import {
   createInquiryItem,
   deleteInquiryItem,
   updateInquiryItemStep,
-} from "../../services/inquiryItemService";
-import { createRequestItem } from "../../services/requestService.js";
-import DialogInquiry from "../Dialog/DialogInquiry";
+} from "../../../../../../services/inquiryItemService";
+import { createRequestItem } from "../../../../../../services/requestService.js";
+import DialogInquiry from "../../../../../../components/Dialog/DialogInquiry";
 
 export default function InquiryTableRow({ item, reloadList, customers }) {
   const dispatch = useDispatch();

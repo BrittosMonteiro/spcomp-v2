@@ -9,7 +9,7 @@ import {
   displayMessageBox,
   hideMessageBox,
 } from "../../../store/actions/messageBoxAction.js";
-import AvailableInquiryListTable from "../../../components/Tables/availableInquiryListTable";
+import AvailableInquiryListTable from "./Components/TablesAndRows/availableInquiryListTable";
 import PageTitle from "../../../components/Common/PageTitle";
 import Card from "../../../components/Common/Card";
 

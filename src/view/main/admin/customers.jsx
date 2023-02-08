@@ -2,7 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 
 import DialogCustomer from "../../../components/Dialog/DialogCustomer";
-import CustomersTable from "./Components/CustomersTable";
+import CustomersTable from "./Components/TablesAndRows/CustomersTable";
 import { readCustomers } from "../../../services/customerService";
 
 export default function Customers() {

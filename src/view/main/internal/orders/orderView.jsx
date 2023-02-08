@@ -6,7 +6,7 @@ import Card from "../../../../components/Common/Card";
 import TabList from "../../../../components/Common/tabList";
 import DialogCreateOrder from "../../../../components/Dialog/DialogCreateOrder";
 import OrderListTable from "../../../../components/Tables/OrderListTable";
-import RequestTable from "../../../../components/Tables/RequestTable";
+import RequestTable from "./Components/TablesAndRows/RequestTable";
 import { readOrder } from "../../../../services/orderListService";
 import { readRequest } from "../../../../services/requestService";
 

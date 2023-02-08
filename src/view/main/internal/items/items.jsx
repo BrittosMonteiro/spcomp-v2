@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { readItems } from "../../../../services/itemService";
 import DialogItem from "../../../../components/Dialog/DialogItem";
 // import FilterItems from "../../../../components/Common/filterItems";
-import ItemTable from "../../../../components/Tables/ItemTable";
+import ItemTable from "./Components/TablesAndRows/ItemTable";
 
 export default function Items({ changeTab }) {
   const userSession = useSelector((state) => {

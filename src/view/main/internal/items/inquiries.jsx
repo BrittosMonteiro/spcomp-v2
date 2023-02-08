@@ -4,7 +4,7 @@ import { PaperPlaneTilt } from "phosphor-react";
 
 import DialogInquiry from "../../../../components/Dialog/DialogInquiryList";
 // import FilterItems from "../../../../components/Common/filterItems";
-import InquiryTable from "../../../../components/Tables/InquiryTable";
+import InquiryTable from "./Components/TablesAndRows/InquiryTable";
 import { readInquiryItems } from "../../../../services/inquiryItemService";
 
 export default function Inquiries({ changeTab }) {

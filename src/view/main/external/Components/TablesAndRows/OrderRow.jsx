@@ -1,8 +1,12 @@
 import { Check, Copy, XCircle } from "phosphor-react";
 
 export default function OrderRow({ item, userSession }) {
-  async function cancelRequestedItem() {}
-  async function confirmRequestedItem() {}
+  async function cancelRequestedItem() {
+    console.dir(item);
+  }
+  async function confirmRequestedItem() {
+    console.dir(item);
+  }
 
   function copyText(text) {
     navigator.clipboard.writeText(text);

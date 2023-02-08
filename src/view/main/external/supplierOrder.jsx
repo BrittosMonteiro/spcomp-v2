@@ -6,7 +6,7 @@ import Card from "../../../components/Common/Card";
 
 import PageTitle from "../../../components/Common/PageTitle";
 import DialogAddNewItemToOrder from "../../../components/Dialog/DialogAddNewItemToOrder";
-import OrderTable from "../../../components/Tables/OrderTable";
+import OrderTable from "./Components/TablesAndRows/OrderTable";
 import { readOrderList } from "../../../services/orderListService";
 import { readRequestBySupplier } from "../../../services/requestService";
 

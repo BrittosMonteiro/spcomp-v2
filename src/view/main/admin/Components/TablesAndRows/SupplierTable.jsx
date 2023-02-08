@@ -1,8 +1,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { PencilSimple, TrashSimple } from "phosphor-react";
 import { useState } from "react";
-import { deleteSupplier } from "../../../../services/supplierService";
-import DialogSupplier from "../../../../components/Dialog/DialogSupplier";
+import { deleteSupplier } from "../../../../../services/supplierService";
+import DialogSupplier from "../../../../../components/Dialog/DialogSupplier";
 
 export default function SupplierTable({ suppliersList, reloadList }) {
   const [open, setOpen] = useState(false);

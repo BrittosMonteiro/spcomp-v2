@@ -10,11 +10,11 @@ import { Link } from "react-router-dom";
 import {
   deleteInquiryHistory,
   updateInquiryHistory,
-} from "../../services/inquiryHistoryService";
+} from "../../../../../services/inquiryHistoryService";
 import {
   displayMessageBox,
   hideMessageBox,
-} from "../../store/actions/messageBoxAction.js";
+} from "../../../../../store/actions/messageBoxAction.js";
 
 export default function AvailableInquiryListRow({
   inquiryHistory,
