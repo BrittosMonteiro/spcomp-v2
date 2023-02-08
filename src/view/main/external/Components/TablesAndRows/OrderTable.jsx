@@ -1,6 +1,6 @@
 import OrderRow from "./OrderRow";
 
-export default function OrderTable({ list, userSession }) {
+export default function OrderTable({ list, userSession, reloadOrderList }) {
   return (
     <table className="table">
       <thead>
@@ -14,13 +14,17 @@ export default function OrderTable({ list, userSession }) {
           <th>LT</th>
           <th>DC</th>
           <th>Condition</th>
-          <th>Status</th>
           <th>{userSession.role === 4 ? "Action" : "Ação"}</th>
         </tr>
       </thead>
       <tbody>
         {list.items.map((item, index) => (
-          <OrderRow item={item} key={index} userSession={userSession} />
+          <OrderRow
+            item={item}
+            key={index}
+            userSession={userSession}
+            reloadOrderList={reloadOrderList}
+          />
         ))}
       </tbody>
     </table>

@@ -98,7 +98,11 @@ export default function Order() {
       </div>
       {order.idOrder ? (
         <Card>
-          <OrderTable list={order} userSession={userSession} />
+          <OrderTable
+            list={order}
+            userSession={userSession}
+            reloadOrderList={reloadOrderList}
+          />
         </Card>
       ) : (
         <p className="ma-auto font-lg font-light">Não há itens neste pedido</p>

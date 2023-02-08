@@ -1,11 +1,30 @@
 import { Check, Copy, XCircle } from "phosphor-react";
+import { updateInquiryItemStep } from "../../../../../services/inquiryItemService";
 
-export default function OrderRow({ item, userSession }) {
+export default function OrderRow({ item, userSession, reloadOrderList }) {
   async function cancelRequestedItem() {
-    console.dir(item);
+    const data = {
+      pending: [item.idInquiryItem],
+      step: 9,
+    };
+    updateItemStep(data);
   }
   async function confirmRequestedItem() {
-    console.dir(item);
+    const data = {
+      pending: [item.idInquiryItem],
+      step: 6,
+    };
+    updateItemStep(data);
+  }
+
+  async function updateItemStep(data) {
+    await updateInquiryItemStep(data)
+      .then((responseUpdate) => {
+        if (responseUpdate.status === 200) {
+          reloadOrderList();
+        }
+      })
+      .catch((err) => {});
   }
 
   function copyText(text) {
@@ -36,10 +55,9 @@ export default function OrderRow({ item, userSession }) {
       <td>{item.leadtime}</td>
       <td>{item.datacode}</td>
       <td>{item.condition}</td>
-      <td>{item.step}</td>
       <td>
         <div className="row">
-          {userSession.isAdmin && (
+          {userSession.isAdmin && (item.step === 5 || item.step === 6) && (
             <button
               type="button"
               className="row align-items-center bg-red-1 text-white-1 pa-1 border-radius-soft"
@@ -49,7 +67,7 @@ export default function OrderRow({ item, userSession }) {
               <XCircle className="icon-default" />
             </button>
           )}
-          {userSession.role === 4 && (
+          {userSession.role === 4 && item.step === 5 && (
             <button
               type="button"
               className="row align-items-center bg-green-1 text-white-1 pa-1 border-radius-soft"
