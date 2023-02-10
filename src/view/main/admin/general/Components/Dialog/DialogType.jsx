@@ -1,7 +1,8 @@
 import { XCircle } from "phosphor-react";
 import { useEffect, useState } from "react";
-import DialogDefault from "../../../../../components/Dialog/DialogDefault";
-import { createType, updateType } from "../../../../../services/typeService";
+
+import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
+import { createType, updateType } from "../../../../../../services/typeService";
 
 export default function DialogType({ reload, open, onClose, title, item }) {
   const [typeName, setTypeName] = useState("");

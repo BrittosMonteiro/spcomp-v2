@@ -7,7 +7,7 @@ import DialogInquiry from "../../../../components/Dialog/DialogInquiryList";
 import InquiryTable from "./Components/TablesAndRows/InquiryTable";
 import { readInquiryItems } from "../../../../services/inquiryItemService";
 
-export default function Inquiries({ changeTab }) {
+export default function Inquiries({ changeTab, suppliersList }) {
   const userSession = useSelector((state) => {
     return state.login;
   });
@@ -79,6 +79,7 @@ export default function Inquiries({ changeTab }) {
             onClose={closeModal}
             pending={pending}
             changeTab={changeTab}
+            suppliersList={suppliersList}
           />
         </>
       ) : null}

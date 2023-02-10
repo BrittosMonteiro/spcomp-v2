@@ -6,7 +6,7 @@ import DialogItem from "../../../../components/Dialog/DialogItem";
 // import FilterItems from "../../../../components/Common/filterItems";
 import ItemTable from "./Components/TablesAndRows/ItemTable";
 
-export default function Items({ changeTab }) {
+export default function Items({ changeTab, brandList, encapList, typeList }) {
   const userSession = useSelector((state) => {
     return state.login;
   });
@@ -58,6 +58,9 @@ export default function Items({ changeTab }) {
             onClose={closeModal}
             reloadList={reloadList}
             idUser={userSession.token}
+            brandList={brandList}
+            encapList={encapList}
+            typeList={typeList}
           />
         </div>
       )}
@@ -65,7 +68,14 @@ export default function Items({ changeTab }) {
         <FilterItems setItems={setItems} originalItems={originalItems} />
       ) : null} */}
       {items.length > 0 ? (
-        <ItemTable list={items} reloadList={reloadList} changeTab={changeTab} />
+        <ItemTable
+          list={items}
+          reloadList={reloadList}
+          changeTab={changeTab}
+          brandList={brandList}
+          encapList={encapList}
+          typeList={typeList}
+        />
       ) : (
         <div className="ma-auto">
           <p className="font-lg font-light">Não há itens cadastrados</p>

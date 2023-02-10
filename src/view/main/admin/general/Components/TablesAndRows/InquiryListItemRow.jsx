@@ -1,15 +1,15 @@
 import { Check, Copy } from "phosphor-react";
+import { useDispatch } from "react-redux";
 
 import {
   updateInquiryItemPrice,
   updateInquiryItemStep,
-} from "../../../../../services/inquiryItemService";
-import { getCurrencyValue } from "../../../../../utils/currencyApi";
-import { useDispatch } from "react-redux";
+} from "../../../../../../services/inquiryItemService";
+import { getCurrencyValue } from "../../../../../../utils/currencyApi";
 import {
   displayMessageBox,
   hideMessageBox,
-} from "../../../../../store/actions/messageBoxAction";
+} from "../../../../../../store/actions/messageBoxAction";
 
 export default function InquiryListItemRow({ item }) {
   const dispatch = useDispatch();

@@ -1,6 +1,13 @@
 import ItemRow from "./ItemRow";
 
-export default function ItemTable({ list, reloadList, changeTab }) {
+export default function ItemTable({
+  list,
+  reloadList,
+  changeTab,
+  brandList,
+  encapList,
+  typeList,
+}) {
   return (
     <table className="table">
       <thead>
@@ -19,6 +26,9 @@ export default function ItemTable({ list, reloadList, changeTab }) {
             item={item}
             reloadList={reloadList}
             changeTab={changeTab}
+            brandList={brandList}
+            encapList={encapList}
+            typeList={typeList}
           />
         ))}
       </tbody>

@@ -1,7 +1,8 @@
 import { XCircle } from "phosphor-react";
 import { useEffect, useState } from "react";
-import DialogDefault from "../../../../../components/Dialog/DialogDefault";
-import { createBrand, updateBrand } from "../../../../../services/brandService";
+
+import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
+import { createBrand, updateBrand } from "../../../../../../services/brandService";
 
 export default function DialogBrand({ open, onClose, reload, title, item }) {
   const [brandName, setBrandName] = useState("");

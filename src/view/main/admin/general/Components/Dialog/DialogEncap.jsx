@@ -1,7 +1,8 @@
 import { XCircle } from "phosphor-react";
 import { useEffect, useState } from "react";
-import DialogDefault from "../../../../../components/Dialog/DialogDefault";
-import { createEncap, updateEncap } from "../../../../../services/encapService";
+
+import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
+import { createEncap, updateEncap } from "../../../../../../services/encapService";
 
 export default function DialogEncap({ item, reload, onClose, open, title }) {
   const [encapName, setEncapName] = useState("");

@@ -9,7 +9,14 @@ import {
 import { useState } from "react";
 import DialogItem from "../../../../../../components/Dialog/DialogItem.jsx";
 
-export default function ItemTableRow({ item, reloadList, changeTab }) {
+export default function ItemTableRow({
+  item,
+  reloadList,
+  changeTab,
+  brandList,
+  encapList,
+  typeList,
+}) {
   const dispatch = useDispatch();
   const userSession = useSelector((state) => {
     return state.login;
@@ -105,6 +112,9 @@ export default function ItemTableRow({ item, reloadList, changeTab }) {
               reloadList={reloadList}
               open={open}
               idUser={userSession.token}
+              brandList={brandList}
+              encapList={encapList}
+              typeList={typeList}
             />
           </>
 

@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { readBrands } from "../../services/brandService";
-import { readEncap } from "../../services/encapService";
-import { readType } from "../../services/typeService";
 import { createItem, updateItem } from "../../services/itemService";
 import {
   displayMessageBox,
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
 
-export default function DialogItemDefault({ item, open, onClose, reloadList }) {
+export default function DialogItemDefault({
+  item,
+  open,
+  onClose,
+  reloadList,
+  brandList,
+  encapList,
+  typeList,
+}) {
   const dispatch = useDispatch();
 
-  const [brandList, setBrandList] = useState([]);
-  const [typeList, setTypeList] = useState([]);
-  const [encapList, setEncapList] = useState([]);
   const [description, setDescription] = useState("");
   const [idBrand, setIdBrand] = useState("");
   const [idEncap, setIdEncap] = useState("");
@@ -34,12 +36,6 @@ export default function DialogItemDefault({ item, open, onClose, reloadList }) {
       setNote(item.note);
     }
   }, [item]);
-
-  useEffect(() => {
-    loadBrands();
-    loadEncaps();
-    loadTypes();
-  }, []);
 
   function handleItem(e) {
     e.preventDefault();
@@ -65,39 +61,6 @@ export default function DialogItemDefault({ item, open, onClose, reloadList }) {
     } else {
       create(data);
     }
-  }
-
-  async function loadBrands() {
-    await readBrands()
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-      })
-      .then((res) => setBrandList(res.data))
-      .catch(() => {});
-  }
-
-  async function loadEncaps() {
-    await readEncap()
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-      })
-      .then((res) => setEncapList(res.data))
-      .catch(() => {});
-  }
-
-  async function loadTypes() {
-    await readType()
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-      })
-      .then((res) => setTypeList(res.data))
-      .catch(() => {});
   }
 
   async function create(data) {

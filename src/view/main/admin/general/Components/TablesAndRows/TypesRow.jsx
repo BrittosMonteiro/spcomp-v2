@@ -1,6 +1,6 @@
 import { PencilSimple, XCircle } from "phosphor-react";
 import { useState } from "react";
-import { deleteType } from "../../../../../services/typeService";
+import { deleteType } from "../../../../../../services/typeService";
 import DialogType from "../Dialog/DialogType";
 
 export default function TypesRow({ item, reload }) {

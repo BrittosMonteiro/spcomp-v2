@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { readBrands } from "../../../services/brandService";
+
+import { readBrands } from "../../../../services/brandService";
 import BrandsTable from "./Components/TablesAndRows/BrandsTable";
 import DialogBrand from "./Components/Dialog/DialogBrand";
 

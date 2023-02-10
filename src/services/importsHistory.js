@@ -1,9 +1,9 @@
 import { checkEnv } from "./serviceConfig";
 
 const BASE_URL = checkEnv();
-const API_URL = `${BASE_URL}/inquiryHistory`;
+const API_URL = `${BASE_URL}/importHistory`;
 
-export async function createInquiryHistory(data) {
+export async function createImportHistory(data) {
   return await fetch(`${API_URL}`, {
     method: "POST",
     headers: { "Content-type": "application/json" },
@@ -11,15 +11,13 @@ export async function createInquiryHistory(data) {
   });
 }
 
-export async function readInquiryHistory() {
-  return await fetch(`${API_URL}`);
+export async function readImportHistory() {
+  return await fetch(`${API_URL}`, {
+    method: "GET",
+  });
 }
 
-export async function readActiveInquiryHistory(idSupplier) {
-  return await fetch(`${API_URL}/active/${idSupplier}`);
-}
-
-export async function updateInquiryHistory(data) {
+export async function updateImportHistory(data) {
   return await fetch(`${API_URL}`, {
     method: "PUT",
     headers: { "Content-type": "application/json" },
@@ -27,10 +25,10 @@ export async function updateInquiryHistory(data) {
   });
 }
 
-export async function deleteInquiryHistory(data) {
+export async function deleteImportHistory(id) {
   return await fetch(`${API_URL}`, {
     method: "DELETE",
     headers: { "Content-type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(id),
   });
 }

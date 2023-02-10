@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import Card from "../../../components/Common/Card";
-import TabList from "../../../components/Common/tabList";
+import Card from "../../../../components/Common/Card";
+import TabList from "../../../../components/Common/tabList";
 import Brands from "./brands";
 import Customers from "./customers";
 import Encaps from "./encaps";

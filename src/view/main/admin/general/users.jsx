@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 
-import { readUsers } from "../../../services/usersService";
-import DialogUser from "../../../components/Dialog/DialogUser";
+import { readUsers } from "../../../../services/usersService";
+import DialogUser from "../../../../components/Dialog/DialogUser";
 import UsersTable from "./Components/TablesAndRows/UsersTable";
 
 export default function Users() {

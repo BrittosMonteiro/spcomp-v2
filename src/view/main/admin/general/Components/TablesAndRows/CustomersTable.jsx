@@ -3,12 +3,12 @@ import { useDispatch } from "react-redux";
 import { PencilSimple, TrashSimple } from "phosphor-react";
 import * as Dialog from "@radix-ui/react-dialog";
 
-import DialogCustomer from "../../../../../components/Dialog/DialogCustomer";
-import { deleteCustomer } from "../../../../../services/customerService";
+import DialogCustomer from "../../../../../../components/Dialog/DialogCustomer";
+import { deleteCustomer } from "../../../../../../services/customerService";
 import {
   displayMessageBox,
   hideMessageBox,
-} from "../../../../../store/actions/messageBoxAction";
+} from "../../../../../../store/actions/messageBoxAction";
 
 export default function CustomersTable({ customersList, reloadList }) {
   const dispatch = useDispatch();

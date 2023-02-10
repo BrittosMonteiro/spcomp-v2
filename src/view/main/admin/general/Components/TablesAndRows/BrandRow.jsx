@@ -1,6 +1,6 @@
 import { PencilSimple, XCircle } from "phosphor-react";
 import { useState } from "react";
-import { deleteBrand } from "../../../../../services/brandService";
+import { deleteBrand } from "../../../../../../services/brandService";
 import DialogBrand from "../Dialog/DialogBrand";
 
 export default function BrandRow({ item, reload }) {

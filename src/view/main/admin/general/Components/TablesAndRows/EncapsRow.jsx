@@ -1,7 +1,7 @@
 import { PencilSimple, XCircle } from "phosphor-react";
 import { useState } from "react";
 
-import { deleteEncap } from "../../../../../services/encapService";
+import { deleteEncap } from "../../../../../../services/encapService";
 import DialogEncap from "../Dialog/DialogEncap";
 
 export default function EncapsRow({ item, reload }) {

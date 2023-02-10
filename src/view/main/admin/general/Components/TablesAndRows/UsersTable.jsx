@@ -2,8 +2,8 @@ import { useState } from "react";
 import { PencilSimple, TrashSimple } from "phosphor-react";
 import * as Dialog from "@radix-ui/react-dialog";
 
-import { deleteUser } from "../../../../../services/usersService";
-import DialogUser from "../../../../../components/Dialog/DialogUser";
+import { deleteUser } from "../../../../../../services/usersService";
+import DialogUser from "../../../../../../components/Dialog/DialogUser";
 
 export default function UsersTable({ usersList, reloadList }) {
   const [open, setOpen] = useState(false);

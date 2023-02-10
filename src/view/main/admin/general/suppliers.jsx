@@ -1,23 +1,23 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-import DialogCustomer from "../../../components/Dialog/DialogCustomer";
-import CustomersTable from "./Components/TablesAndRows/CustomersTable";
-import { readCustomers } from "../../../services/customerService";
+import { readSuppliers } from "../../../../services/supplierService";
+import DialogSupplier from "../../../../components/Dialog/DialogSupplier";
+import SuppliersTable from "./Components/TablesAndRows/SupplierTable";
 
-export default function Customers() {
+export default function Suppliers() {
   const [open, setOpen] = useState(false);
-  const [customersList, setCustomersList] = useState([]);
+  const [suppliersList, setSuppliersList] = useState([]);
 
-  async function getCustomers() {
-    await readCustomers()
+  function loadList() {
+    readSuppliers()
       .then((response) => {
         if (response.status === 200) {
           return response.json();
         }
       })
-      .then((res) => {
-        setCustomersList(res.data);
+      .then((response) => {
+        setSuppliersList(response.data || []);
       })
       .catch((err) => {
         console.log(err);
@@ -25,11 +25,11 @@ export default function Customers() {
   }
 
   useEffect(() => {
-    getCustomers();
+    loadList();
   }, []);
 
   function reloadList() {
-    getCustomers();
+    loadList();
     setOpen(false);
   }
 
@@ -38,12 +38,12 @@ export default function Customers() {
       <div className="row justify-content-between align-items-center">
         <Dialog.Root open={open} onOpenChange={setOpen}>
           <Dialog.Trigger className="font-medium font-sm bg-green-1 text-white-1 pa-2 border-radius-soft">
-            Adicionar novo cliente
+            Adicionar novo fornecedor
           </Dialog.Trigger>
-          <DialogCustomer reloadList={reloadList} />
+          <DialogSupplier reloadList={reloadList} />
         </Dialog.Root>
       </div>
-      <CustomersTable customersList={customersList} reloadList={reloadList} />
+      <SuppliersTable suppliersList={suppliersList} reloadList={reloadList} />
     </>
   );
 }

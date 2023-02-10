@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Card from "../../../components/Common/Card";
 
-import PageTitle from "../../../components/Common/PageTitle";
+import PageTitle from "../../../../components/Common/PageTitle";
+import Card from "../../../../components/Common/Card";
 import InquiryListItemTable from "./Components/TablesAndRows/InquiryListItemTable";
-import { readSingleItemFromInquiryList } from "../../../services/inquiryListService";
+import { readSingleItemFromInquiryList } from "../../../../services/inquiryListService";
 
 export default function InquiryItem() {
   const { idInquiryItem } = useParams();

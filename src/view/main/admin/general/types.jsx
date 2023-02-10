@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { readType } from "../../../services/typeService";
+import { readType } from "../../../../services/typeService";
 import DialogType from "./Components/Dialog/DialogType";
 import TypesTable from "./Components/TablesAndRows/TypesTable";
 

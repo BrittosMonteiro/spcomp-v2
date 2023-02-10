@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { readEncap } from "../../../services/encapService";
+
+import { readEncap } from "../../../../services/encapService";
 import DialogEncap from "./Components/Dialog/DialogEncap";
 import EncapsTable from "./Components/TablesAndRows/EncapsTable";
 

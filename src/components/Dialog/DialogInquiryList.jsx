@@ -7,7 +7,13 @@ import { createInquiryHistory } from "../../services/inquiryHistoryService";
 import { createInquiryList } from "../../services/inquiryListService";
 import { updateInquiryItemStep } from "../../services/inquiryItemService";
 
-export default function DialogInquiry({ open, onClose, pending, changeTab }) {
+export default function DialogInquiry({
+  open,
+  onClose,
+  pending,
+  changeTab,
+  suppliersList,
+}) {
   const dispatch = useDispatch();
 
   function closeModal(e) {
@@ -15,12 +21,31 @@ export default function DialogInquiry({ open, onClose, pending, changeTab }) {
     if (elementId) onClose();
   }
 
+  const selectedSuppliers = [];
+
+  function selectSupplier(supplier) {
+    const pos = selectedSuppliers.findIndex(
+      (e) => e.idSupplier === supplier.idSupplier
+    );
+
+    if (pos === -1) {
+      selectedSuppliers.push(supplier);
+    } else {
+      selectedSuppliers.splice(pos, 1);
+    }
+  }
+
   async function sendInquiry(e) {
     e.preventDefault();
 
+    if (!selectedSuppliers) {
+      handleMessageBox("failed", "Selecione ao menos um fornecedor");
+      return;
+    }
+
     const title = new Date().toISOString().split("T")[0];
 
-    await createInquiryHistory({ title })
+    await createInquiryHistory({ title, selectedSuppliers })
       .then((response) => {
         if (response.status === 201) {
           return response.json();
@@ -29,6 +54,7 @@ export default function DialogInquiry({ open, onClose, pending, changeTab }) {
       .then((res) => {
         const data = {
           idInquiryHistory: res.data,
+          selectedSuppliers: selectedSuppliers,
           items: pending,
         };
         createInquiry(data);
@@ -86,13 +112,36 @@ export default function DialogInquiry({ open, onClose, pending, changeTab }) {
       {open && (
         <div className="overlay" id="overlay" onClick={(e) => closeModal(e)}>
           <div className="dialog">
-            <form onSubmit={sendInquiry}>
-              <h1 className="font-medium font-lg">Enviar itens pendentes?</h1>
-              <p className="my-4 font-light">
-                Os itens pendentes serão separados para que os fornecedores
-                preencham com seus preços
+            <form onSubmit={sendInquiry} className="column gap-4">
+              <h1 className="font-medium font-lg">Escolher fornecedores</h1>
+              <p className="font-sm font-light">
+                Os itens pendentes serão enviados aos fornecedores selecionados
+                para que estes preencham com seus preços
               </p>
-              <hr className="my-4" />
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Selecionar</th>
+                    <th>Fornecedor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {suppliersList.map((supplier, index) => (
+                    <tr key={index}>
+                      <td>
+                        <div className="row jc-start">
+                          <input
+                            type={"checkbox"}
+                            onClick={() => selectSupplier(supplier)}
+                            className="jc-start"
+                          />
+                        </div>
+                      </td>
+                      <td>{supplier.name}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
               <div className="row jc-between">
                 <button
                   className="font-medium font-md bg-red-1 text-white-1 pa-2 border-radius-soft"

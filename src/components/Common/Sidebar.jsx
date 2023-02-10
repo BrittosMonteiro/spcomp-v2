@@ -1,4 +1,5 @@
 import {
+  AirplaneInFlight,
   CaretLeft,
   CaretRight,
   ClipboardText,
@@ -60,6 +61,11 @@ export default function Sidebar() {
       path: "/admin/general",
       label: "Administrador",
       icon: <GearSix className="icon-default" alt="Administrador" />,
+    },
+    {
+      path: "/admin/imports/list",
+      label: "Importação",
+      icon: <AirplaneInFlight />,
     },
   ];
 
