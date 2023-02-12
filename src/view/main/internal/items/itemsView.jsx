@@ -27,19 +27,23 @@ export default function ItemsView() {
     {
       label: "Itens",
       component: (
-        <Items
-          changeTab={changeTab}
-          brandList={brandList}
-          encapList={encapList}
-          typeList={typeList}
-        />
+        <Card>
+          <Items
+            changeTab={changeTab}
+            brandList={brandList}
+            encapList={encapList}
+            typeList={typeList}
+          />
+        </Card>
       ),
       isAdmin: false,
     },
     {
       label: "Cotação",
       component: (
-        <Inquiries changeTab={changeTab} suppliersList={suppliersList} />
+        <Card>
+          <Inquiries changeTab={changeTab} suppliersList={suppliersList} />
+        </Card>
       ),
       isAdmin: false,
     },
@@ -91,7 +95,8 @@ export default function ItemsView() {
         }
       })
       .then((response) => {
-        setSuppliersList(response.data);
+        const activeSuppliers = response.data.filter((e) => e.status === true);
+        setSuppliersList(activeSuppliers);
       })
       .catch((err) => {});
   }
@@ -112,7 +117,7 @@ export default function ItemsView() {
   return (
     <div className="column w-full gap-4">
       <TabList tab={tabView} tabList={tabList} changeTab={changeTab} />
-      <Card>{tabList[tabView].component}</Card>
+      {tabList[tabView].component}
     </div>
   );
 }
