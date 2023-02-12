@@ -1,4 +1,4 @@
-import { PencilSimple, XCircle } from "phosphor-react";
+import { PencilSimple, TrashSimple } from "phosphor-react";
 import { useState } from "react";
 import { deleteBrand } from "../../../../../../services/brandService";
 import DialogBrand from "../Dialog/DialogBrand";
@@ -42,7 +42,7 @@ export default function BrandRow({ item, reload }) {
             className="flex bg-red-1 text-white-1 border-radius-soft pa-1"
             onClick={() => deleteBrandItem(item.id)}
           >
-            <XCircle alt="Remover marca" className="icon-sm" />
+            <TrashSimple alt="Remover marca" className="icon-sm" />
           </button>
         </div>
       </td>

@@ -50,33 +50,31 @@ export default function OrderListRow({ order, reloadOrdersList, userSession }) {
             {order.status ? (
               <button
                 type="button"
-                className="bg-transparent"
+                className="flex bg-green-1 text-white-1 pa-1 border-radius-soft"
                 onClick={() => changeOrderView()}
               >
-                <ToggleLeft className="icon-md text-green-1" />
+                <ToggleLeft className="icon-default" />
               </button>
             ) : (
               <button
                 type="button"
-                className="bg-transparent"
+                className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
                 onClick={() => changeOrderView()}
               >
-                <ToggleRight className="icon-md text-red-1" />
+                <ToggleRight className="icon-default" />
               </button>
             )}
           </td>
           <td>
             <div className="row">
-              <div className="row ma-auto align-items-center">
-                <button
-                  type="button"
-                  className="row bg-red-1 text-white-1 pa-1 border-radius-soft"
-                  title="Delete order"
-                  onClick={() => deleteOrderList()}
-                >
-                  <TrashSimple className="icon-sm" />
-                </button>
-              </div>
+              <button
+                type="button"
+                className="row bg-red-1 text-white-1 pa-1 border-radius-soft"
+                title="Delete order"
+                onClick={() => deleteOrderList()}
+              >
+                <TrashSimple className="icon-sm" />
+              </button>
             </div>
           </td>
         </>

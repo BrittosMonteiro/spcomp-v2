@@ -1,4 +1,4 @@
-import { PencilSimple, XCircle } from "phosphor-react";
+import { PencilSimple, TrashSimple } from "phosphor-react";
 import { useState } from "react";
 import { deleteType } from "../../../../../../services/typeService";
 import DialogType from "../Dialog/DialogType";
@@ -43,7 +43,7 @@ export default function TypesRow({ item, reload }) {
             className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
             onClick={() => deleteTypeItem()}
           >
-            <XCircle className="icon-sm" />
+            <TrashSimple className="icon-sm" />
           </button>
         </div>
       </td>

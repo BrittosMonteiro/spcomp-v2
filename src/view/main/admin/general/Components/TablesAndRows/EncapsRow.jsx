@@ -1,4 +1,4 @@
-import { PencilSimple, XCircle } from "phosphor-react";
+import { PencilSimple, TrashSimple } from "phosphor-react";
 import { useState } from "react";
 
 import { deleteEncap } from "../../../../../../services/encapService";
@@ -45,7 +45,7 @@ export default function EncapsRow({ item, reload }) {
             className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
             onClick={() => deleteEncapItem()}
           >
-            <XCircle className="icon-sm" />
+            <TrashSimple className="icon-sm" />
           </button>
         </div>
       </td>

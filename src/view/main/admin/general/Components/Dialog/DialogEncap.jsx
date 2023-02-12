@@ -39,7 +39,7 @@ export default function DialogEncap({ item, reload, onClose, open, title }) {
     const data = { description: encapName };
     await createEncap(data)
       .then((responseCreate) => {
-        if (responseCreate.status === 200) {
+        if (responseCreate.status === 201) {
           reload();
           onClose();
         }

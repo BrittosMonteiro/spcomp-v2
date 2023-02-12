@@ -92,28 +92,39 @@ export default function AvailableInquiryListRow({
       {userSession.isAdmin && (
         <>
           <td>
-            <button
-              type="button ma-0 pa-0"
-              className="bg-transparent"
-              onClick={() =>
-                changeInquiryHistoryStatus(
-                  inquiryHistory.id,
-                  inquiryHistory.status
-                )
-              }
-            >
-              {inquiryHistory.status === true ? (
+            {inquiryHistory.status === true ? (
+              <button
+                type="button"
+                className="flex bg-green-1 text-white-1 pa-1 border-radius-soft"
+                onClick={() =>
+                  changeInquiryHistoryStatus(
+                    inquiryHistory.id,
+                    inquiryHistory.status
+                  )
+                }
+              >
                 <ToggleLeft
                   alt="Esta cotação está ativada"
-                  className="icon-md mt-1 text-green-1"
+                  className="icon-default"
                 />
-              ) : (
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
+                onClick={() =>
+                  changeInquiryHistoryStatus(
+                    inquiryHistory.id,
+                    inquiryHistory.status
+                  )
+                }
+              >
                 <ToggleRight
                   alt="Esta cotação está desativada"
-                  className="icon-md mt-1 text-red-1"
+                  className="icon-default"
                 />
-              )}
-            </button>
+              </button>
+            )}
           </td>
           <td>
             <button
