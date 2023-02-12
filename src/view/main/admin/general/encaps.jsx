@@ -32,7 +32,7 @@ export default function Encaps() {
       <div className="row">
         <button
           type="button"
-          className="action-btn pa-1 border-radius-soft"
+          className="action-btn pa-1 border-radius-soft font-sm font-medium"
           onClick={() => setOpen(true)}
         >
           Adicionar encapsulamento

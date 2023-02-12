@@ -102,7 +102,7 @@ export default function OrderRequest() {
           <div className="row">
             <button
               type="button"
-              className="flex action-btn align-items-center gap-2 pa-1 border-radius-soft font-md font-medium"
+              className="flex action-btn align-items-center gap-2 pa-1 border-radius-soft font-sm font-medium"
               title="Criar novo pedido"
               onClick={() => setOpenDialog(true)}
             >
