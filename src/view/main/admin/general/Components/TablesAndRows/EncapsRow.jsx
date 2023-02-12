@@ -31,7 +31,7 @@ export default function EncapsRow({ item, reload }) {
             className="flex bg-blue-1 text-white-1 pa-1 border-radius-soft"
             onClick={() => setOpen(true)}
           >
-            <PencilSimple className="icon-default" />
+            <PencilSimple className="icon-sm" />
           </button>
           <DialogEncap
             open={open}
@@ -45,7 +45,7 @@ export default function EncapsRow({ item, reload }) {
             className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
             onClick={() => deleteEncapItem()}
           >
-            <XCircle className="icon-default" />
+            <XCircle className="icon-sm" />
           </button>
         </div>
       </td>

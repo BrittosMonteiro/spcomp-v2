@@ -28,7 +28,7 @@ export default function BrandRow({ item, reload }) {
             className="flex bg-blue-1 text-white-1 border-radius-soft pa-1"
             onClick={() => setOpen(true)}
           >
-            <PencilSimple alt="Editar marca" className="icon-default" />
+            <PencilSimple alt="Editar marca" className="icon-sm" />
           </button>
           <DialogBrand
             item={item}
@@ -42,7 +42,7 @@ export default function BrandRow({ item, reload }) {
             className="flex bg-red-1 text-white-1 border-radius-soft pa-1"
             onClick={() => deleteBrandItem(item.id)}
           >
-            <XCircle alt="Remover marca" className="icon-default" />
+            <XCircle alt="Remover marca" className="icon-sm" />
           </button>
         </div>
       </td>

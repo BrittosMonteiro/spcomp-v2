@@ -43,7 +43,7 @@ export default function OrderRow({ item, userSession, reloadOrderList }) {
             className="bg-transparent"
             onClick={() => copyText(item.description)}
           >
-            <Copy className="icon-default" />
+            <Copy className="icon-sm" />
           </button>
           {item.description}
         </div>
@@ -64,7 +64,7 @@ export default function OrderRow({ item, userSession, reloadOrderList }) {
               onClick={() => cancelRequestedItem()}
               title={"Cancelar item"}
             >
-              <XCircle className="icon-default" />
+              <XCircle className="icon-sm" />
             </button>
           )}
           {userSession.role === 4 && item.step === 5 && (
@@ -74,7 +74,7 @@ export default function OrderRow({ item, userSession, reloadOrderList }) {
               onClick={() => confirmRequestedItem()}
               title={"Confirm item"}
             >
-              <Check className="icon-default" />
+              <Check className="icon-sm" />
             </button>
           )}
         </div>

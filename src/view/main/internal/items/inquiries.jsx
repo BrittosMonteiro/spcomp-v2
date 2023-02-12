@@ -70,7 +70,7 @@ export default function Inquiries({ changeTab, suppliersList }) {
                 <span className="font-medium font-sm">
                   Enviar pendentes ({pending.length})
                 </span>
-                <PaperPlaneTilt className="icon-default" />
+                <PaperPlaneTilt className="icon-sm" />
               </button>
             </div>
           </div>

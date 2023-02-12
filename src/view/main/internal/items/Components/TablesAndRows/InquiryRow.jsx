@@ -144,7 +144,7 @@ export default function InquiryTableRow({ item, reloadList, customers }) {
               onClick={() => copyText(item.item.item.description)}
               title="Copiar texto"
             >
-              <Copy className="icon-default" />
+              <Copy className="icon-sm" />
             </button>
             {userSession.isAdmin ? (
               <Link

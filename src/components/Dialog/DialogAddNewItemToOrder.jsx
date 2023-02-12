@@ -23,7 +23,6 @@ export default function DialogAddNewItemToOrder({
   }
 
   async function addItemsToOrder() {
-    console.log(selectedItems);
     await updateOrderAddItems({ idOrder, items: selectedItems })
       .then((responseCreate) => {
         if (responseCreate.status === 200) {

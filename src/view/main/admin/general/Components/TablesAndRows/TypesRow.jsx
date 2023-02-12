@@ -29,7 +29,7 @@ export default function TypesRow({ item, reload }) {
             className="flex bg-blue-1 text-white-1 pa-1 border-radius-soft"
             onClick={() => setOpen(true)}
           >
-            <PencilSimple className="icon-default" />
+            <PencilSimple className="icon-sm" />
           </button>
           <DialogType
             open={open}
@@ -43,7 +43,7 @@ export default function TypesRow({ item, reload }) {
             className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
             onClick={() => deleteTypeItem()}
           >
-            <XCircle className="icon-default" />
+            <XCircle className="icon-sm" />
           </button>
         </div>
       </td>

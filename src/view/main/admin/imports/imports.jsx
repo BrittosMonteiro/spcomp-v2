@@ -39,7 +39,7 @@ export default function Imports() {
           className="action-btn border-radius-soft pa-1"
           onClick={() => setOpen(true)}
         >
-          Criar pedido
+          Criar importação
         </button>
         <DialogCreateImport
           onClose={closeModal}

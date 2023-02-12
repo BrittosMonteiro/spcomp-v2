@@ -20,7 +20,6 @@ export default function SupplierOrderList() {
         }
       })
       .then((response) => {
-        console.log(response);
         setOrdersList(response.data);
       })
       .catch((err) => {});

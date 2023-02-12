@@ -62,12 +62,13 @@ export default function Sidebar() {
       label: "Administrador",
       icon: <GearSix className="icon-default" alt="Administrador" />,
     },
-    {
-      path: "/admin/imports/list",
-      label: "Importação",
-      icon: <AirplaneInFlight />,
-    },
   ];
+
+  const importRoute = {
+    path: "/admin/imports/list",
+    label: "Importação",
+    icon: <AirplaneInFlight />,
+  };
 
   const supplierRoutes = [
     {
@@ -168,15 +169,22 @@ export default function Sidebar() {
                           key={index}
                         />
                       ))}
+                      <SidebarLink
+                        link={importRoute}
+                        open={open}
+                        pathname={pathname}
+                      />
                     </>
                   )}
 
                   {userSession.role >= 1 && userSession.role <= 3 && !open && (
-                    <SidebarLink
-                      link={profileRoute}
-                      open={open}
-                      pathname={pathname}
-                    />
+                    <>
+                      <SidebarLink
+                        link={profileRoute}
+                        open={open}
+                        pathname={pathname}
+                      />
+                    </>
                   )}
                 </div>
               </>

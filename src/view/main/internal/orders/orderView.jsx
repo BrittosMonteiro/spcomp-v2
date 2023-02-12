@@ -97,25 +97,27 @@ export default function OrderRequest() {
   return (
     <div className="column w-full gap-4">
       <TabList tabList={tabList} changeTab={changeTab} tab={tabView} />
-      {(userSession.isAdmin || userSession.role === 3) && (
-        <div className="row">
-          <button
-            type="button"
-            className="row align-items-center gap-2 bg-green-1 text-white-1 pa-2 font-md font-medium"
-            title="Criar novo pedido"
-            onClick={() => setOpenDialog(true)}
-          >
-            Criar novo pedido
-            <Receipt className="icon-default" />
-          </button>
-          <DialogCreateOrder
-            open={openDialog}
-            onClose={closeModal}
-            reloadOrdersList={reloadOrdersList}
-          />
-        </div>
-      )}
-      <Card>{tabList[tabView].component}</Card>
+      <Card className="column gap-4">
+        {(userSession.isAdmin || userSession.role === 3) && (
+          <div className="row">
+            <button
+              type="button"
+              className="flex action-btn align-items-center gap-2 pa-1 border-radius-soft font-md font-medium"
+              title="Criar novo pedido"
+              onClick={() => setOpenDialog(true)}
+            >
+              Criar novo pedido
+              <Receipt className="icon-default" />
+            </button>
+            <DialogCreateOrder
+              open={openDialog}
+              onClose={closeModal}
+              reloadOrdersList={reloadOrdersList}
+            />
+          </div>
+        )}
+        {tabList[tabView].component}
+      </Card>
     </div>
   );
 }

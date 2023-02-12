@@ -122,7 +122,7 @@ export default function InquiryListSentItemsTableRow({
                 className="bg-transparent"
                 onClick={() => copyText(item.description)}
               >
-                <Copy className="icon-default" />
+                <Copy className="icon-sm" />
               </button>
               <span>{item.description}</span>
             </div>

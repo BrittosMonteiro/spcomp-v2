@@ -35,9 +35,9 @@ export default function Customers() {
 
   return (
     <>
-      <div className="row justify-content-between align-items-center">
+      <div className="flex jc-between ai-center">
         <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger className="font-medium font-sm bg-green-1 text-white-1 pa-2 border-radius-soft">
+          <Dialog.Trigger className="action-btn font-medium font-sm pa-1 border-radius-soft">
             Adicionar novo cliente
           </Dialog.Trigger>
           <DialogCustomer reloadList={reloadList} />

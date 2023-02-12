@@ -15,8 +15,6 @@ export default function InquiryListItemRow({ item }) {
   const dispatch = useDispatch();
 
   async function updateInquiryListItemPurchasePrice(item) {
-    console.log(item);
-
     const { dolar } = await getCurrencyValue();
 
     const unitSalePrice = item.price.unitPurchasePrice * dolar;
@@ -92,7 +90,7 @@ export default function InquiryListItemRow({ item }) {
             className="bg-transparent"
             onClick={() => copyText(item.description)}
           >
-            <Copy className="icon-default" />
+            <Copy className="icon-sm" />
           </button>
           {item.description}
         </div>

@@ -21,7 +21,7 @@ export default function UsersTable({ usersList, reloadList }) {
           reloadList();
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {});
   }
 
   function reloadUsersList() {

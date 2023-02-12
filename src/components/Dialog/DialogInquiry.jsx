@@ -40,9 +40,7 @@ export default function DialogInquiry({
   async function loadCustomers() {
     await readCustomerToItem()
       .then((response) => {
-        if (response.status !== 200) {
-          console.log("Não pôde carregar");
-        } else {
+        if (response.status === 200) {
           return response.json();
         }
       })

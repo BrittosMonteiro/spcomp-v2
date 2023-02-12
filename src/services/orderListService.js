@@ -33,6 +33,18 @@ export async function readOrderListByUser(idUser) {
   });
 }
 
+export async function readOrderByImportHistory(idImportHistory) {
+  return await fetch(`${API_URL}/byImportHistory/${idImportHistory}`, {
+    method: "GET",
+  });
+}
+
+export async function readOrderNotAttached() {
+  return await fetch(`${API_URL}/notAttached`, {
+    method: "GET",
+  });
+}
+
 export async function readOrderListByStock() {
   return await fetch(`${API_URL}/stock`, {
     method: "GET",
@@ -49,6 +61,14 @@ export async function updateOrderStatus(data) {
 
 export async function updateOrderAddItems(data) {
   return await fetch(`${API_URL}/updateOrderAddItems`, {
+    method: "PUT",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
+export async function updateOrderImportHistoryId(data) {
+  return await fetch(`${API_URL}/updateOrderImportHistoryId`, {
     method: "PUT",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify(data),

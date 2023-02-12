@@ -16,7 +16,7 @@ export default function RequestRow({ request, userSession }) {
             className="bg-transparent"
             onClick={() => copyText(request.item.description)}
           >
-            <Copy className="icon-default" />
+            <Copy className="icon-sm" />
           </button>
           {request.item.description}
         </div>

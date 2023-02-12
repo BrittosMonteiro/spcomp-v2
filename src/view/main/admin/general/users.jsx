@@ -35,9 +35,9 @@ export default function Users() {
 
   return (
     <>
-      <div className="row justify-content-between align-items-center">
+      <div className="flex jc-between ai-center">
         <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger className="font-medium font-sm bg-transparent pa-2 bg-green-1 border-radius-soft text-white-1">
+          <Dialog.Trigger className="action-btn font-medium font-sm pa-1 border-radius-soft">
             Adicionar novo usuário
           </Dialog.Trigger>
           <DialogUser reloadList={reloadList} />

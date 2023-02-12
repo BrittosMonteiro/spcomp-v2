@@ -26,7 +26,7 @@ export default function Login() {
         if (response.status === 200) {
           return response.json();
         } else {
-          console.log(response);
+          handleMessageBox("failed", true, "Tente mais tarde...");
         }
       })
       .then((res) => {

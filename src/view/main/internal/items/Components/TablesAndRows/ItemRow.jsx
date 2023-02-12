@@ -86,7 +86,7 @@ export default function ItemTableRow({
               onClick={() => copyText(item.item.description)}
               className="row align-items-center bg-transparent"
             >
-              <Copy className="icon-default" />
+              <Copy className="icon-sm" />
             </button>
             <span>{item.item.description}</span>
           </div>

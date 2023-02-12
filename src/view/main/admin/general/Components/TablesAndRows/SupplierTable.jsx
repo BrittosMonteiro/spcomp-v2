@@ -21,7 +21,7 @@ export default function SupplierTable({ suppliersList, reloadList }) {
           reloadList();
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {});
   }
 
   function reloadSupplierList() {

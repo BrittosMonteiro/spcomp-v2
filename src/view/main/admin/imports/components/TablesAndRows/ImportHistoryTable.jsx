@@ -19,7 +19,11 @@ export default function ImportHistoryTable({ list, reload }) {
             ))}
           </tbody>
         </table>
-      ) : null}
+      ) : (
+        <div className="row">
+          <p className="font-md font-medium">Não há importações criadas</p>
+        </div>
+      )}
     </>
   );
 }
