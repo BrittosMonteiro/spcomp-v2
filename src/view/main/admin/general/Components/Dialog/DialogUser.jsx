@@ -116,7 +116,8 @@ export default function DialogUser({ open, onClose, reload, user }) {
         </h1>
         <button
           type="button"
-          className="flex bg-red text-white-1 pa-1 border-radius-soft"
+          className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
+          onClick={() => onClose()}
         >
           <XCircle className="icon-default" />
         </button>

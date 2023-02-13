@@ -1,3 +1,4 @@
+import { XCircle } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -105,10 +106,17 @@ export default function DialogCustomer({ open, onClose, reload, customer }) {
   }
   return (
     <DialogDefault open={open} onClose={onClose}>
-      <div className="row">
+      <div className="row jc-between ai-start">
         <h1 className="font-medium font-lg">
           {customer?.id ? "Informações do" : "Adicionar"} Cliente
         </h1>
+        <button
+          type="button"
+          className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
+          onClick={() => onClose()}
+        >
+          <XCircle className="icon-default" />
+        </button>
       </div>
       <form onSubmit={handleCustomer}>
         <div className="row align-items-center justify-content-between gap-4 mt-4">

@@ -1,3 +1,4 @@
+import { XCircle } from "phosphor-react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { createOrderListItem } from "../../services/orderListService";
@@ -41,8 +42,15 @@ export default function DialogCreateOrder({ open, onClose, reloadOrdersList }) {
 
   return (
     <DialogDefault open={open} onClose={onClose}>
-      <div className="row">
+      <div className="row jc-between ai-start">
         <h1 className="font-lg font-medium text-dark-1">Criar novo pedido</h1>
+        <button
+          type="button"
+          className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
+          onClick={() => onClose()}
+        >
+          <XCircle className="icon-default" />
+        </button>
       </div>
       <div className="column gap-2">
         <label htmlFor="supplier_order" className="font-sm font-regular">
