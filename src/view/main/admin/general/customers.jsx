@@ -1,15 +1,14 @@
-import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 
-import DialogCustomer from "../../../../components/Dialog/DialogCustomer";
 import { readCustomers } from "../../../../services/customerService";
+import DialogCustomer from "./Components/Dialog/DialogCustomer";
 import CustomersTable from "./Components/TablesAndRows/CustomersTable";
 
 export default function Customers() {
   const [open, setOpen] = useState(false);
   const [customersList, setCustomersList] = useState([]);
 
-  async function getCustomers() {
+  async function loadCustomers() {
     await readCustomers()
       .then((response) => {
         if (response.status === 200) {
@@ -25,25 +24,30 @@ export default function Customers() {
   }
 
   useEffect(() => {
-    getCustomers();
+    loadCustomers();
   }, []);
 
-  function reloadList() {
-    getCustomers();
+  function closeModal() {
     setOpen(false);
   }
 
   return (
     <>
       <div className="flex jc-between ai-center">
-        <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger className="action-btn font-medium font-sm pa-1 border-radius-soft">
-            Adicionar novo cliente
-          </Dialog.Trigger>
-          <DialogCustomer reloadList={reloadList} />
-        </Dialog.Root>
+        <button
+          type="button"
+          className="action-btn font-medium font-sm pa-1 border-radius-soft"
+          onClick={() => setOpen(true)}
+        >
+          Adicionar novo cliente
+        </button>
+        <DialogCustomer
+          open={open}
+          onClose={closeModal}
+          reload={loadCustomers}
+        />
       </div>
-      <CustomersTable customersList={customersList} reloadList={reloadList} />
+      <CustomersTable customersList={customersList} reload={loadCustomers} />
     </>
   );
 }

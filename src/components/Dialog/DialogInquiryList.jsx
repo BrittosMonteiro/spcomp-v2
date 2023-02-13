@@ -6,6 +6,8 @@ import {
 import { createInquiryHistory } from "../../services/inquiryHistoryService";
 import { createInquiryList } from "../../services/inquiryListService";
 import { updateInquiryItemStep } from "../../services/inquiryItemService";
+import DialogDefault from "./DialogDefault";
+import { XCircle } from "phosphor-react";
 
 export default function DialogInquiry({
   open,
@@ -15,11 +17,6 @@ export default function DialogInquiry({
   suppliersList,
 }) {
   const dispatch = useDispatch();
-
-  function closeModal(e) {
-    const elementId = e.target.id === "overlay" || e.target.id === "btn_close";
-    if (elementId) onClose();
-  }
 
   const selectedSuppliers = [];
 
@@ -109,59 +106,56 @@ export default function DialogInquiry({
 
   return (
     <>
-      {open && (
-        <div className="overlay" id="overlay" onClick={(e) => closeModal(e)}>
-          <div className="dialog">
-            <form onSubmit={sendInquiry} className="column gap-4">
-              <h1 className="font-medium font-lg">Escolher fornecedores</h1>
-              <p className="font-sm font-light">
-                Os itens pendentes serão enviados aos fornecedores selecionados
-                para que estes preencham com seus preços
-              </p>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Selecionar</th>
-                    <th>Fornecedor</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {suppliersList.map((supplier, index) => (
-                    <tr key={index}>
-                      <td>
-                        <div className="row jc-start">
-                          <input
-                            type={"checkbox"}
-                            onClick={() => selectSupplier(supplier)}
-                            className="jc-start"
-                          />
-                        </div>
-                      </td>
-                      <td>{supplier.name}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="row jc-between">
-                <button
-                  className="font-medium font-md bg-red-1 text-white-1 pa-2 border-radius-soft"
-                  type="button"
-                  id="btn_close"
-                  onClick={(e) => closeModal(e)}
-                >
-                  Cancelar
-                </button>
-                <button
-                  className="font-medium font-md bg-green-1 text-white-1 pa-2 border-radius-soft"
-                  type="submit"
-                >
-                  Confirmar
-                </button>
-              </div>
-            </form>
-          </div>
+      <DialogDefault open={open} onClose={onClose}>
+        <div className="row jc-between ai-start">
+          <h1 className="font-medium font-lg">Escolher fornecedores</h1>
+          <button
+            type="button"
+            className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
+            onClick={() => onClose()}
+          >
+            <XCircle className="icon-default" />
+          </button>
         </div>
-      )}
+        <p className="font-sm font-light">
+          Os itens pendentes serão enviados aos fornecedores selecionados para
+          que estes preencham com seus preços
+        </p>
+        <form onSubmit={sendInquiry} className="column gap-4">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Selecionar</th>
+                <th>Fornecedor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {suppliersList.map((supplier, index) => (
+                <tr key={index}>
+                  <td>
+                    <div className="row jc-start">
+                      <input
+                        type={"checkbox"}
+                        onClick={() => selectSupplier(supplier)}
+                        className="jc-start"
+                      />
+                    </div>
+                  </td>
+                  <td>{supplier.name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="row jc-between">
+            <button
+              className="font-medium font-md bg-green-1 text-white-1 pa-2 border-radius-soft"
+              type="submit"
+            >
+              Confirmar
+            </button>
+          </div>
+        </form>
+      </DialogDefault>
     </>
   );
 }

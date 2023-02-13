@@ -1,8 +1,7 @@
-import * as Dialog from "@radix-ui/react-dialog";
 import { useState, useEffect } from "react";
 
 import { readSuppliers } from "../../../../services/supplierService";
-import DialogSupplier from "../../../../components/Dialog/DialogSupplier";
+import DialogSupplier from "./Components/Dialog/DialogSupplier";
 import SuppliersTable from "./Components/TablesAndRows/SupplierTable";
 
 export default function Suppliers() {
@@ -28,7 +27,7 @@ export default function Suppliers() {
     loadList();
   }, []);
 
-  function reloadList() {
+  function closeModal() {
     loadList();
     setOpen(false);
   }
@@ -36,14 +35,16 @@ export default function Suppliers() {
   return (
     <>
       <div className="flex jc-between ai-center">
-        <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger className="action-btn font-medium font-sm pa-1 border-radius-soft">
-            Adicionar novo fornecedor
-          </Dialog.Trigger>
-          <DialogSupplier reloadList={reloadList} />
-        </Dialog.Root>
+        <button
+          type="button"
+          className="action-btn font-medium font-sm pa-1 border-radius-soft"
+          onClick={() => setOpen(true)}
+        >
+          Adicionar novo fornecedor
+        </button>
+        <DialogSupplier onClose={closeModal} reload={loadList} open={open} />
       </div>
-      <SuppliersTable suppliersList={suppliersList} reloadList={reloadList} />
+      <SuppliersTable suppliersList={suppliersList} reload={loadList} />
     </>
   );
 }
