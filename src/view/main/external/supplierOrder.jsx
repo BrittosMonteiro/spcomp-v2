@@ -42,6 +42,7 @@ export default function Order() {
 
   useEffect(() => {
     loadOrder();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function loadRequestBySupplier() {
@@ -61,6 +62,7 @@ export default function Order() {
     if (idSupplier) {
       loadRequestBySupplier();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idSupplier]);
 
   function reloadOrderList() {

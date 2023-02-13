@@ -46,6 +46,7 @@ export default function DialogImportHistoryOrders({
   useEffect(() => {
     loadAttachedOrders();
     loadPendingOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function reload() {

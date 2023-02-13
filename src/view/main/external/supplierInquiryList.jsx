@@ -57,6 +57,7 @@ export default function SupplierResponse() {
     } else {
       loadInquiryHistoryByCompany();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userSession]);
 
   function reloadInquiryHistory() {

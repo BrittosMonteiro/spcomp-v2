@@ -66,21 +66,21 @@ export default function ImportHistoryRow({ item, reload }) {
       </td>
       <td>{item.createdAt}</td>
       <td>
-        <button
-          type="button"
-          className="flex bg-transparent"
-          onClick={() => updateImportItem()}
-        >
-          {item.status ? (
-            <button className="flex bg-green-1 text-white-1 pa-1 border-radius-soft">
-              <ToggleLeft className="icon-default" />
-            </button>
-          ) : (
-            <button className="flex bg-red-1 text-white-1 pa-1 border-radius-soft">
-              <ToggleRight className="icon-default" />
-            </button>
-          )}
-        </button>
+        {item.status ? (
+          <button
+            className="flex bg-green-1 text-white-1 pa-1 border-radius-soft"
+            onClick={() => updateImportItem()}
+          >
+            <ToggleLeft className="icon-default" />
+          </button>
+        ) : (
+          <button
+            className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
+            onClick={() => updateImportItem()}
+          >
+            <ToggleRight className="icon-default" />
+          </button>
+        )}
       </td>
       <td>
         <div className="row gap-2">
