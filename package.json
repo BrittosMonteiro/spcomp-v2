@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@radix-ui/react-dialog": "^1.0.2",
-    "@radix-ui/react-dropdown-menu": "^2.0.1",
-    "@radix-ui/react-toast": "^1.1.1",
     "@reduxjs/toolkit": "^1.9.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
