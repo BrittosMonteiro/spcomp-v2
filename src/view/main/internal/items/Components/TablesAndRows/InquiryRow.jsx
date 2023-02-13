@@ -154,9 +154,7 @@ export default function InquiryTableRow({ item, reloadList, customers }) {
                 {item.item.item.description}
               </Link>
             ) : (
-              <span className="font-medium font-md">
-                {item.item.item.description}
-              </span>
+              item.item.item.description
             )}
           </div>
         </div>

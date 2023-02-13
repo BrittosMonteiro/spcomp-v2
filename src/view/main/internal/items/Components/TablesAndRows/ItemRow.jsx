@@ -88,7 +88,7 @@ export default function ItemTableRow({
             >
               <Copy className="icon-sm" />
             </button>
-            <span>{item.item.description}</span>
+            {item.item.description}
           </div>
         </div>
       </td>

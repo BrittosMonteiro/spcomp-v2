@@ -34,20 +34,22 @@ export default function Imports() {
     <div className="column gap-4">
       <div className="row jc-between ai-start">
         <PageTitle title={"Importações"} />
-        <button
-          type="button"
-          className="action-btn border-radius-soft pa-1"
-          onClick={() => setOpen(true)}
-        >
-          Criar importação
-        </button>
+      </div>
+      <Card>
+        <div className="row">
+          <button
+            type="button"
+            className="action-btn border-radius-soft pa-1"
+            onClick={() => setOpen(true)}
+          >
+            Criar importação
+          </button>
+        </div>
         <DialogCreateImport
           onClose={closeModal}
           open={open}
           reload={loadImports}
         />
-      </div>
-      <Card>
         <ImportHistoryTable list={importHistoryList} reload={loadImports} />
       </Card>
     </div>
