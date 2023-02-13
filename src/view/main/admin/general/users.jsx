@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import * as Dialog from "@radix-ui/react-dialog";
 
 import { readUsers } from "../../../../services/usersService";
-import DialogUser from "../../../../components/Dialog/DialogUser";
+import DialogUser from "./Components/Dialog/DialogUser";
 import UsersTable from "./Components/TablesAndRows/UsersTable";
 
 export default function Users() {
@@ -28,23 +27,30 @@ export default function Users() {
     loadList();
   }, []);
 
-  function reloadList() {
-    loadList();
+  function closeModal() {
     setOpen(false);
   }
 
   return (
     <>
       <div className="flex jc-between ai-center">
-        <Dialog.Root open={open} onOpenChange={setOpen}>
+        {/* <Dialog.Root open={open} onOpenChange={setOpen}>
           <Dialog.Trigger className="action-btn font-medium font-sm pa-1 border-radius-soft">
             Adicionar novo usuário
           </Dialog.Trigger>
           <DialogUser reloadList={reloadList} />
-        </Dialog.Root>
+        </Dialog.Root> */}
+        <button
+          type="button"
+          className="action-btn font-medium font-sm pa-1 border-radius-soft"
+          onClick={() => setOpen(true)}
+        >
+          Adicionar novo usuário
+        </button>
+        <DialogUser onClose={closeModal} open={open} reload={loadList} />
       </div>
       {usersList.length > 0 ? (
-        <UsersTable usersList={usersList} reloadList={reloadList} />
+        <UsersTable usersList={usersList} reload={loadList} />
       ) : null}
     </>
   );
