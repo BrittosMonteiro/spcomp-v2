@@ -35,7 +35,7 @@ export default function Sidebar() {
 
   const internalRoutes = [
     {
-      path: "/main/items",
+      path: "/main/items?tab=0",
       label: "Itens",
       icon: <Cpu className="icon-default" alt="Itens" />,
     },
@@ -86,7 +86,12 @@ export default function Sidebar() {
   const profileRoute = {
     path: "/main/profile",
     label: "Perfil",
-    icon: <User className="icon-default" alt="Perfil" />,
+    icon: (
+      <User
+        className="icon-default"
+        alt={`Perfil de ${userSession.username}`}
+      />
+    ),
   };
 
   function logout() {

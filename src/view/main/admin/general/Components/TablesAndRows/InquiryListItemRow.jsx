@@ -5,7 +5,7 @@ import {
   updateInquiryItemPrice,
   updateInquiryItemStep,
 } from "../../../../../../services/inquiryItemService";
-import { getCurrencyValue } from "../../../../../../utils/currencyApi";
+// import { getCurrencyValue } from "../../../../../../utils/currencyApi";
 import {
   displayMessageBox,
   hideMessageBox,
@@ -15,9 +15,9 @@ export default function InquiryListItemRow({ item }) {
   const dispatch = useDispatch();
 
   async function updateInquiryListItemPurchasePrice(item) {
-    const { dolar } = await getCurrencyValue();
+    // const { dolar } = await getCurrencyValue();
 
-    const unitSalePrice = item.price.unitPurchasePrice * dolar;
+    const unitSalePrice = item.price.unitPurchasePrice * 2.2;
 
     const data = {
       idInquiryItem: item.idInquiryItem,

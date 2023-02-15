@@ -87,7 +87,11 @@ export default function Inquiries({ changeTab, suppliersList }) {
         <FilterItems setItems={setItems} originalItems={originalItems} />
       ) : null} */}
       {items.length > 0 ? (
-        <InquiryTable list={items} reloadList={reloadList} />
+        <InquiryTable
+          list={items}
+          reloadList={reloadList}
+          userSession={userSession}
+        />
       ) : (
         <div className="ma-auto">
           <p className="font-lg font-light">Não há itens em cotação</p>

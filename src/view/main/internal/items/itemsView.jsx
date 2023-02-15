@@ -11,13 +11,16 @@ import { readBrands } from "../../../../services/brandService";
 import { readEncap } from "../../../../services/encapService";
 import { readType } from "../../../../services/typeService";
 import { readSuppliersSimple } from "../../../../services/supplierService";
+import { useNavigate } from "react-router-dom";
 
 export default function ItemsView() {
+  const navigate = useNavigate();
   const userSession = useSelector((state) => {
     return state.login;
   });
+  const searchParams = new URLSearchParams(document.location.search);
 
-  const [tabView, setTabView] = useState(0);
+  const [tabView, setTabView] = useState(searchParams.get("tab"));
   const [brandList, setBrandList] = useState([]);
   const [typeList, setTypeList] = useState([]);
   const [encapList, setEncapList] = useState([]);
@@ -103,6 +106,7 @@ export default function ItemsView() {
 
   function changeTab(index) {
     setTabView(index);
+    navigate(`/main/items?tab=${index}`);
   }
 
   useEffect(() => {

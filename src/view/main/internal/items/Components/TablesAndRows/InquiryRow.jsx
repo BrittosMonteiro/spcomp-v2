@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   Copy,
   ListPlus,
@@ -21,11 +21,13 @@ import {
 import { createRequestItem } from "../../../../../../services/requestService.js";
 import DialogInquiry from "../../../../../../components/Dialog/DialogInquiry";
 
-export default function InquiryTableRow({ item, reloadList, customers }) {
+export default function InquiryTableRow({
+  item,
+  reloadList,
+  customers,
+  userSession,
+}) {
   const dispatch = useDispatch();
-  const userSession = useSelector((state) => {
-    return state.login;
-  });
   const [open, setOpen] = useState(false);
 
   async function duplicateInquiryItem(item) {
@@ -162,6 +164,10 @@ export default function InquiryTableRow({ item, reloadList, customers }) {
       <td>{item.item.item.type.description}</td>
       <td>{item.item.item.encap.description}</td>
       <td>{item.item.item.brand.description}</td>
+      <td>{item.item.item.unitSalePrice.toFixed(4)}</td>
+      {userSession.isAdmin && (
+        <td>{item.item.item.unitPurchasePrice.toFixed(4)}</td>
+      )}
       <td>{item.item.customer.name}</td>
       <td>{item.item.user.username}</td>
       <td>{itemStep[item.item.item.step]}</td>

@@ -1,6 +1,6 @@
 import InquiryTableRow from "./InquiryRow";
 
-export default function InquiryTable({ list, reloadList }) {
+export default function InquiryTable({ list, reloadList, userSession }) {
   return (
     <table className="table">
       <thead>
@@ -11,6 +11,8 @@ export default function InquiryTable({ list, reloadList }) {
           <th>Tipo</th>
           <th>Encap</th>
           <th>Marca</th>
+          <th>Venda</th>
+          {userSession.isAdmin && <th>Compra</th>}
           <th>Cliente</th>
           <th>Vendedor</th>
           <th>Status</th>
@@ -19,7 +21,12 @@ export default function InquiryTable({ list, reloadList }) {
       </thead>
       <tbody>
         {list.map((item, index) => (
-          <InquiryTableRow key={index} item={item} reloadList={reloadList} />
+          <InquiryTableRow
+            key={index}
+            item={item}
+            reloadList={reloadList}
+            userSession={userSession}
+          />
         ))}
       </tbody>
     </table>
