@@ -1,10 +1,10 @@
-import { checkEnv } from "./serviceConfig";
+import API_URL from "./_config";
 
-const BASE_URL = checkEnv();
-const API_URL = `${BASE_URL}/order`;
+const END_POINT = "order";
+const API_END_POINT = `${API_URL}/${END_POINT}`;
 
 export async function createRequestItem(data) {
-  return await fetch(`${API_URL}`, {
+  return await fetch(`${API_END_POINT}`, {
     method: "POST",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify(data),
@@ -12,7 +12,7 @@ export async function createRequestItem(data) {
 }
 
 export async function updateRequestItem(data) {
-  return await fetch(`${API_URL}`, {
+  return await fetch(`${API_END_POINT}`, {
     method: "PUT",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify(data),
@@ -20,13 +20,13 @@ export async function updateRequestItem(data) {
 }
 
 export async function readRequest() {
-  return await fetch(`${API_URL}`, {
+  return await fetch(`${API_END_POINT}`, {
     method: "GET",
   });
 }
 
 export async function readRequestBySupplier(idSupplier) {
-  return await fetch(`${API_URL}/bySupplier/${idSupplier}`, {
+  return await fetch(`${API_END_POINT}/bySupplier/${idSupplier}`, {
     method: "GET",
   });
 }
