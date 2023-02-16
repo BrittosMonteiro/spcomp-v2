@@ -14,14 +14,17 @@ export default function Login() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  function manageLogin(e) {
+  async function manageLogin(e) {
     e.preventDefault();
 
     if (!username || !password)
       handleMessageBox("failed", true, "Revise os campos");
 
-    loginApp({ username, password })
+    setIsLoading(true);
+
+    await loginApp({ username, password })
       .then((response) => {
         if (response.status === 200) {
           return response.json();
@@ -44,6 +47,9 @@ export default function Login() {
           true,
           "Estamos com problemas com a conexão :/"
         );
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -94,9 +100,12 @@ export default function Login() {
         </div>
         <button
           type={"submit"}
-          className="btn font-md font-medium pa-2 bg-red-1 text-white-1 border-radius-soft"
+          className={`btn font-md font-medium pa-2 ${
+            !isLoading && "bg-red-1"
+          } text-white-1 border-radius-soft`}
+          disabled={isLoading}
         >
-          Acessar
+          {!isLoading ? "Acessar" : "Acessando"}
         </button>
         <Link
           to={"/supplier/login"}
