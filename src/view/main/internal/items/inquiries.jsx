@@ -5,7 +5,10 @@ import { PaperPlaneTilt } from "phosphor-react";
 import DialogInquiry from "../../../../components/Dialog/DialogInquiryList";
 // import FilterItems from "../../../../components/Common/filterItems";
 import InquiryTable from "./Components/TablesAndRows/InquiryTable";
-import { readInquiryItems } from "../../../../services/inquiryItemService";
+import {
+  readInquiryItems,
+  readInquiryItemsAdmin,
+} from "../../../../services/inquiryItemService";
 
 export default function Inquiries({ changeTab, suppliersList }) {
   const userSession = useSelector((state) => {
@@ -16,7 +19,7 @@ export default function Inquiries({ changeTab, suppliersList }) {
   const [pending, setPending] = useState([]);
   const [open, setOpen] = useState(false);
 
-  async function loadList() {
+  async function loadListNonAdmin() {
     await readInquiryItems()
       .then((response) => {
         if (response.status === 200) {
@@ -32,8 +35,34 @@ export default function Inquiries({ changeTab, suppliersList }) {
       });
   }
 
+  async function loadInquiryListAdmin() {
+    await readInquiryItemsAdmin()
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then((res) => {
+        setItems(res.data.items);
+        // setOriginalItems(res.data.items);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function reloadList() {
+    if (userSession.isAdmin) {
+      loadInquiryListAdmin();
+    } else {
+      loadListNonAdmin();
+    }
+  }
+
   useEffect(() => {
-    loadList();
+    reloadList();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -47,10 +76,6 @@ export default function Inquiries({ changeTab, suppliersList }) {
       setPending(pendingInquiryItems);
     }
   }, [items]);
-
-  function reloadList() {
-    loadList();
-  }
 
   function closeModal() {
     setOpen(false);

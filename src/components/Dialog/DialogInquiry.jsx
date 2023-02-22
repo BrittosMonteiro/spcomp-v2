@@ -161,7 +161,15 @@ export default function DialogInquiry({
     <>
       <DialogDefault open={open} onClose={onClose}>
         <div className="row jc-between ai-start">
-          <h1 className="font-medium font-lg">Informações do item</h1>
+          <div className="column gap-2">
+            <h1 className="font-medium font-lg">Informações do item</h1>
+            <span className="font-sm font-regular">
+              Cotado há{" "}
+              <span className="bg-red-1 text-white-1 pa-1">
+                {item.daysLeft} dias
+              </span>
+            </span>
+          </div>
           <button
             type="button"
             className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"

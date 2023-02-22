@@ -15,6 +15,10 @@ export async function readInquiryItems() {
   return await fetch(`${API_END_POINT}`);
 }
 
+export async function readInquiryItemsAdmin() {
+  return await fetch(`${API_END_POINT}/admin`);
+}
+
 export async function readInquiryItemQtyByUser(data) {
   const { idUser } = data;
   return await fetch(`${API_END_POINT}/qtyByUser/${idUser}`);

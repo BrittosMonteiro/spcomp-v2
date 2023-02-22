@@ -136,7 +136,7 @@ export default function InquiryTableRow({
   return (
     <tr>
       <td>{item.item.createdAt}</td>
-      <td>{item.item.item.quantity}</td>
+      <td>{item.item.item.quantity ? item.item.item.quantity : "-"}</td>
       <td>
         <div className="row">
           <div className="row gap-2">
@@ -164,11 +164,22 @@ export default function InquiryTableRow({
       <td>{item.item.item.type.description}</td>
       <td>{item.item.item.encap.description}</td>
       <td>{item.item.item.brand.description}</td>
-      <td>{item.item.item.unitSalePrice.toFixed(4)}</td>
       {userSession.isAdmin && (
-        <td>{item.item.item.unitPurchasePrice.toFixed(4)}</td>
+        <td>{item.item.supplier.name ? item.item.supplier.name : "-"}</td>
       )}
-      <td>{item.item.customer.name}</td>
+      <td>
+        {item.item.item.unitSalePrice
+          ? item.item.item.unitSalePrice.toFixed(4)
+          : "-"}
+      </td>
+      {userSession.isAdmin && (
+        <td>
+          {item.item.item.unitPurchasePrice
+            ? item.item.item.unitPurchasePrice.toFixed(4)
+            : "-"}
+        </td>
+      )}
+      <td>{item.item.customer.name ? item.item.customer.name : "-"}</td>
       <td>{item.item.user.username}</td>
       <td>{itemStep[item.item.item.step]}</td>
       <td>
@@ -208,7 +219,11 @@ export default function InquiryTableRow({
                 type="button"
                 onClick={() => createPurchase()}
                 className="row bg-green-1 text-white-1 pa-1 border-radius-soft"
-                title="Realizar pedido"
+                title={`${
+                  item.item.daysLeft > 30
+                    ? "Cotação expirada"
+                    : "Realizar pedido"
+                }`}
               >
                 <ListPlus className="icon-sm" />
               </button>

@@ -12,6 +12,7 @@ export default function InquiryTable({ list, reloadList, userSession }) {
           <th>Encap</th>
           <th>Marca</th>
           <th>Venda</th>
+          {userSession.isAdmin && <th>Fornecedor</th>}
           {userSession.isAdmin && <th>Compra</th>}
           <th>Cliente</th>
           <th>Vendedor</th>
