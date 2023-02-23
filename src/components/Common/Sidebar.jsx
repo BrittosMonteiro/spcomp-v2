@@ -23,7 +23,7 @@ export default function Sidebar() {
   const userSession = useSelector((state) => {
     return state.login;
   });
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const roles = [
     {},
