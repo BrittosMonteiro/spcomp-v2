@@ -1,4 +1,4 @@
-import { ArrowCircleRight } from "phosphor-react";
+import { ArrowCircleRight, CircleNotch } from "phosphor-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, redirect } from "react-router-dom";
@@ -14,6 +14,7 @@ export default function LoginSupplierView() {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   function manageLogin(e) {
     e.preventDefault();
@@ -21,6 +22,8 @@ export default function LoginSupplierView() {
     if (!username || !password) {
       handleMessageBox("failed", true, "Revise os campos");
     }
+
+    setIsLoading(true);
 
     loginSupplier({ username, password })
       .then((res) => res.json())
@@ -40,6 +43,9 @@ export default function LoginSupplierView() {
           true,
           "We're facing problems with connection :/"
         );
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -89,13 +95,19 @@ export default function LoginSupplierView() {
       </div>
       <button
         type={"submit"}
-        className="btn font-md font-medium pa-2 bg-red-1 text-white-1 border-radius-soft"
+        className="btn flex jc-center ai-center gap-2 font-md font-medium pa-2 bg-red-1 text-white-1 border-radius-soft"
       >
-        Access
+        {!isLoading ? (
+          "Access"
+        ) : (
+          <>
+            Loading <CircleNotch className="icon-md spinning" />
+          </>
+        )}
       </button>
       <Link
         to={"/login"}
-        className="row justify-content-between font-medium font-md text-dark-3"
+        className="row jc-between ai-center font-medium font-md text-dark-3"
       >
         Login as employee
         <ArrowCircleRight className="icon-default" />

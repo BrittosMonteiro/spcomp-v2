@@ -7,7 +7,7 @@ import {
   hideMessageBox,
 } from "../../store/actions/messageBoxAction";
 import { Link } from "react-router-dom";
-import { ArrowCircleRight } from "phosphor-react";
+import { ArrowCircleRight, CircleNotch } from "phosphor-react";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -100,16 +100,20 @@ export default function Login() {
         </div>
         <button
           type={"submit"}
-          className={`btn font-md font-medium pa-2 ${
-            !isLoading && "bg-red-1"
-          } text-white-1 border-radius-soft`}
+          className="btn flex jc-center ai-center gap-2 font-md font-medium pa-2 bg-red-1 text-white-1 border-radius-soft"
           disabled={isLoading}
         >
-          {!isLoading ? "Acessar" : "Acessando"}
+          {!isLoading ? (
+            "Acessar"
+          ) : (
+            <>
+              Acessando <CircleNotch className="icon-md spinning" />
+            </>
+          )}
         </button>
         <Link
           to={"/supplier/login"}
-          className="row justify-content-between font-medium font-md text-dark-3"
+          className="row jc-between ai-center font-medium font-md text-dark-3"
         >
           Login as supplier
           <ArrowCircleRight className="icon-default" />
