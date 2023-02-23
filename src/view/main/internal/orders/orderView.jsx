@@ -18,8 +18,11 @@ export default function OrderRequest() {
   const [requests, setRequest] = useState([]);
   const [orders, setOrders] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const [contentMessage, setContentMessage] = useState();
 
   async function loadRequests() {
+    setContentMessage("Carregando informações");
+
     await readRequest()
       .then((response) => {
         if (response.status === 200) {
@@ -29,12 +32,19 @@ export default function OrderRequest() {
       .then((res) => {
         setRequest(res.data);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((err) => {})
+      .finally(() => {
+        if (setRequest.length > 0) {
+          setContentMessage("");
+        } else {
+          setContentMessage("Não há solicitação de pedido");
+        }
       });
   }
 
   async function loadOrders() {
+    setContentMessage("Carregando informações");
+
     await readOrder()
       .then((responseRead) => {
         if (responseRead.status === 200) {
@@ -44,7 +54,14 @@ export default function OrderRequest() {
       .then((response) => {
         setOrders(response.data);
       })
-      .catch((err) => {});
+      .catch((err) => {})
+      .finally(() => {
+        if (setOrders.length > 0) {
+          setContentMessage("");
+        } else {
+          setContentMessage("Não há pedidos");
+        }
+      });
   }
 
   useEffect(() => {
@@ -73,6 +90,7 @@ export default function OrderRequest() {
           list={requests}
           reloadRequestList={reloadRequestList}
           userSession={userSession}
+          contentMessage={contentMessage}
         />
       ),
       isAdmin: false,
@@ -84,6 +102,7 @@ export default function OrderRequest() {
           list={orders}
           reloadOrdersList={reloadOrdersList}
           userSession={userSession}
+          contentMessage={contentMessage}
         />
       ),
       isAdmin: true,

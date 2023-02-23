@@ -1,4 +1,4 @@
-import { TrashSimple, XCircle } from "phosphor-react";
+import { XCircle } from "phosphor-react";
 
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
 import { deleteBrand } from "../../../../../../services/brandService";
@@ -35,7 +35,7 @@ export default function DialogDeleteBrand({ open, onClose, reload, brand }) {
           onClick={() => manageRemove(brand.id)}
           className="flex gap-1 ai-center bg-red-1 text-white-1 pa-1 font-md font-medium border-radius-soft"
         >
-          Apagar <TrashSimple className="icon-sm" />
+          Apagar
         </button>
       </div>
     </DialogDefault>

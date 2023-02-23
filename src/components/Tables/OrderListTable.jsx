@@ -6,6 +6,7 @@ export default function OrderListTable({
   reloadOrdersList,
   userSession,
   displayTitle,
+  contentMessage,
 }) {
   return (
     <>
@@ -43,7 +44,7 @@ export default function OrderListTable({
         </table>
       ) : (
         <div className="ma-auto">
-          <p className="font-lg font-light">Não há pedidos</p>
+          <p className="font-lg font-light">{contentMessage}</p>
         </div>
       )}
     </>

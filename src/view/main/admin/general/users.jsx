@@ -7,8 +7,11 @@ import UsersTable from "./Components/TablesAndRows/UsersTable";
 export default function Users() {
   const [open, setOpen] = useState(false);
   const [usersList, setUsersList] = useState([]);
+  const [contentMessage, setContentMessage] = useState("");
 
   async function loadList() {
+    setContentMessage("Carregando informações");
+
     await readUsers()
       .then((response) => {
         if (response.status === 200) {
@@ -18,13 +21,21 @@ export default function Users() {
       .then((response) => {
         setUsersList(response.data || []);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        setContentMessage("Não foi possível carregar. Tente mais tarde");
+      })
+      .finally(() => {
+        if (usersList.length > 0) {
+          setContentMessage("");
+        } else {
+          setContentMessage("Não há usuários cadastrados");
+        }
       });
   }
 
   useEffect(() => {
     loadList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function closeModal() {
@@ -45,7 +56,11 @@ export default function Users() {
       </div>
       {usersList.length > 0 ? (
         <UsersTable usersList={usersList} reload={loadList} />
-      ) : null}
+      ) : (
+        <div className="ma-auto">
+          <p className="font-lg font-light">{contentMessage}</p>
+        </div>
+      )}
     </>
   );
 }

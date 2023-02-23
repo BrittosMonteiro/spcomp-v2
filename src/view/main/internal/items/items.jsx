@@ -12,10 +12,12 @@ export default function Items({ changeTab, brandList, encapList, typeList }) {
   });
 
   const [items, setItems] = useState([]);
-  // const [originalItems, setOriginalItems] = useState([]);
   const [open, setOpen] = useState(false);
+  const [contentMessage, setContentMessage] = useState();
 
   async function loadList() {
+    setContentMessage("Carregando informações");
+
     await readItems()
       .then((response) => {
         if (response.status === 200) {
@@ -24,13 +26,20 @@ export default function Items({ changeTab, brandList, encapList, typeList }) {
       })
       .then((response) => {
         setItems(response.data.itemsList);
-        // setOriginalItems(response.data.itemsList);
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => {
+        if (items.length > 0) {
+          setContentMessage("");
+        } else {
+          setContentMessage("Não há itens cadastrados");
+        }
+      });
   }
 
   useEffect(() => {
     loadList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function reloadList() {
@@ -64,9 +73,7 @@ export default function Items({ changeTab, brandList, encapList, typeList }) {
           />
         </div>
       )}
-      {/* {originalItems.length > 0 ? (
-        <FilterItems setItems={setItems} originalItems={originalItems} />
-      ) : null} */}
+
       {items.length > 0 ? (
         <ItemTable
           list={items}
@@ -78,7 +85,7 @@ export default function Items({ changeTab, brandList, encapList, typeList }) {
         />
       ) : (
         <div className="ma-auto">
-          <p className="font-lg font-light">Não há itens cadastrados</p>
+          <p className="font-lg font-light">{contentMessage}</p>
         </div>
       )}
     </div>

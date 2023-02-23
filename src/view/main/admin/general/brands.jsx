@@ -7,8 +7,11 @@ import DialogBrand from "./Components/Dialog/DialogBrand";
 export default function Brands() {
   const [open, setOpen] = useState(false);
   const [list, setList] = useState([]);
+  const [contentMessage, setContentMessage] = useState("");
 
   async function loadBrands() {
+    setContentMessage("Carregando informações");
+
     await readBrands()
       .then((responseRead) => {
         if (responseRead) {
@@ -18,11 +21,21 @@ export default function Brands() {
       .then((response) => {
         setList(response.data);
       })
-      .catch((err) => {});
+      .catch(() => {
+        setContentMessage("Não foi possível carregar. Tente mais tarde");
+      })
+      .finally(() => {
+        if (list.length > 0) {
+          setContentMessage("");
+        } else {
+          setContentMessage("Não há marcas cadastradas");
+        }
+      });
   }
 
   useEffect(() => {
     loadBrands();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function closeModal() {
@@ -46,7 +59,13 @@ export default function Brands() {
           title={"Nova marca"}
         />
       </div>
-      <BrandsTable list={list} reload={loadBrands} />
+      {list.length > 0 ? (
+        <BrandsTable list={list} reload={loadBrands} />
+      ) : (
+        <div className="ma-auto">
+          <p className="font-lg font-light">{contentMessage}</p>
+        </div>
+      )}
     </>
   );
 }

@@ -125,7 +125,7 @@ export default function ItemTableRow({
             <TrashSimple className="icon-sm" />
           </button>
           <DialogDeleteItem
-            item={item.item}
+            item={item}
             onClose={closeModal}
             open={openDelete}
             reload={reloadList}

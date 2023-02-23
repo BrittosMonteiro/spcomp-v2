@@ -1,6 +1,11 @@
 import RequestRow from "./RequestRow";
 
-export default function RequestTable({ list, userSession, reloadRequestList }) {
+export default function RequestTable({
+  list,
+  userSession,
+  reloadRequestList,
+  contentMessage,
+}) {
   return (
     <>
       {list.length > 0 ? (
@@ -32,7 +37,7 @@ export default function RequestTable({ list, userSession, reloadRequestList }) {
         </table>
       ) : (
         <div className="ma-auto">
-          <p className="font-lg font-light">Não há solicitações</p>
+          <p className="font-lg font-light">{contentMessage}</p>
         </div>
       )}
     </>

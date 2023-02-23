@@ -15,11 +15,13 @@ export default function Inquiries({ changeTab, suppliersList }) {
     return state.login;
   });
   const [items, setItems] = useState([]);
-  // const [originalItems, setOriginalItems] = useState([]);
   const [pending, setPending] = useState([]);
   const [open, setOpen] = useState(false);
+  const [contentMessage, setContentMessage] = useState();
 
   async function loadListNonAdmin() {
+    setContentMessage("Carregando informações");
+
     await readInquiryItems()
       .then((response) => {
         if (response.status === 200) {
@@ -28,14 +30,22 @@ export default function Inquiries({ changeTab, suppliersList }) {
       })
       .then((res) => {
         setItems(res.data.items);
-        // setOriginalItems(res.data.items);
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        if (items.length > 0) {
+          setContentMessage("");
+        } else {
+          setContentMessage("Não há itens em cotação");
+        }
       });
   }
 
   async function loadInquiryListAdmin() {
+    setContentMessage("Carregando informações");
+
     await readInquiryItemsAdmin()
       .then((response) => {
         if (response.status === 200) {
@@ -44,10 +54,16 @@ export default function Inquiries({ changeTab, suppliersList }) {
       })
       .then((res) => {
         setItems(res.data.items);
-        // setOriginalItems(res.data.items);
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        if (items.length > 0) {
+          setContentMessage("");
+        } else {
+          setContentMessage("Não há itens em cotação");
+        }
       });
   }
 
@@ -61,7 +77,6 @@ export default function Inquiries({ changeTab, suppliersList }) {
 
   useEffect(() => {
     reloadList();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -108,9 +123,7 @@ export default function Inquiries({ changeTab, suppliersList }) {
           />
         </>
       ) : null}
-      {/* {originalItems.length > 0 ? (
-        <FilterItems setItems={setItems} originalItems={originalItems} />
-      ) : null} */}
+
       {items.length > 0 ? (
         <InquiryTable
           list={items}
@@ -119,7 +132,7 @@ export default function Inquiries({ changeTab, suppliersList }) {
         />
       ) : (
         <div className="ma-auto">
-          <p className="font-lg font-light">Não há itens em cotação</p>
+          <p className="font-lg font-light">{contentMessage}</p>
         </div>
       )}
     </>

@@ -7,9 +7,12 @@ import SuppliersTable from "./Components/TablesAndRows/SupplierTable";
 export default function Suppliers() {
   const [open, setOpen] = useState(false);
   const [suppliersList, setSuppliersList] = useState([]);
+  const [contentMessage, setContentMessage] = useState("");
 
-  function loadList() {
-    readSuppliers()
+  async function loadList() {
+    setContentMessage("Carregando informações");
+    
+    await readSuppliers()
       .then((response) => {
         if (response.status === 200) {
           return response.json();
@@ -18,13 +21,21 @@ export default function Suppliers() {
       .then((response) => {
         setSuppliersList(response.data || []);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        setContentMessage("Não foi possível carregar. Tente mais tarde");
+      })
+      .finally(() => {
+        if (suppliersList.length > 0) {
+          setContentMessage("");
+        } else {
+          setContentMessage("Não há fornecedores cadastrados");
+        }
       });
   }
 
   useEffect(() => {
     loadList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function closeModal() {
@@ -44,7 +55,13 @@ export default function Suppliers() {
         </button>
         <DialogSupplier onClose={closeModal} reload={loadList} open={open} />
       </div>
-      <SuppliersTable suppliersList={suppliersList} reload={loadList} />
+      {suppliersList.length > 0 ? (
+        <SuppliersTable suppliersList={suppliersList} reload={loadList} />
+      ) : (
+        <div className="ma-auto">
+          <p className="font-lg font-light">{contentMessage}</p>
+        </div>
+      )}
     </>
   );
 }

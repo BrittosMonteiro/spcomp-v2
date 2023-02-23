@@ -7,12 +7,11 @@ import EncapsTable from "./Components/TablesAndRows/EncapsTable";
 export default function Encaps() {
   const [open, setOpen] = useState(false);
   const [list, setList] = useState([]);
-
-  function closeModal() {
-    setOpen(false);
-  }
+  const [contentMessage, setContentMessage] = useState("");
 
   async function loadEncaps() {
+    setContentMessage("Carregando informações");
+
     await readEncap()
       .then((response) => {
         if (response.status === 200) {
@@ -20,12 +19,26 @@ export default function Encaps() {
         }
       })
       .then((res) => setList(res.data))
-      .catch(() => {});
+      .catch(() => {
+        setContentMessage("Não foi possível carregar. Tente mais tarde");
+      })
+      .finally(() => {
+        if (list.length > 0) {
+          setContentMessage("");
+        } else {
+          setContentMessage("Não há encapsulamentos cadastrados");
+        }
+      });
   }
 
   useEffect(() => {
     loadEncaps();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function closeModal() {
+    setOpen(false);
+  }
 
   return (
     <>
@@ -44,7 +57,13 @@ export default function Encaps() {
           reload={loadEncaps}
         />
       </div>
-      <EncapsTable list={list} reload={loadEncaps} />
+      {list.length > 0 ? (
+        <EncapsTable list={list} reload={loadEncaps} />
+      ) : (
+        <div className="ma-auto">
+          <p className="font-lg font-light">{contentMessage}</p>
+        </div>
+      )}
     </>
   );
 }
