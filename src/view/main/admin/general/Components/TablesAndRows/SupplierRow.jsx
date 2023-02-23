@@ -1,29 +1,16 @@
-import { PencilSimple, TrashSimple } from "phosphor-react";
 import { useState } from "react";
-import { deleteSupplier } from "../../../../../../services/supplierService";
+import { PencilSimple, TrashSimple } from "phosphor-react";
+
 import DialogSupplier from "../Dialog/DialogSupplier";
+import DialogDeleteSupplier from "../Dialog/DialogDeleteSupplier";
 
 export default function SupplierRow({ supplier, reload }) {
   const [open, setOpen] = useState(false);
-
-  async function manageRemove(id) {
-    if (!id) return;
-
-    const data = {
-      idSupplier: id,
-    };
-
-    await deleteSupplier(data)
-      .then((response) => {
-        if (response.status === 200) {
-          reload();
-        }
-      })
-      .catch((err) => {});
-  }
+  const [openDelete, setOpenDelete] = useState(false);
 
   function closeModal() {
     setOpen(false);
+    setOpenDelete(false);
   }
 
   return (
@@ -48,10 +35,16 @@ export default function SupplierRow({ supplier, reload }) {
           <button
             type="button"
             className="row bg-red-1 text-white-1 pa-1 border-radius-soft"
-            onClick={() => manageRemove(supplier.id)}
+            onClick={() => setOpenDelete(true)}
           >
             <TrashSimple className="icon-sm" />
           </button>
+          <DialogDeleteSupplier
+            onClose={closeModal}
+            open={openDelete}
+            reload={reload}
+            supplier={supplier}
+          />
         </div>
       </td>
     </tr>

@@ -1,24 +1,16 @@
-import { PencilSimple, TrashSimple } from "phosphor-react";
 import { useState } from "react";
+import { PencilSimple, TrashSimple } from "phosphor-react";
 
-import { deleteEncap } from "../../../../../../services/encapService";
 import DialogEncap from "../Dialog/DialogEncap";
+import DialogDeleteEncap from "../Dialog/DialogDeleteEncap";
 
 export default function EncapsRow({ item, reload }) {
   const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   function closeModal() {
     setOpen(false);
-  }
-
-  async function deleteEncapItem() {
-    await deleteEncap({ idEncap: item.id })
-      .then((responseDelete) => {
-        if (responseDelete.status === 200) {
-          reload();
-        }
-      })
-      .catch((err) => {});
+    setOpenDelete(false);
   }
 
   return (
@@ -43,10 +35,16 @@ export default function EncapsRow({ item, reload }) {
           <button
             type="button"
             className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
-            onClick={() => deleteEncapItem()}
+            onClick={() => setOpenDelete(true)}
           >
             <TrashSimple className="icon-sm" />
           </button>
+          <DialogDeleteEncap
+            encap={item}
+            onClose={closeModal}
+            open={openDelete}
+            reload={reload}
+          />
         </div>
       </td>
     </tr>

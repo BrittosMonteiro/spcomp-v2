@@ -15,11 +15,11 @@ import {
 } from "../../../../../../store/actions/messageBoxAction";
 import {
   createInquiryItem,
-  deleteInquiryItem,
   updateInquiryItemStep,
 } from "../../../../../../services/inquiryItemService";
 import { createRequestItem } from "../../../../../../services/requestService.js";
 import DialogInquiry from "../../../../../../components/Dialog/DialogInquiry";
+import DialogDeleteInquiryItem from "../Dialog/DialogDeleteInquiryItem";
 
 export default function InquiryTableRow({
   item,
@@ -29,6 +29,7 @@ export default function InquiryTableRow({
 }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   async function duplicateInquiryItem(item) {
     const data = {
@@ -47,22 +48,6 @@ export default function InquiryTableRow({
       })
       .catch(() => {
         handleMessageBox("failed", "Não foi possível duplicar o item");
-      });
-  }
-
-  async function deleteItemFromList(idInquiryItem) {
-    await deleteInquiryItem({ idInquiryItem })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-      })
-      .then(() => {
-        handleMessageBox("success", "Item removido");
-        reloadList();
-      })
-      .catch(() => {
-        handleMessageBox("failed", "Não foi possível remover o item");
       });
   }
 
@@ -116,6 +101,7 @@ export default function InquiryTableRow({
 
   function closeModal() {
     setOpen(false);
+    setOpenDelete(false);
   }
 
   const itemStep = [
@@ -231,14 +217,22 @@ export default function InquiryTableRow({
 
             {(userSession.isAdmin || item.item.user.id === userSession.token) &&
               item.item.item.step <= 1 && (
-                <button
-                  type="button"
-                  onClick={() => deleteItemFromList(item.item.idInquiryItem)}
-                  className="row bg-red-1 text-white-1 pa-1 border-radius-soft"
-                  title="Apagar item"
-                >
-                  <TrashSimple className="icon-sm" />
-                </button>
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setOpenDelete(true)}
+                    className="row bg-red-1 text-white-1 pa-1 border-radius-soft"
+                    title="Apagar item"
+                  >
+                    <TrashSimple className="icon-sm" />
+                  </button>
+                  <DialogDeleteInquiryItem
+                    item={item.item}
+                    onClose={closeModal}
+                    open={openDelete}
+                    reload={reloadList}
+                  />
+                </>
               )}
           </div>
         </div>

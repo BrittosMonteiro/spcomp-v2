@@ -1,24 +1,18 @@
-import { PencilSimple, TrashSimple } from "phosphor-react";
 import { useState } from "react";
-import { deleteType } from "../../../../../../services/typeService";
+import { PencilSimple, TrashSimple } from "phosphor-react";
+
 import DialogType from "../Dialog/DialogType";
+import DialogDeleteType from "../Dialog/DialogDeleteType";
 
 export default function TypesRow({ item, reload }) {
   const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   function closeModal() {
     setOpen(false);
+    setOpenDelete(false);
   }
 
-  async function deleteTypeItem() {
-    await deleteType({ idType: item.id })
-      .then((responseDelete) => {
-        if (responseDelete.status === 200) {
-          reload();
-        }
-      })
-      .catch((err) => {});
-  }
   return (
     <tr>
       <td>{item.description}</td>
@@ -41,10 +35,16 @@ export default function TypesRow({ item, reload }) {
           <button
             type="button"
             className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
-            onClick={() => deleteTypeItem()}
+            onClick={() => setOpenDelete(true)}
           >
             <TrashSimple className="icon-sm" />
           </button>
+          <DialogDeleteType
+            onClose={closeModal}
+            open={openDelete}
+            reload={reload}
+            type={item}
+          />
         </div>
       </td>
     </tr>

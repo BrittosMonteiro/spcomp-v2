@@ -1,29 +1,16 @@
-import { PencilSimple, TrashSimple } from "phosphor-react";
 import { useState } from "react";
-import { deleteUser } from "../../../../../../services/usersService";
+import { PencilSimple, TrashSimple } from "phosphor-react";
+
 import DialogUser from "../Dialog/DialogUser";
+import DialogDeleteUser from "../Dialog/DialogDeleteUser";
 
 export default function UserRow({ user, reload }) {
   const [open, setOpen] = useState(false);
-
-  async function manageRemove(id) {
-    if (!id) return;
-
-    const data = {
-      idUser: id,
-    };
-
-    await deleteUser(data)
-      .then((response) => {
-        if (response.status === 200) {
-          reload();
-        }
-      })
-      .catch((err) => {});
-  }
+  const [openDelete, setOpenDelete] = useState(false);
 
   function closeModal() {
     setOpen(false);
+    setOpenDelete(false);
   }
 
   return (
@@ -49,10 +36,16 @@ export default function UserRow({ user, reload }) {
           <button
             type="button"
             className="row bg-red-1 text-white-1 pa-1 border-radius-soft"
-            onClick={() => manageRemove(user.id)}
+            onClick={() => {setOpenDelete(true);}}
           >
             <TrashSimple className="icon-sm" />
           </button>
+          <DialogDeleteUser
+            open={openDelete}
+            onClose={closeModal}
+            reload={reload}
+            user={user}
+          />
         </div>
       </td>
     </tr>

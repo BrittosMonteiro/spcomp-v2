@@ -1,13 +1,14 @@
-import { Copy, PencilSimple, Share, TrashSimple } from "phosphor-react";
-import { deleteItem } from "../../../../../../services/itemService.js";
-import { createInquiryItem } from "../../../../../../services/inquiryItemService";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Copy, PencilSimple, Share, TrashSimple } from "phosphor-react";
+
+import { createInquiryItem } from "../../../../../../services/inquiryItemService";
 import {
   displayMessageBox,
   hideMessageBox,
 } from "../../../../../../store/actions/messageBoxAction";
-import { useState } from "react";
 import DialogItem from "../../../../../../components/Dialog/DialogItem.jsx";
+import DialogDeleteItem from "../Dialog/DialogDeleteItem";
 
 export default function ItemTableRow({
   item,
@@ -22,6 +23,7 @@ export default function ItemTableRow({
     return state.login;
   });
   const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   async function createInquiry(item) {
     const data = {
@@ -47,20 +49,6 @@ export default function ItemTableRow({
       });
   }
 
-  async function deleteItemFromList(item) {
-    const data = {
-      idItem: item.item.id,
-    };
-    await deleteItem(data)
-      .then(() => {
-        handleMessageBox("success", "Item removido");
-        reloadList();
-      })
-      .catch(() => {
-        handleMessageBox("failed", "Nao foi possível remover");
-      });
-  }
-
   function copyText(text) {
     navigator.clipboard.writeText(text);
     handleMessageBox("success", "Texto copiado");
@@ -73,8 +61,10 @@ export default function ItemTableRow({
       dispatch(hideMessageBox());
     }, 5000);
   }
+
   function closeModal() {
     setOpen(false);
+    setOpenDelete(false);
   }
   return (
     <tr>
@@ -130,10 +120,16 @@ export default function ItemTableRow({
             className="row align-items-center bg-red-1 text-white-1 pa-1 border-radius-soft"
             type="button"
             title="Apagar item"
-            onClick={() => deleteItemFromList(item)}
+            onClick={() => setOpenDelete(true)}
           >
             <TrashSimple className="icon-sm" />
           </button>
+          <DialogDeleteItem
+            item={item.item}
+            onClose={closeModal}
+            open={openDelete}
+            reload={reloadList}
+          />
         </div>
       </td>
     </tr>

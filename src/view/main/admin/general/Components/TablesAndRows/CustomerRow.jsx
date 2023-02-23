@@ -1,48 +1,16 @@
-import { PencilSimple, TrashSimple } from "phosphor-react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { PencilSimple, TrashSimple } from "phosphor-react";
 
-import { deleteCustomer } from "../../../../../../services/customerService";
-import {
-  displayMessageBox,
-  hideMessageBox,
-} from "../../../../../../store/actions/messageBoxAction";
 import DialogCustomer from "../Dialog/DialogCustomer";
+import DialogDeleteCustomer from "../Dialog/DialogDeleteCustomer";
 
 export default function CustomerRow({ customer, reload }) {
-  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-
-  async function manageRemove(id) {
-    if (id) {
-      const data = {
-        idCustomer: id,
-      };
-
-      await deleteCustomer(data)
-        .then((response) => {
-          if (response.status === 200) {
-            handleMessageBox("success", "Cliente removido");
-            reload();
-          } else {
-            handleMessageBox("failed", "Não foi possível remover o cliente");
-          }
-        })
-        .catch(() => {
-          handleMessageBox("failed", "Não foi possível remover o cliente");
-        });
-    }
-  }
-
-  function handleMessageBox(color, message) {
-    dispatch(displayMessageBox({ color, display: true, message }));
-    setTimeout(() => {
-      dispatch(hideMessageBox());
-    }, 5000);
-  }
+  const [openDelete, setOpenDelete] = useState(false);
 
   function closeModal() {
     setOpen(false);
+    setOpenDelete(false);
   }
 
   return (
@@ -67,10 +35,16 @@ export default function CustomerRow({ customer, reload }) {
           <button
             type="button"
             className="row bg-red-1 text-white-1 pa-1 border-radius-soft"
-            onClick={() => manageRemove(customer.id)}
+            onClick={() => setOpenDelete(true)}
           >
             <TrashSimple className="icon-sm" />
           </button>
+          <DialogDeleteCustomer
+            customer={customer}
+            onClose={closeModal}
+            open={openDelete}
+            reload={reload}
+          />
         </div>
       </td>
     </tr>

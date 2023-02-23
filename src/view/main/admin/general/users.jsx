@@ -34,12 +34,6 @@ export default function Users() {
   return (
     <>
       <div className="flex jc-between ai-center">
-        {/* <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger className="action-btn font-medium font-sm pa-1 border-radius-soft">
-            Adicionar novo usuário
-          </Dialog.Trigger>
-          <DialogUser reloadList={reloadList} />
-        </Dialog.Root> */}
         <button
           type="button"
           className="action-btn font-medium font-sm pa-1 border-radius-soft"

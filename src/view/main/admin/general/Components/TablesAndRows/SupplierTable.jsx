@@ -12,7 +12,7 @@ export default function SupplierTable({ suppliersList, reload }) {
       </thead>
       <tbody>
         {suppliersList.map((supplier, index) => (
-          <SupplierRow supplier={supplier} reload={reload} />
+          <SupplierRow supplier={supplier} reload={reload} key={index} />
         ))}
       </tbody>
     </table>

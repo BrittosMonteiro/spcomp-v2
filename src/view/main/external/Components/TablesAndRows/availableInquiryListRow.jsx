@@ -4,17 +4,16 @@ import {
   ToggleRight,
   TrashSimple,
 } from "phosphor-react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-import {
-  deleteInquiryHistory,
-  updateInquiryHistory,
-} from "../../../../../services/inquiryHistoryService";
+import { updateInquiryHistory } from "../../../../../services/inquiryHistoryService";
 import {
   displayMessageBox,
   hideMessageBox,
 } from "../../../../../store/actions/messageBoxAction.js";
+import DialogDeleteInquiryList from "../../../internal/items/Components/Dialog/DialogDeleteInquiryList";
 
 export default function AvailableInquiryListRow({
   inquiryHistory,
@@ -22,6 +21,7 @@ export default function AvailableInquiryListRow({
   userSession,
 }) {
   const dispatch = useDispatch();
+  const [openDelete, setOpenDelete] = useState(false);
 
   async function changeInquiryHistoryStatus(idInquiryHistory, currentStatus) {
     const data = {
@@ -45,37 +45,15 @@ export default function AvailableInquiryListRow({
       });
   }
 
-  async function deleteFromInquiryHistory(idInquiryHistory, status) {
-    if (status) {
-      return handleMessageBox(
-        "failed",
-        "Não podemos excluir uma cotação ativa"
-      );
-    }
-
-    const data = {
-      idInquiryHistory,
-    };
-
-    await deleteInquiryHistory(data)
-      .then((response) => {
-        if (response.status === 200) {
-          handleMessageBox("success", "Cotação excluída!");
-          reloadInquiryHistory();
-        } else {
-          handleMessageBox("failed", "Não foi possível excluir!");
-        }
-      })
-      .catch(() => {
-        handleMessageBox("failed", "Não foi possível excluir!");
-      });
-  }
-
   function handleMessageBox(color, message) {
     dispatch(displayMessageBox({ color, display: true, message }));
     setInterval(() => {
       dispatch(hideMessageBox());
     }, 2500);
+  }
+
+  function closeModal() {
+    setOpenDelete(false);
   }
 
   return (
@@ -132,16 +110,17 @@ export default function AvailableInquiryListRow({
               className={`row ${
                 inquiryHistory.status ? "" : "bg-red-1"
               } pa-1 text-white-1 border-radius-soft`}
-              onClick={() =>
-                deleteFromInquiryHistory(
-                  inquiryHistory.id,
-                  inquiryHistory.status
-                )
-              }
+              onClick={() => setOpenDelete(true)}
               disabled={inquiryHistory.status}
             >
               <TrashSimple className="icon-sm" />
             </button>
+            <DialogDeleteInquiryList
+              inquiryHistory={inquiryHistory}
+              onClose={closeModal}
+              open={openDelete}
+              reload={reloadInquiryHistory}
+            />
           </td>
         </>
       )}
