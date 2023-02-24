@@ -60,8 +60,8 @@ export default function Encaps() {
       {list.length > 0 ? (
         <EncapsTable list={list} reload={loadEncaps} />
       ) : (
-        <div className="ma-auto">
-          <p className="font-lg font-light">{contentMessage}</p>
+        <div className="row">
+          <p className="font-md font-medium">{contentMessage}</p>
         </div>
       )}
     </>

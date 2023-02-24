@@ -1,14 +1,42 @@
-import RequestRow from "./RequestRow";
+import { useEffect, useState } from "react";
 
-export default function RequestTable({
-  list,
-  userSession,
-  reloadRequestList,
-  contentMessage,
-}) {
+import RequestRow from "./RequestRow";
+import { readRequest } from "../../../../../../services/requestService";
+
+export default function RequestTable({ userSession }) {
+  const [requests, setRequest] = useState([]);
+  const [contentMessage, setContentMessage] = useState();
+
+  async function loadRequests() {
+    setContentMessage("Carregando informações");
+
+    await readRequest()
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then((res) => {
+        setRequest(res.data);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (requests.length > 0) {
+          setContentMessage("");
+        } else {
+          setContentMessage("Não há solicitação de pedido");
+        }
+      });
+  }
+
+  useEffect(() => {
+    loadRequests();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
-      {list.length > 0 ? (
+      {requests.length > 0 ? (
         <table className="table">
           <thead>
             <tr>
@@ -26,7 +54,7 @@ export default function RequestTable({
             </tr>
           </thead>
           <tbody>
-            {list.map((request, index) => (
+            {requests.map((request, index) => (
               <RequestRow
                 key={index}
                 request={request}
@@ -36,8 +64,8 @@ export default function RequestTable({
           </tbody>
         </table>
       ) : (
-        <div className="ma-auto">
-          <p className="font-lg font-light">{contentMessage}</p>
+        <div className="row">
+          <p className="font-md font-medium">{contentMessage}</p>
         </div>
       )}
     </>

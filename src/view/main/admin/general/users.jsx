@@ -57,8 +57,8 @@ export default function Users() {
       {usersList.length > 0 ? (
         <UsersTable usersList={usersList} reload={loadList} />
       ) : (
-        <div className="ma-auto">
-          <p className="font-lg font-light">{contentMessage}</p>
+        <div className="row">
+          <p className="font-md font-medium">{contentMessage}</p>
         </div>
       )}
     </>

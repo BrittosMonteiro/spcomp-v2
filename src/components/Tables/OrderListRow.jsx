@@ -15,7 +15,7 @@ export default function OrderListRow({ order, reloadOrdersList, userSession }) {
     await updateOrderStatus(data)
       .then((responseUpdate) => {
         if (responseUpdate.status === 200) {
-          reloadOrdersList(1);
+          reloadOrdersList();
         }
       })
       .catch((err) => {});
@@ -29,7 +29,7 @@ export default function OrderListRow({ order, reloadOrdersList, userSession }) {
     await deleteOrderListItem(data)
       .then((responseDelete) => {
         if (responseDelete.status === 200) {
-          reloadOrdersList(2);
+          reloadOrdersList();
         }
       })
       .catch((err) => {});

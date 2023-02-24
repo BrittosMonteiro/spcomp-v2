@@ -58,8 +58,8 @@ export default function Suppliers() {
       {suppliersList.length > 0 ? (
         <SuppliersTable suppliersList={suppliersList} reload={loadList} />
       ) : (
-        <div className="ma-auto">
-          <p className="font-lg font-light">{contentMessage}</p>
+        <div className="row">
+          <p className="font-md font-medium">{contentMessage}</p>
         </div>
       )}
     </>

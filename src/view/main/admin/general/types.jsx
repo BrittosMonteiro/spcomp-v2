@@ -62,8 +62,8 @@ export default function Types() {
       {list.length > 0 ? (
         <TypesTable list={list} reload={loadTypes} onClose={closeModal} />
       ) : (
-        <div className="ma-auto">
-          <p className="font-lg font-light">{contentMessage}</p>
+        <div className="row">
+          <p className="font-md font-medium">{contentMessage}</p>
         </div>
       )}
     </>

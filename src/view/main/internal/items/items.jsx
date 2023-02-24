@@ -84,8 +84,8 @@ export default function Items({ changeTab, brandList, encapList, typeList }) {
           typeList={typeList}
         />
       ) : (
-        <div className="ma-auto">
-          <p className="font-lg font-light">{contentMessage}</p>
+        <div className="row">
+          <p className="font-md font-medium">{contentMessage}</p>
         </div>
       )}
     </div>

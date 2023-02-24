@@ -62,8 +62,8 @@ export default function Brands() {
       {list.length > 0 ? (
         <BrandsTable list={list} reload={loadBrands} />
       ) : (
-        <div className="ma-auto">
-          <p className="font-lg font-light">{contentMessage}</p>
+        <div className="row">
+          <p className="font-md font-medium">{contentMessage}</p>
         </div>
       )}
     </>
