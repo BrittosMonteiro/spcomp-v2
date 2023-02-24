@@ -117,7 +117,7 @@ export default function Sidebar() {
                     to={"/main/profile"}
                     className="font-lg font-medium text-white-1"
                   >
-                    {userSession.username}
+                    {userSession.name}
                   </Link>
                   <span
                     className="font-sm font-light text-dark-7"

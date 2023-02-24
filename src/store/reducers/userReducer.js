@@ -3,6 +3,7 @@ let initialState = {
   isLogged: false,
   token: "",
   username: "",
+  name: "",
   role: "",
 };
 
