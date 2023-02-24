@@ -34,11 +34,11 @@ export default function Index() {
   loadSalesItemQuantity();
   loadStockItemsQuantity();
   return (
-    <>
+    <div className="column gap-4">
       <div className="row justify-content-between align-items-center">
         <PageTitle title={"Dashboard"} />
       </div>
-      <div className="row justify-content-between gap-2">
+      <div className="row justify-content-between gap-4">
         <div className="box bg-red-1 text-white-1 border-radius-soft">
           <div className="column ma-6">
             <span className="font-lg font-bold">{inquiryItemQty}</span>
@@ -64,6 +64,6 @@ export default function Index() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
