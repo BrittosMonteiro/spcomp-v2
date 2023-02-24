@@ -97,13 +97,7 @@ export default function LoginSupplierView() {
         type={"submit"}
         className="btn flex jc-center ai-center gap-2 font-md font-medium pa-2 bg-red-1 text-white-1 border-radius-soft"
       >
-        {!isLoading ? (
-          "Access"
-        ) : (
-          <>
-            Loading <CircleNotch className="icon-md spinning" />
-          </>
-        )}
+        {isLoading ? <CircleNotch className="icon-md spinning" /> : "Access"}
       </button>
       <Link
         to={"/login"}

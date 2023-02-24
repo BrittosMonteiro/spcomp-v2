@@ -103,13 +103,7 @@ export default function Login() {
           className="btn flex jc-center ai-center gap-2 font-md font-medium pa-2 bg-red-1 text-white-1 border-radius-soft"
           disabled={isLoading}
         >
-          {!isLoading ? (
-            "Acessar"
-          ) : (
-            <>
-              Acessando <CircleNotch className="icon-md spinning" />
-            </>
-          )}
+          {isLoading ? <CircleNotch className="icon-md spinning" /> : "Acessar"}
         </button>
         <Link
           to={"/supplier/login"}
