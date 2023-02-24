@@ -18,15 +18,19 @@ export async function readUsers() {
 }
 
 export async function readUserById(data) {
+  return await fetch(`${API_END_POINT}/single/${data}`);
+}
+
+export async function updateUser(data) {
   return await fetch(`${API_END_POINT}`, {
-    method: "GET",
+    method: "PUT",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify(data),
   });
 }
 
-export async function updateUser(data) {
-  return await fetch(`${API_END_POINT}`, {
+export async function updatePassword(data) {
+  return await fetch(`${API_END_POINT}/updatePassword`, {
     method: "PUT",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify(data),

@@ -8,7 +8,7 @@ import PrivateRoute from "./privateRoute";
 import Index from "../view/main/index";
 
 //Private Internal roles
-import Profile from "../view/main/internal/profile";
+import Profile from "../view/main/internal/profile/profile";
 import ItemsView from "../view/main/internal/items/itemsView";
 import OrderView from "../view/main/internal/orders/orderView";
 import StockView from "../view/main/internal/stock/stock";
