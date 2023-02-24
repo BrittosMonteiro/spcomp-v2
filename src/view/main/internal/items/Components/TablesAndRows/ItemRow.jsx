@@ -87,27 +87,6 @@ export default function ItemTableRow({
       <td>{item.item.brand.description}</td>
       <td className="gap-2">
         <div className="row align-items-center justify-content-between gap-1">
-          <>
-            <button
-              className="row align-items-center bg-blue-1 text-white-1 pa-1 border-radius-soft"
-              type="button"
-              title="Editar item"
-              onClick={() => setOpen(true)}
-            >
-              <PencilSimple className="icon-sm" />
-            </button>
-            <DialogItem
-              item={item.item}
-              onClose={closeModal}
-              reloadList={reloadList}
-              open={open}
-              idUser={userSession.token}
-              brandList={brandList}
-              encapList={encapList}
-              typeList={typeList}
-            />
-          </>
-
           <button
             className="row align-items-center bg-green-1 text-white-1 pa-1 border-radius-soft"
             type="button"
@@ -116,20 +95,43 @@ export default function ItemTableRow({
           >
             <Share className="icon-sm" />
           </button>
-          <button
-            className="row align-items-center bg-red-1 text-white-1 pa-1 border-radius-soft"
-            type="button"
-            title="Apagar item"
-            onClick={() => setOpenDelete(true)}
-          >
-            <TrashSimple className="icon-sm" />
-          </button>
-          <DialogDeleteItem
-            item={item}
-            onClose={closeModal}
-            open={openDelete}
-            reload={reloadList}
-          />
+          {userSession.isAdmin && (
+            <>
+              <button
+                className="row align-items-center bg-blue-1 text-white-1 pa-1 border-radius-soft"
+                type="button"
+                title="Editar item"
+                onClick={() => setOpen(true)}
+              >
+                <PencilSimple className="icon-sm" />
+              </button>
+              <DialogItem
+                item={item.item}
+                onClose={closeModal}
+                reloadList={reloadList}
+                open={open}
+                idUser={userSession.token}
+                brandList={brandList}
+                encapList={encapList}
+                typeList={typeList}
+              />
+
+              <button
+                className="row align-items-center bg-red-1 text-white-1 pa-1 border-radius-soft"
+                type="button"
+                title="Apagar item"
+                onClick={() => setOpenDelete(true)}
+              >
+                <TrashSimple className="icon-sm" />
+              </button>
+              <DialogDeleteItem
+                item={item}
+                onClose={closeModal}
+                open={openDelete}
+                reload={reloadList}
+              />
+            </>
+          )}
         </div>
       </td>
     </tr>
