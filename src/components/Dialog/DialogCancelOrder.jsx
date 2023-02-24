@@ -1,7 +1,9 @@
+import { CircleNotch } from "phosphor-react";
 import { useState } from "react";
 import { updateInquiryItemStep } from "../../services/inquiryItemService";
 import { deleteOrderListItem } from "../../services/orderListService";
 import { updateRequestItem } from "../../services/requestService";
+import DialogDefault from "./DialogDefault";
 
 export default function DialogCancel({
   open,
@@ -10,13 +12,12 @@ export default function DialogCancel({
   role,
   reloadRequestList,
 }) {
-  function closeModal(e) {
-    const elementId = e.target.id === "overlay";
-    if (elementId) onClose();
-  }
+  const [isLoading, setIsLoading] = useState(false);
 
   async function cancelItem() {
     if (!reason) return;
+
+    setIsLoading(true);
 
     if (role === 1) {
       deleteOrderToSupplier({
@@ -41,8 +42,10 @@ export default function DialogCancel({
           updateStep(data);
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {})
+      .finally(() => {
+        onClose();
+        setIsLoading(false);
       });
   }
 
@@ -53,8 +56,10 @@ export default function DialogCancel({
           setReasonToCancelOrder();
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {})
+      .finally(() => {
+        onClose();
+        setIsLoading(false);
       });
   }
 
@@ -70,51 +75,46 @@ export default function DialogCancel({
           reloadRequestList();
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {})
+      .finally(() => {
+        onClose();
+        setIsLoading(false);
       });
   }
 
   return (
-    <>
-      {open && (
-        <div className="overlay" id="overlay" onClick={(e) => closeModal(e)}>
-          <div className="dialog gap-4">
-            <h1 className="font-medium font-lg">Cancelar o item</h1>
-            <p className="font-md font-regular">
-              Você está prestes a{" "}
-              <span className="bg-red-1 text-white-1 pa-1">cancelar</span> o
-              item <strong>{item.item.description}</strong>. Deseja continuar?
-            </p>
-            <div className="column gap-2">
-              <label htmlFor="text_reason" className="font-md font-regular">
-                Descreva abaixo o motivo do cancelamento
-              </label>
-              <textarea
-                id="text_reason"
-                name="text_reason"
-                defaultValue={reason}
-                onChange={(e) => setReason(e.target.value)}
-                className="border-default border-radius-soft pa-2 font-md font-medium"
-              ></textarea>
-            </div>
-            <div className="row jc-between ai-center">
-              <button
-                className="bg-transparent text-red-1 border-radius-soft pa-2 font-sm font-medium"
-                onClick={() => onClose()}
-              >
-                Fechar
-              </button>
-              <button
-                className="bg-green-1 text-white-1 border-radius-soft pa-2"
-                onClick={() => cancelItem()}
-              >
-                Cancelar item
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+    <DialogDefault open={open} onClose={onClose} title={"Cancelar o item"}>
+      <p className="font-md font-regular">
+        Você está prestes a cancelar o item{" "}
+        <span className="bg-red-1 text-white-1 pa-1">
+          {item.item.description}
+        </span>
+        . Deseja continuar?
+      </p>
+      <div className="column gap-2">
+        <label htmlFor="text_reason" className="font-md font-regular">
+          Descreva abaixo o motivo do cancelamento
+        </label>
+        <textarea
+          id="text_reason"
+          name="text_reason"
+          defaultValue={reason}
+          onChange={(e) => setReason(e.target.value)}
+          className="border-default border-radius-soft pa-2 font-md font-medium"
+        ></textarea>
+      </div>
+      <div className="row jc-between ai-center">
+        <button
+          className="flex ai-center font-md font-medium bg-red-1 text-white-1 border-radius-soft pa-2"
+          onClick={() => cancelItem()}
+        >
+          {isLoading ? (
+            <CircleNotch className="icon-default spinning" />
+          ) : (
+            "Cancelar item"
+          )}
+        </button>
+      </div>
+    </DialogDefault>
   );
 }
