@@ -1,4 +1,7 @@
+import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { CircleNotch } from "phosphor-react";
+
 import {
   displayMessageBox,
   hideMessageBox,
@@ -7,7 +10,6 @@ import { createInquiryHistory } from "../../services/inquiryHistoryService";
 import { createInquiryList } from "../../services/inquiryListService";
 import { updateInquiryItemStep } from "../../services/inquiryItemService";
 import DialogDefault from "./DialogDefault";
-import { XCircle } from "phosphor-react";
 
 export default function DialogInquiry({
   open,
@@ -17,6 +19,7 @@ export default function DialogInquiry({
   suppliersList,
 }) {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const selectedSuppliers = [];
 
@@ -40,6 +43,8 @@ export default function DialogInquiry({
       return;
     }
 
+    setIsLoading(true);
+
     const title = new Date().toISOString().split("T")[0];
 
     await createInquiryHistory({ title, selectedSuppliers })
@@ -61,10 +66,13 @@ export default function DialogInquiry({
       })
       .finally(() => {
         onClose();
+        setIsLoading(false);
       });
   }
 
   async function createInquiry(data) {
+    setIsLoading(true);
+
     await createInquiryList(data)
       .then((response) => {
         if (response.status === 201) {
@@ -77,14 +85,20 @@ export default function DialogInquiry({
       })
       .catch(() => {
         handleMessageBox("Failed", "Nao foi possível criar a cotação!");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
   async function updateItemStep() {
+    setIsLoading(true);
+
     const data = {
       pending,
       step: 2,
     };
+
     await updateInquiryItemStep(data)
       .then((response) => {
         if (response.status === 200) {
@@ -94,7 +108,9 @@ export default function DialogInquiry({
       .then(() => {
         handleMessageBox("success", "Cotação criada com sucesso!");
       })
-      .catch(() => {});
+      .catch(() => {
+        setIsLoading(false);
+      });
   }
 
   function handleMessageBox(color, message) {
@@ -106,17 +122,11 @@ export default function DialogInquiry({
 
   return (
     <>
-      <DialogDefault open={open} onClose={onClose}>
-        <div className="row jc-between ai-start">
-          <h1 className="font-medium font-lg">Escolher fornecedores</h1>
-          <button
-            type="button"
-            className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
-            onClick={() => onClose()}
-          >
-            <XCircle className="icon-default" />
-          </button>
-        </div>
+      <DialogDefault
+        open={open}
+        onClose={onClose}
+        title={"Escolher fornecedores"}
+      >
         <p className="font-sm font-light">
           Os itens pendentes serão enviados aos fornecedores selecionados para
           que estes preencham com seus preços
@@ -148,10 +158,15 @@ export default function DialogInquiry({
           </table>
           <div className="row jc-between">
             <button
-              className="font-medium font-md bg-green-1 text-white-1 pa-2 border-radius-soft"
               type="submit"
+              className="flex gap-2 ai-center font-medium font-md bg-green-1 text-white-1 pa-2 border-radius-soft"
+              disabled={isLoading}
             >
-              Confirmar
+              {isLoading ? (
+                <CircleNotch className="icon-default spinning" />
+              ) : (
+                "Enviar"
+              )}
             </button>
           </div>
         </form>

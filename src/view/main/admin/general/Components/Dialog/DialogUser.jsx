@@ -1,4 +1,4 @@
-import { XCircle } from "phosphor-react";
+import { CircleNotch } from "phosphor-react";
 import { useEffect, useState } from "react";
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
 import {
@@ -11,6 +11,7 @@ export default function DialogUser({ open, onClose, reload, user }) {
   const [surname, setSurname] = useState("");
   const [status, setStatus] = useState(0);
   const [role, setRole] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -55,6 +56,8 @@ export default function DialogUser({ open, onClose, reload, user }) {
     e.preventDefault();
     if (!name || !surname) return;
 
+    setIsLoading(true);
+
     const userData = {
       name,
       surname,
@@ -84,7 +87,10 @@ export default function DialogUser({ open, onClose, reload, user }) {
           onClose();
         }
       })
-      .catch((err) => {});
+      .catch(() => {})
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   async function updateCurrentUser(userData) {
@@ -96,8 +102,9 @@ export default function DialogUser({ open, onClose, reload, user }) {
           reload();
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {})
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -109,19 +116,11 @@ export default function DialogUser({ open, onClose, reload, user }) {
   }
 
   return (
-    <DialogDefault open={open} onClose={onClose}>
-      <div className="row jc-between ai-start">
-        <h1 className="font-medium font-lg">
-          {user?.id ? "Informações do" : "Adicionar"} usuário
-        </h1>
-        <button
-          type="button"
-          className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
-          onClick={() => onClose()}
-        >
-          <XCircle className="icon-default" />
-        </button>
-      </div>
+    <DialogDefault
+      open={open}
+      onClose={onClose}
+      title={`${user?.id ? "Informações do" : "Adicionar"} usuário`}
+    >
       <form onSubmit={handleUser}>
         <div className="row align-item-center gap-4 mt-4">
           <div className="column gap-2 text-dark-3 font-medium font-sm">
@@ -192,9 +191,13 @@ export default function DialogUser({ open, onClose, reload, user }) {
         <div className="row jc-between ai-center">
           <button
             type={"submit"}
-            className="font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"
+            className="flex font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"
           >
-            {user?.id ? "Atualizar" : "Concluir"}
+            {isLoading ? (
+              <CircleNotch className="icon-default spinning" />
+            ) : (
+              <>{user?.id ? "Atualizar" : "Criar"}</>
+            )}
           </button>
         </div>
       </form>

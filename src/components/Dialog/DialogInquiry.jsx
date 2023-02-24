@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { CircleNotch } from "phosphor-react";
+
 import { readBrands } from "../../services/brandService";
 import { readEncap } from "../../services/encapService";
 import { readType } from "../../services/typeService";
@@ -10,7 +12,6 @@ import {
 } from "../../store/actions/messageBoxAction";
 import { readCustomerToItem } from "../../services/customerService";
 import DialogDefault from "./DialogDefault";
-import { XCircle } from "phosphor-react";
 
 export default function DialogInquiry({
   item,
@@ -39,6 +40,8 @@ export default function DialogInquiry({
   const [salePrice, setSalePrice] = useState(0);
   const [purchasePrice, setPurchasePrice] = useState(0);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   async function loadCustomers() {
     await readCustomerToItem()
       .then((response) => {
@@ -48,9 +51,6 @@ export default function DialogInquiry({
       })
       .then((res) => {
         setCustomers(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
       });
   }
 
@@ -85,6 +85,8 @@ export default function DialogInquiry({
       handleMessageBox("failed", true, "Preencha o formulário");
       return;
     }
+
+    setIsLoading(true);
 
     let data = {
       idInquiryItem,
@@ -147,6 +149,9 @@ export default function DialogInquiry({
       })
       .catch(() => {
         handleMessageBox("faile", true, "Não foi possível atualizar o item");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -159,25 +164,18 @@ export default function DialogInquiry({
 
   return (
     <>
-      <DialogDefault open={open} onClose={onClose}>
-        <div className="row jc-between ai-start">
-          <div className="column gap-2">
-            <h1 className="font-medium font-lg">Informações do item</h1>
-            <span className="font-sm font-regular">
-              Cotado há{" "}
-              <span className="bg-red-1 text-white-1 pa-1">
-                {item.daysLeft} dias
-              </span>
-            </span>
-          </div>
-          <button
-            type="button"
-            className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
-            onClick={() => onClose()}
-          >
-            <XCircle className="icon-default" />
-          </button>
-        </div>
+      <DialogDefault
+        open={open}
+        onClose={onClose}
+        title={"Informações do item"}
+      >
+        <span className="font-sm font-regular">
+          Cotado há{" "}
+          <span className="bg-red-1 text-white-1 pa-1">
+            {item.daysLeft} dias
+          </span>
+        </span>
+
         <form onSubmit={handleItem}>
           <div className="row align-item-center gap-4 mt-4">
             <div className="column gap-2 text-dark-3 font-medium font-sm">
@@ -430,9 +428,14 @@ export default function DialogInquiry({
               item.item.step === 11) && (
               <button
                 type={"submit"}
-                className="font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"
+                className="flex gap-2 ai-center font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"
+                disabled={isLoading}
               >
-                Atualizar
+                {isLoading ? (
+                  <CircleNotch className="icon-default spinning" />
+                ) : (
+                  "Atualizar"
+                )}
               </button>
             )}
           </div>

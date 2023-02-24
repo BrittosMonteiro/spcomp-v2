@@ -1,4 +1,4 @@
-import { XCircle } from "phosphor-react";
+import { CircleNotch } from "phosphor-react";
 import { useEffect, useState } from "react";
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
 import {
@@ -12,6 +12,7 @@ export default function DialogSupplier({ open, onClose, reload, supplier }) {
   const [email, setEmail] = useState(null);
   const [status, setStatus] = useState(null);
   const [observation, setObservation] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (supplier) {
@@ -27,6 +28,8 @@ export default function DialogSupplier({ open, onClose, reload, supplier }) {
     e.preventDefault();
 
     if (!supplierName || !contactName || !email) return;
+
+    setIsLoading(true);
 
     const supplierData = {
       name: supplierName,
@@ -53,7 +56,10 @@ export default function DialogSupplier({ open, onClose, reload, supplier }) {
           onClose();
         }
       })
-      .catch((err) => {});
+      .catch(() => {})
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
   async function updateCurrentSupplier(supplierData) {
     await updateSupplier(supplierData)
@@ -64,7 +70,10 @@ export default function DialogSupplier({ open, onClose, reload, supplier }) {
           onClose();
         }
       })
-      .catch((err) => {});
+      .catch(() => {})
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   function clearFields() {
@@ -76,19 +85,11 @@ export default function DialogSupplier({ open, onClose, reload, supplier }) {
   }
 
   return (
-    <DialogDefault open={open} onClose={onClose}>
-      <div className="row jc-between ai-start">
-        <h1 className="font-medium font-lg">
-          {supplier?.id ? "Informações do" : "Adicionar"} fornecedor
-        </h1>
-        <button
-          type="button"
-          className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
-          onClick={() => onClose()}
-        >
-          <XCircle className="icon-default" />
-        </button>
-      </div>
+    <DialogDefault
+      open={open}
+      onClose={onClose}
+      title={`${supplier?.id ? "Informações do" : "Adicionar"} fornecedor`}
+    >
       <form onSubmit={handleSupplier}>
         <div className="row align-item-center gap-4 mt-4">
           <div className="column gap-2 text-dark-3 font-medium font-sm">
@@ -163,9 +164,13 @@ export default function DialogSupplier({ open, onClose, reload, supplier }) {
         <div className="row jc-between ai-center">
           <button
             type={"submit"}
-            className="font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"
+            className="flex font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"
           >
-            {supplier?.id ? "Atualizar" : "Concluir"}
+            {isLoading ? (
+              <CircleNotch className="icon-default spinning" />
+            ) : (
+              <>{supplier?.id ? "Atualizar" : "Criar"}</>
+            )}
           </button>
         </div>
       </form>

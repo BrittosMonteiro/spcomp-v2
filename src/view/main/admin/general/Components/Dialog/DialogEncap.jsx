@@ -1,11 +1,15 @@
-import { XCircle } from "phosphor-react";
+import { CircleNotch } from "phosphor-react";
 import { useEffect, useState } from "react";
 
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
-import { createEncap, updateEncap } from "../../../../../../services/encapService";
+import {
+  createEncap,
+  updateEncap,
+} from "../../../../../../services/encapService";
 
 export default function DialogEncap({ item, reload, onClose, open, title }) {
   const [encapName, setEncapName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (item) {
@@ -17,6 +21,9 @@ export default function DialogEncap({ item, reload, onClose, open, title }) {
 
   function handleEncap(e) {
     e.preventDefault();
+
+    setIsLoading(true);
+
     if (item?.id) {
       updateEncapItem();
     } else {
@@ -33,7 +40,10 @@ export default function DialogEncap({ item, reload, onClose, open, title }) {
           onClose();
         }
       })
-      .catch((err) => {});
+      .catch(() => {})
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
   async function createEncapItem() {
     const data = { description: encapName };
@@ -44,21 +54,14 @@ export default function DialogEncap({ item, reload, onClose, open, title }) {
           onClose();
         }
       })
-      .catch((err) => {});
+      .catch(() => {})
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   return (
-    <DialogDefault open={open} onClose={onClose}>
-      <div className="row jc-between ai-start">
-        <h1 className="font-lg font-medium">{title}</h1>
-        <button
-          type="button"
-          className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
-          onClick={() => onClose()}
-        >
-          <XCircle className="icon-default" />
-        </button>
-      </div>
+    <DialogDefault open={open} onClose={onClose} title={title}>
       <form onSubmit={handleEncap} className="column gap-4">
         <div className="row">
           <div className="column gap-2">
@@ -75,8 +78,12 @@ export default function DialogEncap({ item, reload, onClose, open, title }) {
           </div>
         </div>
         <div className="row jc-start">
-          <button className="bg-green-1 text-white-1 pa-1 border-radius-soft">
-            Criar
+          <button className="flex bg-green-1 text-white-1 pa-2 font-medium font-md border-radius-soft">
+            {isLoading ? (
+              <CircleNotch className="icon-default spinning" />
+            ) : (
+              <>{item?.id ? "Atualizar" : "Criar"}</>
+            )}
           </button>
         </div>
       </form>

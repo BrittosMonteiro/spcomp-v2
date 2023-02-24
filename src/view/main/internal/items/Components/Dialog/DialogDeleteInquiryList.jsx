@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { XCircle } from "phosphor-react";
+import { CircleNotch } from "phosphor-react";
 
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
 import { deleteInquiryHistory } from "../../../../../../services/inquiryHistoryService";
@@ -7,6 +7,7 @@ import {
   displayMessageBox,
   hideMessageBox,
 } from "../../../../../../store/actions/messageBoxAction.js";
+import { useState } from "react";
 
 export default function DialogDeleteInquiryList({
   open,
@@ -15,6 +16,8 @@ export default function DialogDeleteInquiryList({
   inquiryHistory,
 }) {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
   async function manageRemove(idInquiryHistory, status) {
     if (status) {
       return handleMessageBox(
@@ -22,6 +25,8 @@ export default function DialogDeleteInquiryList({
         "Não podemos excluir uma cotação ativa"
       );
     }
+
+    setIsLoading(true);
 
     const data = {
       idInquiryHistory,
@@ -39,6 +44,9 @@ export default function DialogDeleteInquiryList({
       })
       .catch(() => {
         handleMessageBox("failed", "Não foi possível excluir!");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -49,17 +57,7 @@ export default function DialogDeleteInquiryList({
     }, 2500);
   }
   return (
-    <DialogDefault open={open} onClose={onClose}>
-      <div className="row jc-between ai-start">
-        <h1 className="font-lg font-medium text-dark-1">Remover cotação</h1>
-        <button
-          type="button"
-          className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
-          onClick={() => onClose()}
-        >
-          <XCircle className="icon-default" />
-        </button>
-      </div>
+    <DialogDefault open={open} onClose={onClose} title={"Remover cotação"}>
       <span className="font-sm font-medium">
         A cotação será removida. Você confirma esta ação?
       </span>
@@ -67,9 +65,13 @@ export default function DialogDeleteInquiryList({
         <button
           type="button"
           onClick={() => manageRemove(inquiryHistory.id, inquiryHistory.status)}
-          className="flex gap-1 ai-center bg-red-1 text-white-1 pa-1 font-md font-medium border-radius-soft"
+          className="flex gap-1 ai-center bg-red-1 text-white-1 pa-2 font-md font-medium border-radius-soft"
         >
-          Apagar
+          {isLoading ? (
+            <CircleNotch className="icon-default spinning" />
+          ) : (
+            "Apagar"
+          )}
         </button>
       </div>
     </DialogDefault>

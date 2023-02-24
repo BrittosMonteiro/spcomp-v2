@@ -1,4 +1,4 @@
-import { XCircle } from "phosphor-react";
+import { CircleNotch } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -21,6 +21,7 @@ export default function DialogCustomer({ open, onClose, reload, customer }) {
   const [phone, setPhone] = useState(null);
   const [status, setStatus] = useState(null);
   const [observation, setObservation] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (customer) {
@@ -59,6 +60,8 @@ export default function DialogCustomer({ open, onClose, reload, customer }) {
       observation,
     };
 
+    setIsLoading(true);
+
     if (customer?.id) {
       update(customerData);
     } else {
@@ -79,6 +82,9 @@ export default function DialogCustomer({ open, onClose, reload, customer }) {
       })
       .catch(() => {
         handleMessageBox("failed", "Não foi possível adicionar o cliente");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -95,6 +101,9 @@ export default function DialogCustomer({ open, onClose, reload, customer }) {
       })
       .catch(() => {
         handleMessageBox("failed", "Não foi possível atualizar o cliente");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -105,19 +114,11 @@ export default function DialogCustomer({ open, onClose, reload, customer }) {
     }, 5000);
   }
   return (
-    <DialogDefault open={open} onClose={onClose}>
-      <div className="row jc-between ai-start">
-        <h1 className="font-medium font-lg">
-          {customer?.id ? "Informações do" : "Adicionar"} Cliente
-        </h1>
-        <button
-          type="button"
-          className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
-          onClick={() => onClose()}
-        >
-          <XCircle className="icon-default" />
-        </button>
-      </div>
+    <DialogDefault
+      open={open}
+      onClose={onClose}
+      title={`${customer?.id ? "Informações do" : "Adicionar"} cliente`}
+    >
       <form onSubmit={handleCustomer}>
         <div className="row align-items-center justify-content-between gap-4 mt-4">
           <div className="column gap-2 font-md font-medium">
@@ -222,9 +223,13 @@ export default function DialogCustomer({ open, onClose, reload, customer }) {
         <div className="row jc-between ai-center">
           <button
             type={"submit"}
-            className="font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"
+            className="flex font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"
           >
-            {customer?.id ? "Atualizar" : "Concluir"}
+            {isLoading ? (
+              <CircleNotch className="icon-default spinning" />
+            ) : (
+              <>{customer?.id ? "Atualizar" : "Criar"}</>
+            )}
           </button>
         </div>
       </form>

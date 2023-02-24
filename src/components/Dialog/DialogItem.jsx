@@ -1,4 +1,4 @@
-import { XCircle } from "phosphor-react";
+import { CircleNotch } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createItem, updateItem } from "../../services/itemService";
@@ -26,6 +26,7 @@ export default function DialogItemDefault({
   const [ipi, setIpi] = useState("");
   const [weight, setWeight] = useState("");
   const [note, setNote] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (item) {
@@ -46,6 +47,8 @@ export default function DialogItemDefault({
       handleMessageBox("failed", true, "Preencha o formulário");
       return;
     }
+
+    setIsLoading(true);
 
     let data = {
       description,
@@ -75,6 +78,9 @@ export default function DialogItemDefault({
       })
       .catch(() => {
         handleMessageBox("failed", true, "Erro ao tentar criar um novo item");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -87,6 +93,9 @@ export default function DialogItemDefault({
       })
       .catch(() => {
         handleMessageBox("faile", true, "Não foi possível atualizar o item");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -109,19 +118,11 @@ export default function DialogItemDefault({
 
   return (
     <>
-      <DialogDefault open={open} onClose={onClose}>
-        <div className="row jc-between ai-start">
-          <h1 className="font-medium font-lg">
-            {item?.id ? "Informações do" : "Adicionar"} item
-          </h1>
-          <button
-            type="button"
-            className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
-            onClick={() => onClose()}
-          >
-            <XCircle className="icon-default" />
-          </button>
-        </div>
+      <DialogDefault
+        open={open}
+        onClose={onClose}
+        title={`${item?.id ? "Informações do" : "Adicionar"} item`}
+      >
         <form onSubmit={handleItem}>
           <div className="row align-item-center gap-4 mt-4">
             <div className="column gap-2 text-dark-3 font-medium font-sm">
@@ -251,9 +252,14 @@ export default function DialogItemDefault({
           <div className="row jc-between ai-center">
             <button
               type={"submit"}
-              className="font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"
+              className="flex gap-2 ai-center font-medium font-md bg-green-1 pa-2 text-white-1 border-radius-soft"
+              disabled={isLoading}
             >
-              {item?.id ? "Atualizar" : "Concluir"}
+              {isLoading ? (
+                <CircleNotch className="icon-default spinning" />
+              ) : (
+                <>{item?.id ? "Atualizar" : "Criar"}</>
+              )}
             </button>
           </div>
         </form>

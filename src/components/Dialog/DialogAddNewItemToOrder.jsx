@@ -1,3 +1,4 @@
+import { CircleNotch } from "phosphor-react";
 import { useState } from "react";
 import { updateOrderAddItems } from "../../services/orderListService";
 import DialogDefault from "./DialogDefault";
@@ -10,6 +11,7 @@ export default function DialogAddNewItemToOrder({
   pendingItems,
 }) {
   const [selectedItems, setSelectedItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   function addItemToSelected(id) {
     const pos = selectedItems.indexOf(id);
@@ -23,6 +25,8 @@ export default function DialogAddNewItemToOrder({
   }
 
   async function addItemsToOrder() {
+    setIsLoading(true);
+
     await updateOrderAddItems({ idOrder, items: selectedItems })
       .then((responseCreate) => {
         if (responseCreate.status === 200) {
@@ -30,7 +34,10 @@ export default function DialogAddNewItemToOrder({
           onClose();
         }
       })
-      .catch((err) => {});
+      .catch(() => {})
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   return (
@@ -59,10 +66,15 @@ export default function DialogAddNewItemToOrder({
       <div className="row">
         <button
           type="button"
-          className="bg-green-1 text-white-1 pa-2 font-md font-medium"
+          className="flex gap-2 ai-center bg-green-1 text-white-1 pa-2 font-md font-medium"
           onClick={() => addItemsToOrder()}
+          disabled={isLoading}
         >
-          Incluir
+          {isLoading ? (
+            <CircleNotch className="icon-default spinning" />
+          ) : (
+            "Adicionar"
+          )}
         </button>
       </div>
     </DialogDefault>

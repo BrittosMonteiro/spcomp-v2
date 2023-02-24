@@ -1,4 +1,5 @@
-import { XCircle } from "phosphor-react";
+import { CircleNotch } from "phosphor-react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
@@ -15,27 +16,33 @@ export default function DialogDeleteCustomer({
   customer,
 }) {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoadin] = useState(false);
 
   async function manageRemove(id) {
-    if (id) {
-      const data = {
-        idCustomer: id,
-      };
+    if (!id) return;
 
-      await deleteCustomer(data)
-        .then((response) => {
-          if (response.status === 200) {
-            handleMessageBox("success", "Cliente removido");
-            onClose();
-            reload();
-          } else {
-            handleMessageBox("failed", "Não foi possível remover o cliente");
-          }
-        })
-        .catch(() => {
+    setIsLoadin(true);
+
+    const data = {
+      idCustomer: id,
+    };
+
+    await deleteCustomer(data)
+      .then((response) => {
+        if (response.status === 200) {
+          handleMessageBox("success", "Cliente removido");
+          onClose();
+          reload();
+        } else {
           handleMessageBox("failed", "Não foi possível remover o cliente");
-        });
-    }
+        }
+      })
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível remover o cliente");
+      })
+      .finally(() => {
+        setIsLoadin(false);
+      });
   }
 
   function handleMessageBox(color, message) {
@@ -45,17 +52,7 @@ export default function DialogDeleteCustomer({
     }, 5000);
   }
   return (
-    <DialogDefault open={open} onClose={onClose}>
-      <div className="row jc-between ai-start">
-        <h1 className="font-lg font-medium text-dark-1">Remover cliente</h1>
-        <button
-          type="button"
-          className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
-          onClick={() => onClose()}
-        >
-          <XCircle className="icon-default" />
-        </button>
-      </div>
+    <DialogDefault open={open} onClose={onClose} title={"Remover cliente"}>
       <span className="font-sm font-medium">
         O cliente{" "}
         <span className="bg-red-1 text-white-1 pa-1">{customer.name}</span> será
@@ -65,9 +62,13 @@ export default function DialogDeleteCustomer({
         <button
           type="button"
           onClick={() => manageRemove(customer.id)}
-          className="flex gap-1 ai-center bg-red-1 text-white-1 pa-1 font-md font-medium border-radius-soft"
+          className="flex gap-1 ai-center bg-red-1 text-white-1 pa-2 font-md font-medium border-radius-soft"
         >
-          Apagar
+          {isLoading ? (
+            <CircleNotch className="icon-default spinning" />
+          ) : (
+            "Apagar"
+          )}
         </button>
       </div>
     </DialogDefault>

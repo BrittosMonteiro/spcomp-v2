@@ -1,4 +1,4 @@
-import { XCircle } from "phosphor-react";
+import { CircleNotch } from "phosphor-react";
 import { useEffect, useState } from "react";
 
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
@@ -6,6 +6,7 @@ import { createType, updateType } from "../../../../../../services/typeService";
 
 export default function DialogType({ reload, open, onClose, title, item }) {
   const [typeName, setTypeName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (item) {
@@ -17,6 +18,9 @@ export default function DialogType({ reload, open, onClose, title, item }) {
 
   function handleType(e) {
     e.preventDefault();
+
+    setIsLoading(true);
+
     if (item?.id) {
       updateTypeItem();
     } else {
@@ -33,7 +37,10 @@ export default function DialogType({ reload, open, onClose, title, item }) {
           onClose();
         }
       })
-      .catch((err) => {});
+      .catch(() => {})
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   async function createTypeItem() {
@@ -45,21 +52,14 @@ export default function DialogType({ reload, open, onClose, title, item }) {
           onClose();
         }
       })
-      .catch((err) => {});
+      .catch(() => {})
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   return (
-    <DialogDefault open={open} onClose={onClose}>
-      <div className="row jc-between ai-start">
-        <h1 className="font-lg font-medium">{title}</h1>
-        <button
-          type="button"
-          className="bg-red-1 flex text-white-1 pa-1 border-radius-soft"
-          onClick={() => onClose()}
-        >
-          <XCircle className="icon-default" />
-        </button>
-      </div>
+    <DialogDefault open={open} onClose={onClose} title={title}>
       <form onSubmit={handleType} className="column gap-4">
         <div className="row">
           <div className="column gap-2">
@@ -78,9 +78,13 @@ export default function DialogType({ reload, open, onClose, title, item }) {
         <div className="row jc-start">
           <button
             type="submit"
-            className="bg-green-1 text-white-1 font-md font-medium pa-1 border-radius-soft"
+            className="flex bg-green-1 text-white-1 font-md font-medium pa-2 border-radius-soft"
           >
-            Criar
+            {isLoading ? (
+              <CircleNotch className="icon-default spinning" />
+            ) : (
+              <>{item?.id ? "Atualizar" : "Criar"}</>
+            )}
           </button>
         </div>
       </form>
