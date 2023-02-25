@@ -1,10 +1,17 @@
-import { CircleNotch } from "phosphor-react";
 import { useState } from "react";
+import { CircleNotch } from "phosphor-react";
+import { useDispatch } from "react-redux";
 
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
 import { deleteType } from "../../../../../../services/typeService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../../../../../store/actions/messageBoxAction";
 
 export default function DialogDeleteType({ open, onClose, reload, type }) {
+  const dispatch = useDispatch();
+
   const [isLoading, setIsLoading] = useState(false);
 
   async function manageRemove(id) {
@@ -17,13 +24,26 @@ export default function DialogDeleteType({ open, onClose, reload, type }) {
         if (responseDelete.status === 200) {
           reload();
           onClose();
+          handleMessageBox("success", "Tipo removido");
+        } else {
+          handleMessageBox("failed", "Não foi possível remover o tipo");
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível remover o tipo");
+      })
       .finally(() => {
         setIsLoading(false);
       });
   }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
+  }
+
   return (
     <DialogDefault open={open} onClose={onClose} title={"Remover tipo"}>
       <span className="font-sm font-medium">

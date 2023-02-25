@@ -1,3 +1,5 @@
+import PageTitle from "../../../../components/Common/PageTitle";
+
 export default function Stock() {
-  return;
+  return <PageTitle title={"Estoque"} />;
 }

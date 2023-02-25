@@ -12,9 +12,7 @@ export default function Sales() {
 
   return (
     <>
-      <div className="row justify-content-between align-items-center">
-        <PageTitle title={"Vendas"} />
-      </div>
+      <PageTitle title={"Vendas"} />
       {/* <List list={items} /> */}
     </>
   );

@@ -1,11 +1,18 @@
-import { ToggleLeft, ToggleRight, TrashSimple } from "phosphor-react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { ToggleLeft, ToggleRight, TrashSimple } from "phosphor-react";
 import {
   deleteOrderListItem,
   updateOrderStatus,
 } from "../../services/orderListService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../store/actions/messageBoxAction";
 
-export default function OrderListRow({ order, reloadOrdersList, userSession }) {
+export default function OrderListRow({ order, reloadOrders, userSession }) {
+  const dispatch = useDispatch();
+
   async function changeOrderView() {
     const data = {
       idOrder: order.idOrder,
@@ -15,10 +22,15 @@ export default function OrderListRow({ order, reloadOrdersList, userSession }) {
     await updateOrderStatus(data)
       .then((responseUpdate) => {
         if (responseUpdate.status === 200) {
-          reloadOrdersList();
+          reloadOrders();
+          handleMessageBox("success", "Visualização alterada");
+        } else {
+          handleMessageBox("failed", "Nao foi possível alterar a visualização");
         }
       })
-      .catch((err) => {});
+      .catch(() => {
+        handleMessageBox("failed", "Nao foi possível alterar a visualização");
+      });
   }
 
   async function deleteOrderList() {
@@ -29,10 +41,22 @@ export default function OrderListRow({ order, reloadOrdersList, userSession }) {
     await deleteOrderListItem(data)
       .then((responseDelete) => {
         if (responseDelete.status === 200) {
-          reloadOrdersList();
+          reloadOrders();
+          handleMessageBox("success", "Pedido removido");
+        } else {
+          handleMessageBox("failed", "Nao foi possível remover o pedido");
         }
       })
-      .catch((err) => {});
+      .catch(() => {
+        handleMessageBox("failed", "Nao foi possível remover o pedido");
+      });
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (

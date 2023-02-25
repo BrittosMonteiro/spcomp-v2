@@ -1,12 +1,20 @@
-import { CircleNotch } from "phosphor-react";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { CircleNotch } from "phosphor-react";
+
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
 import {
   createSupplier,
   updateSupplier,
 } from "../../../../../../services/supplierService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../../../../../store/actions/messageBoxAction";
 
 export default function DialogSupplier({ open, onClose, reload, supplier }) {
+  const dispatch = useDispatch();
+
   const [supplierName, setSupplierName] = useState(null);
   const [contactName, setContactName] = useState(null);
   const [email, setEmail] = useState(null);
@@ -54,9 +62,14 @@ export default function DialogSupplier({ open, onClose, reload, supplier }) {
           reload();
           clearFields();
           onClose();
+          handleMessageBox("success", "Fornecedor criado");
+        } else {
+          handleMessageBox("failed", "Não foi possível criar o fornecedor");
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível criar o fornecedor");
+      })
       .finally(() => {
         setIsLoading(false);
       });
@@ -68,9 +81,14 @@ export default function DialogSupplier({ open, onClose, reload, supplier }) {
           reload();
           clearFields();
           onClose();
+          handleMessageBox("success", "Fornecedor alterado");
+        } else {
+          handleMessageBox("failed", "Não foi possível alterar o fornecedor");
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível alterar o fornecedor");
+      })
       .finally(() => {
         setIsLoading(false);
       });
@@ -82,6 +100,13 @@ export default function DialogSupplier({ open, onClose, reload, supplier }) {
     setEmail(null);
     setStatus(null);
     setObservation(null);
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (

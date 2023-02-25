@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { CircleNotch } from "phosphor-react";
 
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
@@ -6,8 +7,13 @@ import {
   createBrand,
   updateBrand,
 } from "../../../../../../services/brandService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../../../../../store/actions/messageBoxAction";
 
 export default function DialogBrand({ open, onClose, reload, title, item }) {
+  const dispatch = useDispatch();
   const [brandName, setBrandName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -43,9 +49,14 @@ export default function DialogBrand({ open, onClose, reload, title, item }) {
         if (responseUpdate.status === 200) {
           reload();
           onClose();
+          handleMessageBox("success", "Marca criada");
+        } else {
+          handleMessageBox("failed", "Não foi possível criar a marca");
         }
       })
-      .catch((err) => {})
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível criar a marca");
+      })
       .finally(() => {
         setBrandName("");
         setIsLoading(false);
@@ -68,6 +79,13 @@ export default function DialogBrand({ open, onClose, reload, title, item }) {
         setBrandName("");
         setIsLoading(false);
       });
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (

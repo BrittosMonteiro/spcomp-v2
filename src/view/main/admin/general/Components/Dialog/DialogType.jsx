@@ -1,10 +1,17 @@
-import { CircleNotch } from "phosphor-react";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { CircleNotch } from "phosphor-react";
 
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
 import { createType, updateType } from "../../../../../../services/typeService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../../../../../store/actions/messageBoxAction";
 
 export default function DialogType({ reload, open, onClose, title, item }) {
+  const dispatch = useDispatch();
+
   const [typeName, setTypeName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,9 +42,14 @@ export default function DialogType({ reload, open, onClose, title, item }) {
         if (responseUpdate.status === 200) {
           reload();
           onClose();
+          handleMessageBox("success", "Item alterado");
+        } else {
+          handleMessageBox("failed", "Não foi possível alterar o item");
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível alterar o item");
+      })
       .finally(() => {
         setIsLoading(false);
       });
@@ -56,6 +68,13 @@ export default function DialogType({ reload, open, onClose, title, item }) {
       .finally(() => {
         setIsLoading(false);
       });
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (

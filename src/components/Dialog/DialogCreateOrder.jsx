@@ -1,11 +1,18 @@
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import { CircleNotch } from "phosphor-react";
-import { useEffect } from "react";
-import { useState } from "react";
+
 import { createOrderListItem } from "../../services/orderListService";
 import { readSuppliersSimple } from "../../services/supplierService";
 import DialogDefault from "./DialogDefault";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../store/actions/messageBoxAction";
 
-export default function DialogCreateOrder({ open, onClose, reloadOrdersList }) {
+export default function DialogCreateOrder({ open, onClose, reloadOrders }) {
+  const dispatch = useDispatch();
+  
   const [supplierList, setSupplierList] = useState([]);
   const [idSupplier, setIdSupplier] = useState("");
 
@@ -19,14 +26,16 @@ export default function DialogCreateOrder({ open, onClose, reloadOrdersList }) {
     await createOrderListItem({ idSupplier })
       .then((responseCreate) => {
         if (responseCreate.status === 201) {
-          return responseCreate.json();
+          reloadOrders();
+          onClose();
+          handleMessageBox("success", "Pedido criado");
+        } else {
+          handleMessageBox("failed", "Não foi possível criar o pedido");
         }
       })
-      .then(() => {
-        reloadOrdersList(1);
-        onClose();
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível criar o pedido");
       })
-      .catch((err) => {})
       .finally(() => {
         setIsLoading(false);
       });
@@ -50,6 +59,13 @@ export default function DialogCreateOrder({ open, onClose, reloadOrdersList }) {
 
     loadSupplierSimple();
   }, []);
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
+  }
 
   return (
     <DialogDefault open={open} onClose={onClose} title={"Criar novo pedido"}>

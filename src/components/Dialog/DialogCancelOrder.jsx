@@ -1,9 +1,15 @@
-import { CircleNotch } from "phosphor-react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { CircleNotch } from "phosphor-react";
+
 import { updateInquiryItemStep } from "../../services/inquiryItemService";
 import { deleteOrderListItem } from "../../services/orderListService";
 import { updateRequestItem } from "../../services/requestService";
 import DialogDefault from "./DialogDefault";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../store/actions/messageBoxAction";
 
 export default function DialogCancel({
   open,
@@ -12,6 +18,8 @@ export default function DialogCancel({
   role,
   reloadRequestList,
 }) {
+  const dispatch = useDispatch();
+
   const [isLoading, setIsLoading] = useState(false);
 
   async function cancelItem() {
@@ -40,9 +48,14 @@ export default function DialogCancel({
       .then((responseDelete) => {
         if (responseDelete.status === 200) {
           updateStep(data);
+          handleMessageBox("success", "Pedido cancelado");
+        } else {
+          handleMessageBox("failed", "Não foi possível cancelar o pedido");
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível cancelar o pedido");
+      })
       .finally(() => {
         onClose();
         setIsLoading(false);
@@ -80,6 +93,13 @@ export default function DialogCancel({
         onClose();
         setIsLoading(false);
       });
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (

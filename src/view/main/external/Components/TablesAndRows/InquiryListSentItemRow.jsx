@@ -41,9 +41,14 @@ export default function InquiryListSentItemsTableRow({
       .then((responseUpdate) => {
         if (responseUpdate) {
           reloadList();
+          handleMessageBox("success", "Your price is set.");
+        } else {
+          handleMessageBox("failed", "Something went wrong");
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        handleMessageBox("failed", "Something went wrong");
+      });
   }
 
   async function setPurchasePriceToInquiryItem() {

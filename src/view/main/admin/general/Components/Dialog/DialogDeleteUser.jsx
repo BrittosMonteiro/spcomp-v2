@@ -1,9 +1,16 @@
-import { CircleNotch } from "phosphor-react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { CircleNotch } from "phosphor-react";
+
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
 import { deleteUser } from "../../../../../../services/usersService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../../../../../store/actions/messageBoxAction";
 
 export default function DialogDeleteUser({ open, onClose, user, reload }) {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
   async function manageRemove(id) {
@@ -19,12 +26,24 @@ export default function DialogDeleteUser({ open, onClose, user, reload }) {
       .then((response) => {
         if (response.status === 200) {
           reload();
+          handleMessageBox("success", "Usuário removido");
+        } else {
+          handleMessageBox("failed", "Não foi possível remover o usuário");
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível remover o usuário");
+      })
       .finally(() => {
         setIsLoading(false);
       });
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
   return (
     <DialogDefault open={open} onClose={onClose} title={"Remover usuário"}>

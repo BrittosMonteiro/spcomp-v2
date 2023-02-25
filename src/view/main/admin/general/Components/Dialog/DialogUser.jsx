@@ -1,12 +1,20 @@
-import { CircleNotch } from "phosphor-react";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { CircleNotch } from "phosphor-react";
+
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
 import {
   createUser,
   updateUser,
 } from "../../../../../../services/usersService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../../../../../store/actions/messageBoxAction";
 
 export default function DialogUser({ open, onClose, reload, user }) {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [status, setStatus] = useState(0);
@@ -65,8 +73,6 @@ export default function DialogUser({ open, onClose, reload, user }) {
       role,
     };
 
-    console.log(userData);
-
     if (user?.id) {
       const data = {
         idUser: user.id,
@@ -85,9 +91,14 @@ export default function DialogUser({ open, onClose, reload, user }) {
           clearFields();
           reload();
           onClose();
+          handleMessageBox("success", "Usuário criado com sucesso");
+        } else {
+          handleMessageBox("failed", "Não foi possível criar o usuário");
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível criar o usuário");
+      })
       .finally(() => {
         setIsLoading(false);
       });
@@ -100,9 +111,14 @@ export default function DialogUser({ open, onClose, reload, user }) {
           clearFields();
           onClose();
           reload();
+          handleMessageBox("success", "Usuário alterado com sucesso");
+        } else {
+          handleMessageBox("failed", "Não foi possível alterar o usuário");
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível alterar o usuário");
+      })
       .finally(() => {
         setIsLoading(false);
       });
@@ -113,6 +129,13 @@ export default function DialogUser({ open, onClose, reload, user }) {
     setSurname(null);
     setStatus(null);
     setRole(null);
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (

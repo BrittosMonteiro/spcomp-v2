@@ -1,13 +1,20 @@
-import { CircleNotch } from "phosphor-react";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { CircleNotch } from "phosphor-react";
 
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
 import {
   createEncap,
   updateEncap,
 } from "../../../../../../services/encapService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../../../../../store/actions/messageBoxAction";
 
 export default function DialogEncap({ item, reload, onClose, open, title }) {
+  const dispatch = useDispatch();
+
   const [encapName, setEncapName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -52,12 +59,24 @@ export default function DialogEncap({ item, reload, onClose, open, title }) {
         if (responseCreate.status === 201) {
           reload();
           onClose();
+          handleMessageBox("success", "Encapsulamento criado");
+        } else {
+          handleMessageBox("failed", "Não foi possível criar o encapsulamento");
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível criar o encapsulamento");
+      })
       .finally(() => {
         setIsLoading(false);
       });
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (

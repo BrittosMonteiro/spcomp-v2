@@ -32,9 +32,7 @@ export default function Imports() {
 
   return (
     <div className="column gap-4">
-      <div className="row jc-between ai-start">
-        <PageTitle title={"Importações"} />
-      </div>
+      <PageTitle title={"Importações"} />
       <Card>
         <div className="row">
           <button

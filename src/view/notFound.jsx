@@ -19,9 +19,7 @@ export default function NotFound() {
 
   return (
     <>
-      <div className="row">
-        <PageTitle title={title} />
-      </div>
+      <PageTitle title={title} />
       <p className="font-bold font-lg text-dark-3 text-center pa-8">
         {message}
       </p>

@@ -35,9 +35,7 @@ export default function Index() {
   loadStockItemsQuantity();
   return (
     <div className="column gap-4">
-      <div className="row justify-content-between align-items-center">
-        <PageTitle title={"Dashboard"} />
-      </div>
+      <PageTitle title={"Dashboard"} />
       <div className="row justify-content-between gap-4">
         <div className="box bg-red-1 text-white-1 border-radius-soft">
           <div className="column ma-6">

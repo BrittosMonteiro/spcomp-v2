@@ -1,8 +1,13 @@
-import { CircleNotch } from "phosphor-react";
 import { useState } from "react";
+import { CircleNotch } from "phosphor-react";
+import { useDispatch } from "react-redux";
 
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
 import { deleteSupplier } from "../../../../../../services/supplierService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../../../../../store/actions/messageBoxAction";
 
 export default function DialogDeleteSupplier({
   open,
@@ -10,6 +15,8 @@ export default function DialogDeleteSupplier({
   reload,
   supplier,
 }) {
+  const dispatch = useDispatch();
+
   const [isLoading, setIsLoading] = useState(false);
 
   async function manageRemove(id) {
@@ -26,13 +33,26 @@ export default function DialogDeleteSupplier({
         if (response.status === 200) {
           reload();
           onClose();
+          handleMessageBox("success", "Fornecedor removido");
+        } else {
+          handleMessageBox("failed", "Não foi possível remover o fornecedor");
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível remover o fornecedor");
+      })
       .finally(() => {
         setIsLoading(false);
       });
   }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
+  }
+
   return (
     <DialogDefault open={open} onClose={onClose} title={"Remover fornecedor"}>
       <span className="font-sm font-medium">

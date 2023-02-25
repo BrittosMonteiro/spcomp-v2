@@ -27,9 +27,7 @@ export default function InquiryItem() {
 
   return (
     <div className="column gap-4">
-      <div className="row justify-content-between align-items-center">
-        <PageTitle title={"Analisar item"} />
-      </div>
+      <PageTitle title={"Analisar item"} />
       {inquiries.length > 0 ? (
         <Card>
           <InquiryListItemTable list={inquiries} />

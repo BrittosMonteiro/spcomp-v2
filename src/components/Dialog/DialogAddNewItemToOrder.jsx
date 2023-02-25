@@ -1,7 +1,13 @@
-import { CircleNotch } from "phosphor-react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { CircleNotch } from "phosphor-react";
+
 import { updateOrderAddItems } from "../../services/orderListService";
 import DialogDefault from "./DialogDefault";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../store/actions/messageBoxAction";
 
 export default function DialogAddNewItemToOrder({
   open,
@@ -10,6 +16,8 @@ export default function DialogAddNewItemToOrder({
   reloadOrderList,
   pendingItems,
 }) {
+  const dispatch = useDispatch();
+
   const [selectedItems, setSelectedItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -32,12 +40,24 @@ export default function DialogAddNewItemToOrder({
         if (responseCreate.status === 200) {
           reloadOrderList();
           onClose();
+          handleMessageBox("success", "Item incluído");
+        } else {
+          handleMessageBox("failed", "Não foi possível incluir o item");
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível incluir o item");
+      })
       .finally(() => {
         setIsLoading(false);
       });
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (

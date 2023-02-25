@@ -1,10 +1,17 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { CircleNotch } from "phosphor-react";
 
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
 import { deleteBrand } from "../../../../../../services/brandService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../../../../../store/actions/messageBoxAction";
 
 export default function DialogDeleteBrand({ open, onClose, reload, brand }) {
+  const dispatch = useDispatch();
+
   const [isLoading, setIsLoading] = useState(false);
 
   async function manageRemove(id) {
@@ -15,12 +22,24 @@ export default function DialogDeleteBrand({ open, onClose, reload, brand }) {
         if (responseDelete.status === 200) {
           reload();
           onClose();
+          handleMessageBox("success", "Fornecedor removido");
+        } else {
+          handleMessageBox("failed", "Não foi possível remover o fornecedor");
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível remover o fornecedor");
+      })
       .finally(() => {
         setIsLoading(false);
       });
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (

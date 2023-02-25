@@ -76,9 +76,7 @@ export default function Profile() {
 
   return (
     <div className="column gap-8">
-      <div className="row justify-content-between align-items-center">
-        <PageTitle title={"Perfil"} />
-      </div>
+      <PageTitle title={"Perfil"} />
       <form onSubmit={handleUpdate} className="column gap-6">
         <div className="row ai-start jc-sart gap-4">
           <div className="column gap-4">

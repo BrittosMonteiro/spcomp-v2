@@ -75,8 +75,7 @@ export default function Order() {
 
   return (
     <div className="column gap-4">
-      <div className="row align-items-center justify-content-between">
-        <PageTitle title={title} />
+      <PageTitle title={title}>
         {userSession.isAdmin && pendingItems.length > 0 && (
           <>
             <button
@@ -97,7 +96,7 @@ export default function Order() {
             />
           </>
         )}
-      </div>
+      </PageTitle>
       {order.idOrder ? (
         <Card>
           <OrderTable

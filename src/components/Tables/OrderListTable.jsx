@@ -23,7 +23,7 @@ export default function OrderListTable({ userSession, displayTitle }) {
       .then((response) => {
         setOrders(response.data);
       })
-      .catch((err) => {})
+      .catch(() => {})
       .finally(() => {
         if (orders.length > 0) {
           setContentMessage("");
@@ -43,11 +43,7 @@ export default function OrderListTable({ userSession, displayTitle }) {
 
   return (
     <>
-      {displayTitle && (
-        <div className="row">
-          <PageTitle title={"Orders"} />
-        </div>
-      )}
+      {displayTitle && <PageTitle title={"Orders"} />}
       {(userSession.isAdmin || userSession.role === 3) && (
         <div className="row">
           <button
@@ -59,7 +55,11 @@ export default function OrderListTable({ userSession, displayTitle }) {
             Criar novo pedido
             <Receipt className="icon-default" />
           </button>
-          <DialogCreateOrder open={openDialog} onClose={closeModal} />
+          <DialogCreateOrder
+            open={openDialog}
+            onClose={closeModal}
+            reloadOrders={loadOrders}
+          />
         </div>
       )}
       {orders.length > 0 ? (
@@ -82,7 +82,7 @@ export default function OrderListTable({ userSession, displayTitle }) {
               <OrderListRow
                 key={index}
                 order={item}
-                reloadOrdersList={loadOrders}
+                reloadOrders={loadOrders}
                 userSession={userSession}
               />
             ))}

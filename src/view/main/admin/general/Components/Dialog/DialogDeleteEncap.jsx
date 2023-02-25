@@ -1,10 +1,17 @@
-import { CircleNotch } from "phosphor-react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { CircleNotch } from "phosphor-react";
 
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
 import { deleteEncap } from "../../../../../../services/encapService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../../../../../store/actions/messageBoxAction";
 
 export default function DialogDeleteEncap({ open, onClose, reload, encap }) {
+  const dispatch = useDispatch();
+
   const [isLoading, setIsLoadin] = useState(false);
 
   async function manageRemove(id) {
@@ -17,13 +24,29 @@ export default function DialogDeleteEncap({ open, onClose, reload, encap }) {
         if (responseDelete.status === 200) {
           reload();
           onClose();
+          handleMessageBox("success", "Encapsulamento removido");
+        } else {
+          handleMessageBox(
+            "failed",
+            "Não foi possível remover o encapsulamento"
+          );
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        handleMessageBox("failed", "Não foi possível remover o encapsulamento");
+      })
       .finally(() => {
         setIsLoadin(false);
       });
   }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
+  }
+
   return (
     <DialogDefault
       open={open}

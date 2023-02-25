@@ -77,11 +77,7 @@ export default function SupplierResponse() {
 
   return (
     <div className="column gap-4">
-      {userSession.role === 4 && (
-        <div className="row">
-          <PageTitle title={"Inquiries list"} />
-        </div>
-      )}
+      {userSession.role === 4 && <PageTitle title={"Inquiries list"} />}
       {inquiryHistory.length > 0 ? (
         <Card>
           <AvailableInquiryListTable
