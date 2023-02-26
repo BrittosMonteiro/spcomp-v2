@@ -34,7 +34,7 @@ export default function InquiryTableRow({
   async function duplicateInquiryItem(item) {
     const data = {
       idItem: item.item.id,
-      idUser: userSession.token,
+      idUser: userSession.id,
     };
     await createInquiryItem(data)
       .then((response) => {
@@ -200,7 +200,7 @@ export default function InquiryTableRow({
             {item.item.item.unitPurchasePrice &&
             item.item.item.unitSalePrice &&
             item.item.item.step === 3 &&
-            item.item.user.id === userSession.token ? (
+            item.item.user.id === userSession.id ? (
               <button
                 type="button"
                 onClick={() => createPurchase()}
@@ -215,7 +215,7 @@ export default function InquiryTableRow({
               </button>
             ) : null}
 
-            {(userSession.isAdmin || item.item.user.id === userSession.token) &&
+            {(userSession.isAdmin || item.item.user.id === userSession.id) &&
               item.item.item.step <= 1 && (
                 <>
                   <button

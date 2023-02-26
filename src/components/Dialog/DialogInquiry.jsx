@@ -275,7 +275,7 @@ export default function DialogInquiry({
                 onChange={(e) => setIdCustomer(e.target.value)}
                 disabled={
                   (!userSession.isAdmin &&
-                    userSession.token !== item.user.id) ||
+                    userSession.id !== item.user.id) ||
                   (item.item.step >= 2 &&
                     item.item.step !== 9 &&
                     item.item.step !== 10 &&
@@ -309,7 +309,7 @@ export default function DialogInquiry({
                 onChange={(e) => setQuantity(e.target.value)}
                 disabled={
                   (!userSession.isAdmin &&
-                    userSession.token !== item.user.id) ||
+                    userSession.id !== item.user.id) ||
                   (item.item.step >= 2 &&
                     item.item.step !== 9 &&
                     item.item.step !== 10 &&
@@ -330,7 +330,7 @@ export default function DialogInquiry({
                 onChange={(e) => setSalePrice(e.target.value)}
                 disabled={
                   (!userSession.isAdmin &&
-                    userSession.token !== item.user.id) ||
+                    userSession.id !== item.user.id) ||
                   (item.item.step >= 2 &&
                     item.item.step !== 9 &&
                     item.item.step !== 10 &&
@@ -369,7 +369,7 @@ export default function DialogInquiry({
                 onChange={(e) => setIpi(e.target.value)}
                 disabled={
                   (!userSession.isAdmin &&
-                    userSession.token !== item.user.id) ||
+                    userSession.id !== item.user.id) ||
                   (item.item.step >= 2 &&
                     item.item.step !== 9 &&
                     item.item.step !== 10 &&
@@ -390,7 +390,7 @@ export default function DialogInquiry({
                 onChange={(e) => setWeight(e.target.value)}
                 disabled={
                   (!userSession.isAdmin &&
-                    userSession.token !== item.user.id) ||
+                    userSession.id !== item.user.id) ||
                   (item.item.step >= 2 &&
                     item.item.step !== 9 &&
                     item.item.step !== 10 &&
@@ -410,7 +410,7 @@ export default function DialogInquiry({
               className="border-default pa-2 border-radius-soft font-medium font-md"
               onChange={(e) => setNote(e.target.value)}
               disabled={
-                (!userSession.isAdmin && userSession.token !== item.user.id) ||
+                (!userSession.isAdmin && userSession.id !== item.user.id) ||
                 (item.item.step >= 2 &&
                   item.item.step !== 9 &&
                   item.item.step !== 10 &&

@@ -66,7 +66,7 @@ export default function Items({ changeTab, brandList, encapList, typeList }) {
             open={open}
             onClose={closeModal}
             reloadList={reloadList}
-            idUser={userSession.token}
+            idUser={userSession.id}
             brandList={brandList}
             encapList={encapList}
             typeList={typeList}

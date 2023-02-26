@@ -13,7 +13,7 @@ export default function SupplierOrderList() {
   const [ordersList, setOrdersList] = useState([]);
 
   useEffect(() => {
-    readOrderListBySupplier(userSession.token)
+    readOrderListBySupplier(userSession.id)
       .then((responseRead) => {
         if (responseRead.status === 200) {
           return responseRead.json();

@@ -46,7 +46,7 @@ export default function InquiryAvailable() {
   useEffect(() => {
     if (userSession.role === 4 && idInquiryHistory) {
       loadInquiryListByCompany({
-        idSupplier: userSession.token,
+        idSupplier: userSession.id,
         idInquiryHistory,
       });
     } else {
@@ -57,7 +57,7 @@ export default function InquiryAvailable() {
   function reloadInquiryListByCompany() {
     if (userSession && idInquiryHistory) {
       const data = {
-        idSupplier: userSession.token,
+        idSupplier: userSession.id,
         idInquiryHistory,
       };
       loadInquiryListByCompany(data);

@@ -11,7 +11,7 @@ export default function Index() {
   const [inquiryItemQty, setInquiryItemQty] = useState(0);
 
   async function loadInquiryItemsQuantity() {
-    await readInquiryItemQtyByUser({ idUser: userSession.token })
+    await readInquiryItemQtyByUser({ idUser: userSession.id })
       .then((response) => {
         if (response.status === 200) {
           return response.json();

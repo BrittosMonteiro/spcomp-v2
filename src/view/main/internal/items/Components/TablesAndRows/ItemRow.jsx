@@ -28,7 +28,7 @@ export default function ItemTableRow({
   async function createInquiry(item) {
     const data = {
       idItem: item.item.id,
-      idUser: userSession.token,
+      idUser: userSession.id,
       leadtime: "",
       datacode: "",
       condition: "",
@@ -110,7 +110,7 @@ export default function ItemTableRow({
                 onClose={closeModal}
                 reloadList={reloadList}
                 open={open}
-                idUser={userSession.token}
+                idUser={userSession.id}
                 brandList={brandList}
                 encapList={encapList}
                 typeList={typeList}

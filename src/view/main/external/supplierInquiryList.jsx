@@ -22,7 +22,7 @@ export default function SupplierResponse() {
   const [inquiryHistory, setInquiryHistory] = useState([]);
 
   async function loadInquiryHistoryByCompany() {
-    await readActiveInquiryHistory(userSession.token)
+    await readActiveInquiryHistory(userSession.id)
       .then((response) => {
         if (response.status === 200) {
           return response.json();

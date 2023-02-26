@@ -1,10 +1,11 @@
 let initialState = {
+  id: "",
   isAdmin: false,
   isLogged: false,
-  token: "",
-  username: "",
   name: "",
   role: "",
+  username: "",
+  token: "",
 };
 
 export default function userSessionReducer(state = initialState, action) {
