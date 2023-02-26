@@ -5,7 +5,7 @@ import {
   updateInquiryItemStep,
 } from "../../../../../services/inquiryItemService";
 import { updateInquiryList } from "../../../../../services/inquiryListService";
-import { getCurrencyValue } from "../../../../../utils/currencyApi";
+// import { getCurrencyValue } from "../../../../../utils/currencyApi";
 import { useDispatch } from "react-redux";
 import {
   displayMessageBox,
@@ -52,9 +52,9 @@ export default function InquiryListSentItemsTableRow({
   }
 
   async function setPurchasePriceToInquiryItem() {
-    const { dolar } = await getCurrencyValue();
+    // const { dolar } = await getCurrencyValue();
 
-    const unitSalePrice = unitPurchasePrice * dolar;
+    const unitSalePrice = unitPurchasePrice * 2.2;
 
     const data = {
       idInquiryItem: item.idInquiryItem,

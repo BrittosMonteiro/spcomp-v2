@@ -71,28 +71,7 @@ export default function Order() {
 
   return (
     <div className="column gap-4">
-      <PageTitle title={title}>
-        {userSession.isAdmin && pendingItems.length > 0 && (
-          <>
-            <button
-              type="type"
-              className="bg-green-1 text-white-1 pa-2 align-items-center font-md font-medium"
-              title="Incluir itens pendentes"
-              onClick={() => setOpenPendingItems(true)}
-            >
-              Incluir itens pendentes
-            </button>
-            <DialogAddNewItemToOrder
-              open={openPendingItems}
-              onClose={closeModal}
-              idOrder={order.idOrder}
-              idSupplier={idSupplier}
-              pendingItems={pendingItems}
-              reloadOrderList={loadOrder}
-            />
-          </>
-        )}
-      </PageTitle>
+      <PageTitle title={title} />
       <Card>
         {userSession.isAdmin && pendingItems.length > 0 && (
           <div className="row">
@@ -114,7 +93,7 @@ export default function Order() {
             />
           </div>
         )}
-        {order.items.length > 0 ? (
+        {order?.items?.length > 0 ? (
           <OrderTable
             list={order}
             userSession={userSession}

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { Copy } from "phosphor-react";
+import { Copy, XCircle } from "phosphor-react";
 
 import {
   displayMessageBox,
@@ -44,7 +44,16 @@ export default function RequestRow({ request, userSession }) {
       <td>{request.item.unitSalePrice}</td>
       <td>{request.user.username}</td>
       <td>{request.customer.name}</td>
-      <td>Ações</td>
+      <td>
+        <button
+          type="button"
+          className="flex bg-red-1 text-white-1 pa-1 border-radius-soft"
+          onClick={() => null}
+          title={"Cancelar item"}
+        >
+          <XCircle className="icon-sm" />
+        </button>
+      </td>
     </tr>
   );
 }
