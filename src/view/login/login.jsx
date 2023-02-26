@@ -19,8 +19,7 @@ export default function Login() {
   async function manageLogin(e) {
     e.preventDefault();
 
-    if (!username || !password)
-      handleMessageBox("failed", true, "Revise os campos");
+    if (!username || !password) handleMessageBox("failed", "Revise os campos");
 
     setIsLoading(true);
 
@@ -29,7 +28,7 @@ export default function Login() {
         if (response.status === 200) {
           return response.json();
         } else {
-          handleMessageBox("failed", true, "Tente mais tarde...");
+          handleMessageBox("failed", "Tente mais tarde...");
         }
       })
       .then((res) => {
@@ -38,23 +37,19 @@ export default function Login() {
           dispatch(setUser(dataToLogin));
           localStorage.setItem("loggedUser", JSON.stringify(dataToLogin));
         } else {
-          handleMessageBox("failed", true, "Informações incorretas");
+          handleMessageBox("failed", "Informações incorretas");
         }
       })
       .catch(() => {
-        handleMessageBox(
-          "failed",
-          true,
-          "Estamos com problemas com a conexão :/"
-        );
+        handleMessageBox("failed", "Estamos com problemas com a conexão :/");
       })
       .finally(() => {
         setIsLoading(false);
       });
   }
 
-  function handleMessageBox(color, display, message) {
-    dispatch(displayMessageBox({ color, display, message }));
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
     setTimeout(() => {
       dispatch(hideMessageBox());
     }, 5000);

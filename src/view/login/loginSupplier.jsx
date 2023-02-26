@@ -20,7 +20,7 @@ export default function LoginSupplierView() {
     e.preventDefault();
 
     if (!username || !password) {
-      handleMessageBox("failed", true, "Revise os campos");
+      handleMessageBox("failed", "Revise os campos");
     }
 
     setIsLoading(true);
@@ -34,23 +34,19 @@ export default function LoginSupplierView() {
           localStorage.setItem("loggedUser", JSON.stringify(dataToLogin));
           redirect("/supplier/response");
         } else {
-          handleMessageBox("failed", true, "Wrong credentials");
+          handleMessageBox("failed", "Wrong credentials");
         }
       })
       .catch(() => {
-        handleMessageBox(
-          "failed",
-          true,
-          "We're facing problems with connection :/"
-        );
+        handleMessageBox("failed", "We're facing problems with connection :/");
       })
       .finally(() => {
         setIsLoading(false);
       });
   }
 
-  function handleMessageBox(color, display, message) {
-    dispatch(displayMessageBox({ color, display, message }));
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
     setTimeout(() => {
       dispatch(hideMessageBox());
     }, 5000);

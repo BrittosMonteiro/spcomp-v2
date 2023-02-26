@@ -82,7 +82,7 @@ export default function DialogInquiry({
     e.preventDefault();
 
     if (!description || !idBrand || !idType || !idEncap) {
-      handleMessageBox("failed", true, "Preencha o formulário");
+      handleMessageBox("failed", "Preencha o formulário");
       return;
     }
 
@@ -143,20 +143,20 @@ export default function DialogInquiry({
   async function updateItemOnList(data) {
     await updateInquiryItem(data)
       .then(() => {
-        handleMessageBox("success", true, "Item atualizado");
+        handleMessageBox("success", "Item atualizado");
         onClose();
         reloadList();
       })
       .catch(() => {
-        handleMessageBox("faile", true, "Não foi possível atualizar o item");
+        handleMessageBox("faile", "Não foi possível atualizar o item");
       })
       .finally(() => {
         setIsLoading(false);
       });
   }
 
-  function handleMessageBox(color, display, message) {
-    dispatch(displayMessageBox({ color, display, message }));
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
     setTimeout(() => {
       dispatch(hideMessageBox());
     }, 5000);
@@ -274,8 +274,7 @@ export default function DialogInquiry({
                 className="border-default pa-2 border-radius-soft font-medium font-md"
                 onChange={(e) => setIdCustomer(e.target.value)}
                 disabled={
-                  (!userSession.isAdmin &&
-                    userSession.id !== item.user.id) ||
+                  (!userSession.isAdmin && userSession.id !== item.user.id) ||
                   (item.item.step >= 2 &&
                     item.item.step !== 9 &&
                     item.item.step !== 10 &&
@@ -308,8 +307,7 @@ export default function DialogInquiry({
                 className="border-default pa-2 border-radius-soft font-medium font-md"
                 onChange={(e) => setQuantity(e.target.value)}
                 disabled={
-                  (!userSession.isAdmin &&
-                    userSession.id !== item.user.id) ||
+                  (!userSession.isAdmin && userSession.id !== item.user.id) ||
                   (item.item.step >= 2 &&
                     item.item.step !== 9 &&
                     item.item.step !== 10 &&
@@ -329,8 +327,7 @@ export default function DialogInquiry({
                 className="border-default pa-2 border-radius-soft font-medium font-md"
                 onChange={(e) => setSalePrice(e.target.value)}
                 disabled={
-                  (!userSession.isAdmin &&
-                    userSession.id !== item.user.id) ||
+                  (!userSession.isAdmin && userSession.id !== item.user.id) ||
                   (item.item.step >= 2 &&
                     item.item.step !== 9 &&
                     item.item.step !== 10 &&
@@ -368,8 +365,7 @@ export default function DialogInquiry({
                 className="border-default pa-2 border-radius-soft font-medium font-md"
                 onChange={(e) => setIpi(e.target.value)}
                 disabled={
-                  (!userSession.isAdmin &&
-                    userSession.id !== item.user.id) ||
+                  (!userSession.isAdmin && userSession.id !== item.user.id) ||
                   (item.item.step >= 2 &&
                     item.item.step !== 9 &&
                     item.item.step !== 10 &&
@@ -389,8 +385,7 @@ export default function DialogInquiry({
                 className="border-default pa-2 border-radius-soft font-medium font-md"
                 onChange={(e) => setWeight(e.target.value)}
                 disabled={
-                  (!userSession.isAdmin &&
-                    userSession.id !== item.user.id) ||
+                  (!userSession.isAdmin && userSession.id !== item.user.id) ||
                   (item.item.step >= 2 &&
                     item.item.step !== 9 &&
                     item.item.step !== 10 &&

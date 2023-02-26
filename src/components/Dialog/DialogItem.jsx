@@ -45,7 +45,7 @@ export default function DialogItemDefault({
     e.preventDefault();
 
     if (!description || !idBrand || !idType || !idEncap) {
-      handleMessageBox("failed", true, "Preencha o formulário");
+      handleMessageBox("failed", "Preencha o formulário");
       return;
     }
 
@@ -72,13 +72,13 @@ export default function DialogItemDefault({
   async function create(data) {
     createItem(data)
       .then(() => {
-        handleMessageBox("success", true, "Item cadastrado");
+        handleMessageBox("success", "Item cadastrado");
         onClose();
         reloadList();
         clearFields();
       })
       .catch(() => {
-        handleMessageBox("failed", true, "Erro ao tentar criar um novo item");
+        handleMessageBox("failed", "Erro ao tentar criar um novo item");
       })
       .finally(() => {
         setIsLoading(false);
@@ -88,12 +88,12 @@ export default function DialogItemDefault({
   async function updateItemOnList(data) {
     await updateItem(data)
       .then(() => {
-        handleMessageBox("success", true, "Item atualizado");
+        handleMessageBox("success", "Item atualizado");
         onClose();
         reloadList();
       })
       .catch(() => {
-        handleMessageBox("faile", true, "Não foi possível atualizar o item");
+        handleMessageBox("faile", "Não foi possível atualizar o item");
       })
       .finally(() => {
         setIsLoading(false);
@@ -110,8 +110,8 @@ export default function DialogItemDefault({
     setNote("");
   }
 
-  function handleMessageBox(color, display, message) {
-    dispatch(displayMessageBox({ color, display, message }));
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
     setTimeout(() => {
       dispatch(hideMessageBox());
     }, 5000);
