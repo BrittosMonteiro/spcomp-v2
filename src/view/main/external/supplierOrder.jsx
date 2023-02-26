@@ -40,11 +40,6 @@ export default function Order() {
       .catch((err) => {});
   }
 
-  useEffect(() => {
-    loadOrder();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   async function loadRequestBySupplier() {
     await readRequestBySupplier(idSupplier)
       .then((responseRead) => {
@@ -65,9 +60,10 @@ export default function Order() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idSupplier]);
 
-  function reloadOrderList() {
+  useEffect(() => {
     loadOrder();
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function closeModal() {
     setOpenPendingItems(false);
@@ -92,22 +88,44 @@ export default function Order() {
               idOrder={order.idOrder}
               idSupplier={idSupplier}
               pendingItems={pendingItems}
-              reloadOrderList={reloadOrderList}
+              reloadOrderList={loadOrder}
             />
           </>
         )}
       </PageTitle>
-      {order.idOrder ? (
-        <Card>
+      <Card>
+        {userSession.isAdmin && pendingItems.length > 0 && (
+          <div className="row">
+            <button
+              type="type"
+              className="action-btn border-radius-soft pa-1 font-sm font-medium"
+              title="Incluir itens pendentes"
+              onClick={() => setOpenPendingItems(true)}
+            >
+              Incluir itens pendentes
+            </button>
+            <DialogAddNewItemToOrder
+              open={openPendingItems}
+              onClose={closeModal}
+              idOrder={order.idOrder}
+              idSupplier={idSupplier}
+              pendingItems={pendingItems}
+              reloadOrderList={loadOrder}
+            />
+          </div>
+        )}
+        {order.items.length > 0 ? (
           <OrderTable
             list={order}
             userSession={userSession}
-            reloadOrderList={reloadOrderList}
+            reloadOrderList={loadOrder}
           />
-        </Card>
-      ) : (
-        <p className="ma-auto font-lg font-light">Não há itens neste pedido</p>
-      )}
+        ) : (
+          <div className="row">
+            <p className="font-md font-medium">Não há itens neste pedido</p>
+          </div>
+        )}
+      </Card>
     </div>
   );
 }

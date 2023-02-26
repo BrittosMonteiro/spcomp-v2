@@ -1,10 +1,26 @@
+import { useDispatch } from "react-redux";
 import { Copy } from "phosphor-react";
 
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../../../../../store/actions/messageBoxAction";
+
 export default function RequestRow({ request, userSession }) {
+  const dispatch = useDispatch();
+
   function copyText(text) {
     navigator.clipboard.writeText(text);
-    // handleMessageBox("success", "Text copied to clipboard");
+    handleMessageBox("success", "Texto copiado");
   }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
+  }
+
   return (
     <tr>
       {userSession.isAdmin && <td>{request.supplier.name}</td>}

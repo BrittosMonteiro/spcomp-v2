@@ -61,10 +61,7 @@ export default function DialogAddNewItemToOrder({
   }
 
   return (
-    <DialogDefault open={open} onClose={onClose}>
-      <div className="row">
-        <h1 className="font-lg font-medium">Itens pendentes</h1>
-      </div>
+    <DialogDefault open={open} onClose={onClose} title={"Itens pendentes"}>
       <table className="table">
         <tbody>
           {pendingItems.map((item, index) => (

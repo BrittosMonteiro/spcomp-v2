@@ -1,7 +1,14 @@
+import { useDispatch } from "react-redux";
 import { Check, Copy, XCircle } from "phosphor-react";
+
 import { updateInquiryItemStep } from "../../../../../services/inquiryItemService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../../../../store/actions/messageBoxAction";
 
 export default function OrderRow({ item, userSession, reloadOrderList }) {
+  const dispatch = useDispatch();
   async function cancelRequestedItem() {
     const data = {
       pending: [item.idInquiryItem],
@@ -22,14 +29,32 @@ export default function OrderRow({ item, userSession, reloadOrderList }) {
       .then((responseUpdate) => {
         if (responseUpdate.status === 200) {
           reloadOrderList();
+          if (data.step === 6) {
+            handleMessageBox("success", "Item confirmed");
+          } else {
+            if (data.step === 9) {
+              handleMessageBox("success", "Item cancelado");
+            }
+          }
+        } else {
+          handleMessageBox("failed", "Could not update item");
         }
       })
-      .catch((err) => {});
+      .catch(() => {
+        handleMessageBox("failed", "Could not update item");
+      });
   }
 
   function copyText(text) {
     navigator.clipboard.writeText(text);
-    // handleMessageBox("success", "Text copied to clipboard");
+    handleMessageBox("success", "Text copied to clipboard");
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (
