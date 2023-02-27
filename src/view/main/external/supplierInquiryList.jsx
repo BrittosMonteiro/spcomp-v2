@@ -78,23 +78,23 @@ export default function SupplierResponse() {
   return (
     <div className="column gap-4">
       {userSession.role === 4 && <PageTitle title={"Inquiries list"} />}
-      {inquiryHistory.length > 0 ? (
-        <Card>
+      <Card>
+        {inquiryHistory.length > 0 ? (
           <AvailableInquiryListTable
             inquiryHistoryList={inquiryHistory}
             reloadInquiryHistory={reloadInquiryHistory}
             userSession={userSession}
           />
-        </Card>
-      ) : (
-        <div className="ma-auto">
-          <p className="font-lg font-light">
-            {userSession.role === 4
-              ? "There is no inquiries available"
-              : "Não há cotações disponíveis"}
-          </p>
-        </div>
-      )}
+        ) : (
+          <div className="row">
+            <p className="font-md font-medium">
+              {userSession.role === 4
+                ? "There is no inquiry available"
+                : "Não há cotação disponível"}
+            </p>
+          </div>
+        )}
+      </Card>
     </div>
   );
 }

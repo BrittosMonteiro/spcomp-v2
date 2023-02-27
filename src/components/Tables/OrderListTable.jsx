@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
+import { Receipt } from "phosphor-react";
 
-import PageTitle from "../Common/PageTitle";
 import OrderListRow from "./OrderListRow";
 import { readOrder } from "../../services/orderListService";
 import DialogCreateOrder from "../Dialog/DialogCreateOrder";
-import { Receipt } from "phosphor-react";
 
-export default function OrderListTable({ userSession, displayTitle }) {
+export default function OrderListTable({ userSession }) {
   const [orders, setOrders] = useState([]);
   const [contentMessage, setContentMessage] = useState();
   const [openDialog, setOpenDialog] = useState(false);
@@ -43,7 +42,6 @@ export default function OrderListTable({ userSession, displayTitle }) {
 
   return (
     <>
-      {displayTitle && <PageTitle title={"Orders"} />}
       {(userSession.isAdmin || userSession.role === 3) && (
         <div className="row">
           <button

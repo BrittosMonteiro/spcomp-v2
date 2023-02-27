@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+
+import PageTitle from "../../../components/Common/PageTitle";
 import Card from "../../../components/Common/Card";
 import OrderListTable from "../../../components/Tables/OrderListTable";
 import { readOrderListBySupplier } from "../../../services/orderListService";
@@ -26,20 +27,17 @@ export default function SupplierOrderList() {
   }, [userSession]);
 
   return (
-    <>
-      {ordersList.length > 0 ? (
-        <Card>
-          <OrderListTable
-            list={ordersList}
-            userSession={userSession}
-            displayTitle={true}
-          />
-        </Card>
-      ) : (
-        <div className="ma-auto">
-          <p className="font-lg font-light">There's no order</p>
-        </div>
-      )}
-    </>
+    <div className="column gap-4">
+      <PageTitle title={"Orders"} />
+      <Card>
+        {ordersList.length > 0 ? (
+          <OrderListTable list={ordersList} userSession={userSession} />
+        ) : (
+          <div className="row">
+            <p className="font-md font-medium">There's no order available</p>
+          </div>
+        )}
+      </Card>
+    </div>
   );
 }

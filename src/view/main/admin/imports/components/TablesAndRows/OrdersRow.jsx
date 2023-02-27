@@ -1,6 +1,12 @@
-import { Link as LinkIcon, LinkBreak } from "phosphor-react";
 import { Link } from "react-router-dom";
+import { Link as LinkIcon, LinkBreak } from "phosphor-react";
+
 import { updateOrderImportHistoryId } from "../../../../../../services/orderListService";
+import {
+  displayMessageBox,
+  hideMessageBox,
+} from "../../../../../../store/actions/messageBoxAction";
+import { useDispatch } from "react-redux";
 
 export default function OrdersRow({
   item,
@@ -8,6 +14,8 @@ export default function OrdersRow({
   idImportHistory,
   reload,
 }) {
+  const dispatch = useDispatch();
+
   async function changeOrderToHistory() {
     const data = {
       idImportHistory: "",
@@ -26,9 +34,25 @@ export default function OrdersRow({
       .then((responseUpdate) => {
         if (responseUpdate.status === 200) {
           reload();
+          if (isAttached) {
+            handleMessageBox("success", "Pedido não atrelado");
+          } else {
+            handleMessageBox("success", "Pedido atrelado");
+          }
+        } else {
+          handleMessageBox("success", "Não foi possível atualizar");
         }
       })
-      .catch();
+      .catch(() => {
+        handleMessageBox("success", "Não foi possível atualizar");
+      });
+  }
+
+  function handleMessageBox(color, message) {
+    dispatch(displayMessageBox({ color, display: true, message }));
+    setTimeout(() => {
+      dispatch(hideMessageBox());
+    }, 5000);
   }
 
   return (

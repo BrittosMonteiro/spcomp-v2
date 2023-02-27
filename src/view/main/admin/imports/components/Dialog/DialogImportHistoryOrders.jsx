@@ -88,7 +88,7 @@ export default function DialogImportHistoryOrders({
   ];
   return (
     <>
-      <DialogDefault open={open} onClose={onClose}>
+      <DialogDefault open={open} onClose={onClose} title={"Importação"}>
         <TabList changeTab={changeTab} tab={tabView} tabList={tabList} />
         {tabList[tabView].component}
       </DialogDefault>
