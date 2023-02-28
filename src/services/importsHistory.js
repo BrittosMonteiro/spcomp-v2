@@ -32,3 +32,7 @@ export async function deleteImportHistory(id) {
     body: JSON.stringify(id),
   });
 }
+
+export async function readImportItemsService(idImportHistory) {
+  return await fetch(`${API_END_POINT}/readImportItems/${idImportHistory}`);
+}

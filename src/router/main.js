@@ -17,6 +17,8 @@ import SalesView from "../view/main/internal/sales/sales";
 //Private Admin role
 import AdminView from "../view/main/admin/general/AdminView";
 import InquiryItem from "../view/main/admin/general/inquiryItem";
+import Imports from "../view/main/admin/imports/imports";
+import ImportDetail from "../view/main/admin/imports/importDetail";
 
 //Private External role
 import SupplierInquiryList from "../view/main/external/supplierInquiryList";
@@ -28,7 +30,6 @@ import SupplierOrderList from "../view/main/external/supplierOrderList";
 import Login from "../view/login/login";
 import LoginSupplier from "../view/login/loginSupplier";
 import NotFound from "../view/notFound";
-import Imports from "../view/main/admin/imports/imports";
 
 export default function MainRoutes() {
   const allRoles = [1, 2, 3, 4];
@@ -52,6 +53,9 @@ export default function MainRoutes() {
       </Route>
       <Route path="/admin/imports/list" exact element={<PrivateRoute canView={adminStock} />}>
         <Route path="/admin/imports/list" element={<Imports />}/>
+      </Route>
+      <Route path="/admin/imports/list/:idImportHistory" exact element={<PrivateRoute canView={adminStock} />}>
+        <Route path="/admin/imports/list/:idImportHistory" element={<ImportDetail />}/>
       </Route>
 
       <Route path="/main/profile" exact element={<PrivateRoute canView={internalRoles} />}>

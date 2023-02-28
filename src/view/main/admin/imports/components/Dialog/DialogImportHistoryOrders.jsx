@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import TabList from "../../../../../../components/Common/tabList";
 import DialogDefault from "../../../../../../components/Dialog/DialogDefault";
@@ -89,6 +90,14 @@ export default function DialogImportHistoryOrders({
   return (
     <>
       <DialogDefault open={open} onClose={onClose} title={"Importação"}>
+        <div className="row">
+          <Link
+            to={`/admin/imports/list/${idImportHistory}`}
+            className="action-btn pa-1 border-radius-soft"
+          >
+            Ver todos os itens
+          </Link>
+        </div>
         <TabList changeTab={changeTab} tab={tabView} tabList={tabList} />
         {tabList[tabView].component}
       </DialogDefault>

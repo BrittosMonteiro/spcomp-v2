@@ -40,8 +40,10 @@ export default function RequestRow({ request, userSession }) {
       <td>{request.item.type}</td>
       <td>{request.item.encap}</td>
       <td>{request.item.brand}</td>
-      {userSession.isAdmin && <td>{request.item.unitPurchasePrice}</td>}
-      <td>{request.item.unitSalePrice}</td>
+      {userSession.isAdmin && (
+        <td>{request.item.unitPurchasePrice.toFixed(4)}</td>
+      )}
+      <td>{request.item.unitSalePrice.toFixed(4)}</td>
       <td>{request.user.username}</td>
       <td>{request.customer.name}</td>
       <td>
