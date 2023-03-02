@@ -1,6 +1,7 @@
 import {
   createStockItemService,
   deleteImportStockItemService,
+  readStockListService,
 } from "../services/stockService";
 
 export async function createStockItemController(data) {
@@ -14,6 +15,22 @@ export async function createStockItemController(data) {
       return;
     })
     .catch(() => {});
+}
+
+export async function readStockListController() {
+  let stockItems = [];
+  await readStockListService()
+    .then((responseRead) => {
+      if (responseRead.status === 200) {
+        return responseRead.json();
+      }
+    })
+    .then((response) => {
+      stockItems = response.data;
+    })
+    .catch(() => {});
+
+  return stockItems;
 }
 
 export async function deleteImportStockItemController(id) {

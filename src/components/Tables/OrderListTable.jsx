@@ -2,13 +2,36 @@ import { useEffect, useState } from "react";
 import { Receipt } from "phosphor-react";
 
 import OrderListRow from "./OrderListRow";
-import { readOrder } from "../../services/orderListService";
+import {
+  readOrder,
+  readOrderListBySupplier,
+} from "../../services/orderListService";
 import DialogCreateOrder from "../Dialog/DialogCreateOrder";
 
 export default function OrderListTable({ userSession }) {
   const [orders, setOrders] = useState([]);
   const [contentMessage, setContentMessage] = useState();
   const [openDialog, setOpenDialog] = useState(false);
+
+  async function loadOrdersBySuppliers() {
+    await readOrderListBySupplier(userSession.id)
+      .then((responseRead) => {
+        if (responseRead.status === 200) {
+          return responseRead.json();
+        }
+      })
+      .then((response) => {
+        setOrders(response.data);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (orders.length > 0) {
+          setContentMessage("");
+        } else {
+          setContentMessage("Não há pedidos");
+        }
+      });
+  }
 
   async function loadOrders() {
     setContentMessage("Carregando informações");
@@ -31,8 +54,13 @@ export default function OrderListTable({ userSession }) {
         }
       });
   }
+
   useEffect(() => {
-    loadOrders();
+    if (userSession.role === 4) {
+      loadOrdersBySuppliers();
+    } else {
+      loadOrders();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

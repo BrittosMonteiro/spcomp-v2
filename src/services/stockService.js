@@ -11,7 +11,7 @@ export async function createStockItemService(data) {
   });
 }
 
-export async function readStockList() {
+export async function readStockListService() {
   return await fetch(`${API_END_POINT}`, {
     method: "GET",
   });
